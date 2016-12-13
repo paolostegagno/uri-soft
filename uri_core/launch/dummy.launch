@@ -1,0 +1,31 @@
+<!-- -->
+
+<launch>
+
+	<param name="prova" value="1" />
+
+	
+	
+	<!-- ros_args.launch -->
+	<arg name="config_file" default="$(find uri_core)/configfiles/dummy.xml" doc="configuration file for URI-Soft"/>
+	<arg name="sched_time" default="0.001" doc="Interval time at which the scheduler checks if some task must be run."/>
+	
+	
+	<group ns="robot_1">
+		<node name="uri_core_1" pkg="uri_core" type="uri_core_node">
+			<param name="configuration_file" value="$(arg config_file)" />
+			<param name="scheduler_time" value="$(arg sched_time)" />
+		</node>
+	</group>
+	
+	
+	
+	
+<!--	<node name="mip2_core_2" pkg="mip2_core" type="mip2_core">
+		<param name="configuration_file" value="$(arg config_file)" />
+		<param name="pippo" value="1" />
+	</node>-->
+
+	
+
+</launch>

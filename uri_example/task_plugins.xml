@@ -1,0 +1,8 @@
+<library path="libmip2_tasks">
+  <class type="uri_example::DummyTask" base_class_type="uri::Task">
+  <description> This is a task which is not doing anything </description>
+  </class>
+  <class type="uri_example::ExampleTask" base_class_type="uri::Task">
+  <description> This is a task which is not doing anything </description>
+  </class>
+</library>
