@@ -79,8 +79,8 @@ TaskOutput BehaviorController::_run(){
 		else {
 				
 			ROS_INFO("Switching from behavior "ANSI_COLOR_BEHAVIOR"%s"ANSI_COLOR_RESET" to behavior "ANSI_COLOR_BEHAVIOR"%s"ANSI_COLOR_RESET".", _active_behavior->name().c_str(), _next_active_behavior->name().c_str());
-// 				_active_behavior->print();
-// 				_next_active_behavior->print();
+				_active_behavior->print();
+				_next_active_behavior->print();
 			
 			for(int i=0; i<tasks->size(); i++){
 				

@@ -30,7 +30,7 @@ namespace uri_base {
 ///    name method of the type: std::string name(){return "YourNamespace::YourClassName";}
 /// 2) add a line at the end of your file in the format
 ///  PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<YourNamespace::YourClassName>, uri_base::Resource)
-/// 3) create a plugin file in your package and insert an entry class mip2::SharedMemory<YourNamespace::YourClassName> as
+/// 3) create a plugin file in your package and insert an entry class uri_base::SharedMemory<YourNamespace::YourClassName> as
 /// <class type="uri_base::SharedMemory<YourNamespace::YourClassName>" base_class_type="uri_base::Resource">
 /// <description> DESCRIPTION OF THE SHARED MEMORY. </description>
 /// </class>

@@ -1,0 +1,35 @@
+<library path="liburi_uav">
+	
+	<class type="uri_uav::IrisInterface" base_class_type="uri::Resource">
+		<description> This resource provide basic interfacing capabilities with a real or simulated IRIS copter.</description>
+	</class>
+	
+	
+	
+	<class type="uri_uav::Takeoff" base_class_type="uri::Task">
+		<description> This task performs the takeoff.</description>
+	</class>
+	
+	<class type="uri_uav::Hover" base_class_type="uri::Task">
+		<description> This task performs the hovering.</description>
+	</class>
+	
+	<class type="uri_uav::GotoTask" base_class_type="uri::Task">
+		<description> This task drives the UAV along a straight line towards a goal.</description>
+	</class>
+	
+	<class type="uri_uav::Land" base_class_type="uri::Task">
+		<description> This task performs the landing.</description>
+	</class>
+	
+	
+	<class type="uri_uav::TrajectoryControllerTask" base_class_type="uri::Task">
+		<description> This task implements the low level control to drive the UAV along a trajectory passed through SharedMemory.</description>
+	</class>
+
+	
+	<class type="uri_uav::BControllerExample" base_class_type="uri::BehaviorController">
+		<description> This Behavior controller does an example flight.</description>
+	</class>
+	
+</library>
