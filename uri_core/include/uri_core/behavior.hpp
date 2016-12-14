@@ -11,6 +11,8 @@
 
 namespace uri{
 	
+	/// This is the base class for the many behaviors that a robot can assume during operation.
+	/// A Behavior is defined as a collection of Tasks that the robot must execute at constant time intervals.
 	class Behavior{
 		
 		std::string _name;
