@@ -1,0 +1,7 @@
+<library path="liburi_base">
+
+	<class type="uri_base::SharedMemory<uri_base::Trajectory>" base_class_type="uri::Resource">
+		<description> A 3D Trajectory that can be shared among tasks.</description>
+	</class>
+	
+</library>
