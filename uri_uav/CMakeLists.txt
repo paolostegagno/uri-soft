@@ -47,6 +47,7 @@ add_library(uri_uav
 	src/tasks/hover.cpp
 	src/tasks/goto.cpp
 	src/tasks/trajectory_controller.cpp
+	src/tasks/yawratecontroller.cpp
 	src/tasks/bcontrollerexample.cpp)
 target_link_libraries(uri_uav ${catkin_LIBRARIES} ${EIGEN_LIBRARIES})
 message(WARNING ${EIGEN_LIBRARIES})

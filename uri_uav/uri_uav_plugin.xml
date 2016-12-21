@@ -23,6 +23,10 @@
 	</class>
 	
 	
+	<class type="uri_uav::YawrateController" base_class_type="uri::Task">
+		<description> This task implements the low level control to drive the UAV along a trajectory passed through SharedMemory.</description>
+	</class>
+	
 	<class type="uri_uav::TrajectoryControllerTask" base_class_type="uri::Task">
 		<description> This task implements the low level control to drive the UAV along a trajectory passed through SharedMemory.</description>
 	</class>

@@ -3,19 +3,19 @@
 //#include <thread>
 
 #include "ros/ros.h"
-#include <uri_example/tasks/example_task.hpp>
+#include <uri_uav/tasks/yawratecontroller.hpp>
 
-namespace uri_example{
+namespace uri_uav{
 
   
   
   
 
-ExampleTask::ExampleTask():Task(){
+YawrateController::YawrateController():Task(){
 	// You should keep this line on top and put the name of your task in it.
 	// Not giving a name to your task will have an unpredictable behavior
 	// and most likely will not work.
-	_name = "uri_example::ExampleTask";
+	_name = "uri_uav::YawrateController";
 	
 	// The class Task contains a field _options which you can use freely.
 	// You can add (and pass options through the configuration file) with the following lines.
@@ -34,7 +34,7 @@ ExampleTask::ExampleTask():Task(){
 	// construction will have its default value.
 }
 
-TaskOutput ExampleTask::_run(){
+TaskOutput YawrateController::_run(){
 	// do your cool code here!
 	
 	// how to get the value of an option - use the following syntax:
@@ -45,15 +45,15 @@ TaskOutput ExampleTask::_run(){
 	//
 }
 
-void ExampleTask::_activate(){
+void YawrateController::_activate(){
 	// what do you need to do every time the task is activated?
 }
 
-void ExampleTask::_deactivate(){
+void YawrateController::_deactivate(){
 	// what do you need to do every time the task is deactivated?
 }
 
-void ExampleTask::get_mandatory_resources(ResourceVector &res){
+void YawrateController::get_mandatory_resources(ResourceVector &res){
 	
 	// to get the resources needed in this task, use the following method:
 	//

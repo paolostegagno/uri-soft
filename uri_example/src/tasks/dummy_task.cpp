@@ -12,7 +12,7 @@ namespace uri_example{
   
 
 DummyTask::DummyTask():Task()/*:_name(nm)*/{
-	_name = "uri::DummyTask";
+	_name = "uri_example::DummyTask";
 	_options.addDoubleOption("pp",10);
 }
 
