@@ -257,6 +257,25 @@ void IrisInterface::commandVelocity(double x, double y, double z)
   _pub_setpoint_velocity_cmd_vel.publish<geometry_msgs::TwistStamped>(_msg_setpoint_velocity_cmd_vel);
 }
 
+void IrisInterface::commandYawrate(double yr)
+{
+	mavros_msgs::AttitudeTarget _msg_setpoint_raw_attitude;
+
+	_msg_setpoint_raw_attitude.body_rate.x = 0;
+	_msg_setpoint_raw_attitude.body_rate.y = 0;
+	_msg_setpoint_raw_attitude.body_rate.z = yr;
+	_msg_setpoint_raw_attitude.orientation.x = 0;
+	_msg_setpoint_raw_attitude.orientation.y = 0;
+	_msg_setpoint_raw_attitude.orientation.z = 0;
+	_msg_setpoint_raw_attitude.orientation.w = 0;
+	_msg_setpoint_raw_attitude.type_mask = 32;
+//   _msg_setpoint_velocity_cmd_vel.twist.linear.y = y;
+//   _msg_setpoint_velocity_cmd_vel.twist.linear.z = z;
+//   _msg_setpoint_velocity_cmd_vel.twist.angular.z = -1;
+  
+	_pub_setpoint_raw_attitude.publish<mavros_msgs::AttitudeTarget>(_msg_setpoint_raw_attitude);
+}
+
 
 
 void IrisInterface::commandTrajectory(Eigen::Vector3d &p, Eigen::Vector3d &v, Eigen::Vector3d &a, double yaw, double yawrate)

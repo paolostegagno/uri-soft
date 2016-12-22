@@ -154,6 +154,11 @@ class IrisInterface: public Resource{
 		/// @details this method sends a setpoint_velocity cmd_vel message to the UAV
 		void commandVelocity(double x, double y, double z);
 		
+		/// @brief Send yaw rate command
+		/// @details this method sends a setpoint_raw attitude message to the UAV, setting only the yawrate
+		void commandYawrate(double yr);
+
+		
 		/// @brief Send trajectory command
 		/// @details this method sends a setpoint position, velocity, acceleration, yaw and yaw rate
 		void commandTrajectory(Eigen::Vector3d &p, Eigen::Vector3d &v, Eigen::Vector3d &a, double yaw, double yawrate);

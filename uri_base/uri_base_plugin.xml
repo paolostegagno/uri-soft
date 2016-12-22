@@ -4,4 +4,8 @@
 		<description> A 3D Trajectory that can be shared among tasks.</description>
 	</class>
 	
+	<class type="uri_base::Keyboard" base_class_type="uri::Resource">
+		<description> A resource that reads input form the keybpard.</description>
+	</class>
+	
 </library>

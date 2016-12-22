@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(uri_example)
 
-set(CMAKE_CXX_COMPILER_ID_TEST_FLAGS "-std=c++11")
+set(CMAKE_CXX_FLAGS "-g -std=c++11")
 # set(CMAKE_C '-std=c++11')
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   uri_core
+  uri_base
 )
 
 ###################################
@@ -57,7 +58,11 @@ include_directories(
 # add_dependencies(uri_core ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_library(uri_example src/tasks/dummy_task.cpp src/tasks/example_task.cpp)
+add_library(uri_example
+src/tasks/dummy_task.cpp
+src/tasks/example_task.cpp
+src/tasks/example_behavior_controller.cpp
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above

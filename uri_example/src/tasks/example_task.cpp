@@ -37,6 +37,28 @@ ExampleTask::ExampleTask():Task(){
 TaskOutput ExampleTask::_run(){
 	// do your cool code here!
 	
+	bool terminate = false;
+	char* chars;
+	
+	int numchar = keyboard->get(chars);
+	
+	if (numchar>0){
+		std::cout << " read " << numchar << " chars:";
+		for (int i =0; i<numchar; i++){
+			std::cout << " " << chars[i];
+			if (chars[i] == 'q'){
+				terminate = true;
+			}
+		}
+		std::cout << std::endl;
+		
+		delete chars;
+	}
+	
+	if (terminate){
+		return uri::Terminate;
+	}
+	return uri::Continue;
 	// how to get the value of an option - use the following syntax:
 	// _options["OPTION_NAME"]->getTYPEValue()
 	//
@@ -60,6 +82,10 @@ void ExampleTask::get_mandatory_resources(ResourceVector &res){
 	// ResourceType res; this declaration should be in the class definition in the header file
 	// std::string iint("uri::name_of_the_resource");
 	// res = (ResourceType*)res.get_resource_ptr(iint);
+	
+	std::string iint("uri_base::Keyboard");
+	keyboard = (Keyboard*)res.get_resource_ptr(iint);
+	
 	//
 	// if you have put res in the header file, you'll be able to use it in any other method of this class (except fo the constructor, which is executed first)
 }

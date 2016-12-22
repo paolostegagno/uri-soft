@@ -7,7 +7,7 @@
 	
 	
 	<!-- ros_args.launch -->
-	<arg name="config_file" default="$(find uri_core)/configfiles/dummy.xml" doc="configuration file for URI-Soft"/>
+	<arg name="config_file" default="$(find uri_example)/configfiles/example.xml" doc="configuration file for URI-Soft"/>
 	<arg name="sched_time" default="0.001" doc="Interval time at which the scheduler checks if some task must be run."/>
 	
 	

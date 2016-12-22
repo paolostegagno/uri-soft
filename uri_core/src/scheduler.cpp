@@ -55,7 +55,7 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name, double 
 	}
 	
 	
-	ROS_INFO("Activating "ANSI_COLOR_BEHAVIOR_CONTROLLER"%s"ANSI_COLOR_RESET".", behavior_controller->name().c_str());
+	ROS_INFO("Activating " ANSI_COLOR_BEHAVIOR_CONTROLLER "%s" ANSI_COLOR_RESET ".", behavior_controller->name().c_str());
 	behavior_controller->activate_task();
 	
 // 	_active_behavior = NULL;
@@ -139,7 +139,7 @@ void Scheduler::load_resources( TiXmlNode* pParent)
 				ROS_FATAL("Malformed configfile! First element of a resource must be the resource name.");
 			}
 			else {
-				ROS_INFO(ANSI_COLOR_RESOURCE"Creating resource [%s]."ANSI_COLOR_RESET, pAttrib->Value());
+				ROS_INFO(ANSI_COLOR_RESOURCE "Creating resource [%s]." ANSI_COLOR_RESET, pAttrib->Value());
 				try
 				{
 					boost::shared_ptr<uri::Resource> newresource = resource_loader->createInstance(pAttrib->Value());
@@ -183,7 +183,7 @@ void Scheduler::load_tasks( TiXmlNode* pParent)
 				ROS_FATAL("Malformed configfile! First element of a task must be the task name.");
 			}
 			else {
-				ROS_INFO(ANSI_COLOR_TASK"Creating task [%s]."ANSI_COLOR_RESET, pAttrib->Value());
+				ROS_INFO(ANSI_COLOR_TASK "Creating task [%s]." ANSI_COLOR_RESET, pAttrib->Value());
 				try
 				{
 					boost::shared_ptr<uri::Task> newtask = task_loader->createInstance(pAttrib->Value());
@@ -229,7 +229,7 @@ void Scheduler::load_behavior_controller( TiXmlNode* pParent)
 				ROS_FATAL("Malformed configfile! First element of a behavior controller must be the task name.");
 			}
 			else {
-				ROS_INFO(ANSI_COLOR_BEHAVIOR_CONTROLLER"Creating behavior controller [%s]."ANSI_COLOR_RESET, pAttrib->Value());
+				ROS_INFO(ANSI_COLOR_BEHAVIOR_CONTROLLER "Creating behavior controller [%s]." ANSI_COLOR_RESET, pAttrib->Value());
 				try
 				{
 					behavior_controller = behavior_controller_loader->createInstance(pAttrib->Value());
@@ -284,7 +284,7 @@ void Scheduler::load_behaviors( TiXmlNode* pParent)
 			else {
 // 		std::cout << "c.3" << std::endl;
 				std::string behavior_name(pAttrib->Value());
-				ROS_INFO(ANSI_COLOR_BEHAVIOR"Creating behavior [%s]."ANSI_COLOR_RESET, behavior_name.c_str());
+				ROS_INFO(ANSI_COLOR_BEHAVIOR "Creating behavior [%s]." ANSI_COLOR_RESET, behavior_name.c_str());
 				pAttrib=pAttrib->Next();
 				if (std::string(pAttrib->Name()).compare("tasklist")!=0){
 					ROS_FATAL("Malformed configfile! Second attribute of a behavior must be the task list.");

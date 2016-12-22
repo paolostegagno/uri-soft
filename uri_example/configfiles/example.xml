@@ -1,16 +1,14 @@
 <?xml version="1.0" ?>
 <robot name="UAV" >
-
-	<resource name="propellers" number="4"/>
-	<resource name="camera" t="1" q="2"/>
-
-	<task name="low_level_control" pi="12" pp="5" pd="15"/>
-	<task name="high_level_control" pi="12" pp="5" pd="15"/>
-	<task name="scan_environment" pi="12" pp="5" pd="15"/>
-
-	<behavior name="takeoff" tasklist="low_level_control high_level_control" height="5"/>
-	<behavior name="hover" tasklist="low_level_control high_level_control" height="5"/>
-	<behavior name="goto" tasklist="low_level_control high_level_control" x="5" y="3" z="8"/>
-	<behavior name="land" tasklist="low_level_control high_level_control" speed="1"/>
-
+	
+	<resource name="uri_base::Keyboard"/>
+	
+	<task name="uri_example::DummyTask" period="0.1" period_tollerance="0.0011"  pp="5" />
+	<task name="uri_example::ExampleTask" period="0.35" period_tollerance="0.002" />
+	
+	<behavior name="ExampleBehavior1" tasklist="uri_example::DummyTask uri_example::ExampleTask"/>
+	<behavior name="ExampleBehavior2" tasklist="uri_example::ExampleTask"/>
+	
+	<behavior_controller name="uri_example::ExampleBehaviorController" period="0.01" period_tollerance="0.001" />
+	
 </robot>

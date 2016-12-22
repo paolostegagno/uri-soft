@@ -91,6 +91,7 @@ int Task::executions(){
 
 bool Task::terminate(){
 	if (_output == Terminate){
+		_output = Continue;
 		return true;
 	}
 	else if (_output == Continue) {

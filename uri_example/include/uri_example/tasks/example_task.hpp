@@ -8,6 +8,7 @@
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/task.hpp>
 
+#include <uri_base/keyboard.hpp>
 
 #ifndef __URI_EXAMPLE_TASK_HPP__
 #define __URI_EXAMPLE_TAKS_HPP__
@@ -15,6 +16,7 @@
 
 
 using namespace uri;
+using namespace uri_base;
 
 
 namespace uri_example{
@@ -28,6 +30,7 @@ namespace uri_example{
 		//
 		// int _variable1;
 		// double _variable2;
+		Keyboard* keyboard;
 		
 		
 		// ################ put here your the declaration of your private methods.
