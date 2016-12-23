@@ -3,7 +3,7 @@
 //#include <thread>
 
 #include "ros/ros.h"
-#include <uri_uav/tasks/bcontrollerexample.hpp>
+#include <uri_uav/behavior_controllers/bcontrollerexample.hpp>
 
 namespace uri_uav{
 

@@ -80,6 +80,12 @@ void Task::deactivate_task(){
 	_deactivate();
 }
 
+void Task::reset_task()
+{
+	_output = Continue;
+}
+
+
 
 bool Task::task_active(){
 	return _task_active;
@@ -91,7 +97,7 @@ int Task::executions(){
 
 bool Task::terminate(){
 	if (_output == Terminate){
-		_output = Continue;
+// 		_output = Continue;
 		return true;
 	}
 	else if (_output == Continue) {

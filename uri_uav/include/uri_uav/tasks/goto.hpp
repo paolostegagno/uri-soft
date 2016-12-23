@@ -8,7 +8,7 @@
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/task.hpp>
 
-#include <uri_uav/iris_interface.hpp>
+#include <uri_uav/resources/iris_interface.hpp>
 #include <uri_base/trajectory.hpp>
 
 

@@ -13,7 +13,7 @@
 #include "mavros_msgs/CommandBool.h"
 #include "mavros_msgs/CommandTOL.h"
 
-#include "uri_uav/iris_interface.hpp"
+#include "uri_uav/resources/iris_interface.hpp"
 
 
 

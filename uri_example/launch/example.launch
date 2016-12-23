@@ -18,13 +18,6 @@
 		</node>
 	</group>
 	
-	
-	
-	
-<!--	<node name="mip2_core_2" pkg="mip2_core" type="mip2_core">
-		<param name="configuration_file" value="$(arg config_file)" />
-		<param name="pippo" value="1" />
-	</node>-->
 
 	
 

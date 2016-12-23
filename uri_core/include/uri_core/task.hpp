@@ -97,6 +97,9 @@ namespace uri{
 		/// @brief Deactivate the task - method run will not be executed until new activation
 		void deactivate_task();
 		
+		/// @brief Reset the task - reset last execution output
+		void reset_task();
+		
 		/// @brief Check wheter the task is active.
 		/// @return \true if active, \false otherwise.
 		bool task_active();

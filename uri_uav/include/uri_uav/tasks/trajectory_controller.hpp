@@ -5,7 +5,7 @@
 #include "ros/ros.h"
 #include <uri_core/utilities.hpp>
 
-#include <uri_uav/iris_interface.hpp>
+#include <uri_uav/resources/iris_interface.hpp>
 #include <uri_base/trajectory.hpp>
 
 #include <pluginlib/class_list_macros.h>

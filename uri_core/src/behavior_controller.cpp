@@ -94,6 +94,10 @@ TaskOutput BehaviorController::_run(){
 					tasks->at(i)->activate_task();
 					ROS_INFO("  Activating " ANSI_COLOR_TASK "%s" ANSI_COLOR_RESET ".", tasks->at(i)->name().c_str());
 				}
+				else if (_active_behavior->contains_task(tasks->at(i)->name())>=0 && _next_active_behavior->contains_task(tasks->at(i)->name())>=0){
+					tasks->at(i)->reset_task();
+					ROS_INFO("  Resetting " ANSI_COLOR_TASK "%s" ANSI_COLOR_RESET ".", tasks->at(i)->name().c_str());
+				}
 				else {}
 			}
 		}

@@ -36,4 +36,8 @@
 		<description> This Behavior controller does an example flight.</description>
 	</class>
 	
+	<class type="uri_uav::Joystick" base_class_type="uri::BehaviorController">
+		<description> This Behavior controller does an example flight.</description>
+	</class>
+	
 </library>
