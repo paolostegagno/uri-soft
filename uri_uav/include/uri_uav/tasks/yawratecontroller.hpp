@@ -5,8 +5,13 @@
 #include "ros/ros.h"
 #include <uri_core/utilities.hpp>
 
+#include <uri_uav/resources/iris_interface.hpp>
+#include <uri_base/trajectory.hpp>
+
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/task.hpp>
+
+#include <fstream>
 
 
 #ifndef __URI_YAWRATECONTROLLER_HPP__
@@ -26,8 +31,10 @@ namespace uri_uav{
 		
 		// ################ put here your private variables.
 		//
-		// int _variable1;
-		// double _variable2;
+		IrisInterface* uav;
+		uri_base::SharedMemory<uri_base::Trajectory>* trajectory;
+		
+		uri_base::Trajectory traj;
 		
 		
 		// ################ put here your the declaration of your private methods.

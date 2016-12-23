@@ -58,6 +58,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(uri_base
+	src/angle_conversion.cpp
 	src/trajectory.cpp
 	src/shared_memory.cpp
 	src/keyboard.cpp

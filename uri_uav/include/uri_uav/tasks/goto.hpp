@@ -41,6 +41,7 @@ namespace uri_uav{
 		
 		Eigen::Vector3d _start;
 		Eigen::Vector3d _startvel;
+		double _start_yaw;
 		ros::Time _start_time;
 		
 		double t1, t2, t3;
@@ -50,7 +51,7 @@ namespace uri_uav{
 		
 		Eigen::Vector3d _goal;
 		Eigen::Vector3d _goalvel;
-		ros::Time _goal_time;
+		double _goal_yaw;
 		
 		double max_speed;
 		double max_x_vel;
@@ -61,6 +62,9 @@ namespace uri_uav{
 		double max_x_acc;
 		double max_y_acc;
 		double max_z_acc;
+		
+		double _yawrate;
+		double max_yawrate;
 		
 		Eigen::Vector3d _direction;
 		

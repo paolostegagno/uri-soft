@@ -3,6 +3,9 @@
 //#include <thread>
 
 #include "ros/ros.h"
+
+#include <uri_base/angle_conversion.hpp>
+
 #include <uri_uav/tasks/goto.hpp>
 
 namespace uri_uav{
@@ -30,6 +33,7 @@ GotoTask::GotoTask():Task(){
 	_options.addDoubleOption("goal_vx", 0.0);
 	_options.addDoubleOption("goal_vy", 0.0);
 	_options.addDoubleOption("goal_vz", 0.0);
+	_options.addDoubleOption("goal_yaw", 3.1);
 	// _options.addBoolOption("name_option_3",false);
 	// _options.addStringOption("name_option_2","default_value");
 	//
@@ -119,12 +123,17 @@ TaskOutput GotoTask::_run(){
 			break;
 	}
 	
-	std::cout << nextpos.transpose() << " " << nextvel.transpose() << " " << nextacc.transpose() << " " << t_elapsed << std::endl;
+	double next_yaw = _start_yaw + _yawrate*t_elapsed;
+	
+	std::cout << nextpos.transpose() << " " << nextvel.transpose() << " " << nextacc.transpose() << " " << next_yaw << " " << _yawrate << " " << t_elapsed << std::endl;
 	
 	uri_base::Trajectory traj;
 	traj.pos = nextpos;
 	traj.vel = nextvel;
 	traj.acc = nextacc;
+	
+	traj.yaw = next_yaw;
+	traj.yawrate = _yawrate;
 	
 	trajectory->set(traj, 0.01);
 	
@@ -138,9 +147,12 @@ void GotoTask::_activate(){
 	_goal(0) = _options["goal_x"]->getDoubleValue();
 	_goal(1) = _options["goal_y"]->getDoubleValue();
 	_goal(2) = _options["goal_z"]->getDoubleValue();
+	_goal_yaw = _options["goal_yaw"]->getDoubleValue();
 	_startvel << 0,0,0;
 	_stage = GOTO_START;
 	_start = uav->position();
+	Eigen::Quaterniond start_ori = uav->orientation();
+	uri_base::quaternion_to_yaw(start_ori, _start_yaw);
 	_direction = _goal-_start;
 	_direction = _direction/_direction.norm();
 	
@@ -227,6 +239,10 @@ void GotoTask::_activate(){
 		}
 		
 		if (t3>t2 and t2>t1){
+			
+			double yawdiff = _goal_yaw - _start_yaw;
+			_yawrate = yawdiff/t3;
+			
 			good_trajectory = true;
 		}
 		else{

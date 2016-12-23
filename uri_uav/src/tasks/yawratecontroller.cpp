@@ -55,13 +55,13 @@ void YawrateController::_deactivate(){
 
 void YawrateController::get_mandatory_resources(ResourceVector &res){
 	
+	
 	// to get the resources needed in this task, use the following method:
-	//
-	// ResourceType res; this declaration should be in the class definition in the header file
-	// std::string iint("uri::name_of_the_resource");
-	// res = (ResourceType*)res.get_resource_ptr(iint);
-	//
-	// if you have put res in the header file, you'll be able to use it in any other method of this class (except fo the constructor, which is executed first)
+	std::string iint("uri_uav::IrisInterface");
+	uav = (IrisInterface*)res.get_resource_ptr(iint);
+	
+	iint=std::string("uri_base::SharedMemory<uri_base::Trajectory>");
+	trajectory = (uri_base::SharedMemory<uri_base::Trajectory>*)res.get_resource_ptr(iint);
 }
 
 };

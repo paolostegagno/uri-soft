@@ -23,18 +23,19 @@ namespace uri_uav{
 		
 		virtual void _initialize(){}
 		
-		virtual void _activate(){
-		}
+		virtual void _activate();
 
 		virtual void _deactivate(){}
 		
 		bool _first_run;
 		
 		
+		Eigen::Vector3d _goal_pos;
 		Eigen::Vector3d _pos;
 		Eigen::Vector3d _vel;
 		Eigen::Vector3d _acc;
 		
+		double _goal_yaw;
 		double _yaw;
 		double _yawrate;
 		
