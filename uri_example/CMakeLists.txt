@@ -61,7 +61,7 @@ include_directories(
 add_library(uri_example
 src/tasks/dummy_task.cpp
 src/tasks/example_task.cpp
-src/tasks/example_behavior_controller.cpp
+src/behavior_controllers/example_behavior_controller.cpp
 )
 
 ## Add cmake target dependencies of the executable
