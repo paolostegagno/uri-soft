@@ -1,0 +1,24 @@
+<!-- -->
+
+<launch>
+
+	<param name="prova" value="1" />
+
+	
+	
+	<!-- ros_args.launch -->
+	<arg name="config_file" default="$(find uri_example)/configfiles/example.xml" doc="configuration file for URI-Soft"/>
+	<arg name="sched_time" default="0.001" doc="Interval time at which the scheduler checks if some task must be run."/>
+	
+	
+	<group ns="robot_1">
+		<node name="uri_core_1" pkg="uri_core" type="uri_core_node">
+			<param name="configuration_file" value="$(arg config_file)" />
+			<param name="scheduler_time" value="$(arg sched_time)" />
+		</node>
+	</group>
+	
+
+	
+
+</launch>
