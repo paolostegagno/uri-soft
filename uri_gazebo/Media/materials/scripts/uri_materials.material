@@ -1,0 +1,177 @@
+material URI/Gouraud
+{
+  receive_shadows on
+  shading gouraud
+
+  technique
+  {
+    pass Ambient
+    {
+      ambient 1.000000 1.000000 1.000000 1.000000
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.8 0.8 0.8 1 20
+      shading gouraud
+    }
+
+    pass PointLight
+    {
+      ambient 1.000000 1.000000 1.000000 1.000000
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.8 0.8 0.8 1 20
+      shading gouraud
+    }
+  }
+}
+
+material URI/Black
+{
+  receive_shadows on
+  lighting on
+
+  technique
+  {
+    pass
+    {
+      ambient 0.1 0.1 0.1 1.0
+      diffuse 0.1 0.1 0.1 1.0
+      specular 0.0 0.0 0.0 0.0
+    }
+  }
+}
+
+material URI/Blue
+{
+  receive_shadows on
+
+  technique
+  {
+    pass
+    {
+      ambient 0.1 0.1 0.2 1.0
+      diffuse 0.1 0.1 0.6 1.0
+      specular 0.1 0.1 0.2 1.0
+      emissive 0.1 0.1 0.1 1.0
+      shading gouraud
+    }
+  }
+}
+
+material URI/Green
+{
+  receive_shadows on
+
+  technique
+  {
+    pass
+    {
+      ambient 0.0 0.2 0.0 1.0
+      diffuse 0.0 0.8 0.0 1.0
+      specular 0.0 0.2 0.0 1.0
+      emissive 0.0 0.0 0.0 0.0
+      lighting on
+      shading phong
+    }
+  }
+}
+
+material URI/Grey
+{
+  receive_shadows on
+  lighting on
+
+  technique
+  {
+    pass
+    {
+      ambient 0.1 0.1 0.1 1.0
+      diffuse 0.7 0.7 0.7 1.0
+      specular 0.8 0.8 0.8 1
+    }
+  }
+}
+
+material URI/Grey2
+{
+  receive_shadows on
+  lighting on
+
+  technique
+  {
+    pass
+    {
+      ambient 0.5 0.5 0.5 1.0
+      diffuse 0.9 0.9 0.9 1.0
+      specular 0.8 0.8 0.8 1
+      lighting on
+    }
+  }
+}
+
+material URI/Red
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      ambient 0.2 0.0 0.0 1.0
+      diffuse 0.8 0.0 0.0 1.0
+      specular 0.2 0.0 0.0 1.0
+      emissive 0.0 0.0 0.0 1.0
+      lighting on
+      shading phong
+    }
+  }
+}
+
+material URI/White
+{
+  receive_shadows on
+  lighting on
+
+  technique
+  {
+    pass
+    {
+      ambient 0.5 0.5 0.5 1.0
+      diffuse 1.0 1.0 1.0 1.0
+      specular 1.0 1.0 1.0 1.0
+      shading gouraud
+    }
+  }
+}
+
+material URI/Yellow
+{
+  receive_shadows on
+
+  technique
+  {
+    pass
+    {
+      ambient 0.2 0.2 0.0 1.0
+      diffuse 0.8 0.8 0.0 1.0
+      specular 0.2 0.2 0.0 1.0
+      emissive 0.0 0.0 0.0 1.0
+      lighting on
+    }
+  }
+}
+
+material URI/BlueBrushedAluminum
+{
+  technique
+  {
+    pass
+    {
+      ambient 0.75 0.75 0.75
+      cull_hardware none
+      cull_software none
+      texture_unit
+      {
+        texture blue_brushed_aluminum.jpg
+      }
+    }
+  }
+}
+

@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    
+		
+<!--    <model name="obstacle">
+      <static>true</static>
+      <pose>2.5 0 0.75 0 0 0</pose>
+      <link name="box">
+        <collision name="collision">
+          <geometry>  
+            <box>
+              <size>0.75 0.75 1.5</size>
+            </box>
+          </geometry>  
+        </collision>
+        <visual name="visual">
+          <geometry>  
+            <box>
+              <size>0.75 0.75 1.5</size>
+            </box> 
+          </geometry> 
+        </visual>
+      </link>
+    </model>-->
+    
+		
+		<model name='bridge'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0 0 0.01 0 -0 0</pose>
+        <collision name='wall1'>
+          <geometry>
+            <mesh>
+              <uri>file://meshes/bridge.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='visual1'>
+          <geometry>
+            <mesh>
+              <uri>file://meshes/bridge.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+      <pose>2 5 1 0 0 0</pose>
+    </model>
+		
+		
+		
+		
+		
+		
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>0 0 0</gravity>
+    </physics>
+    
+  </world>
+</sdf>

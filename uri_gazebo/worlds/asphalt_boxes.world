@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://asphalt_plane</uri>
+    </include>
+
+    <physics type='ode'>
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+      <gravity>0 0 -9.8</gravity>
+    </physics>    
+
+    <model name="obstacle1">
+      <static>true</static>
+      <pose>0.0 0.1 0.8 0 0 0</pose>
+      <link name="box">
+        <collision name="collision">
+          <geometry>  
+            <box>
+              <size>0.4 0.6 1.6</size>
+            </box>
+          </geometry>  
+        </collision>
+        <visual name="visual">
+          <geometry>  
+            <box>
+              <size>0.4 0.6 1.6</size>
+            </box> 
+          </geometry> 
+        </visual>
+      </link>
+    </model>
+
+    <model name="obstacle2">
+      <static>true</static>
+      <pose>1.1 0.2 0.4 0 0 0</pose>
+      <link name="box">
+        <collision name="collision">
+          <geometry>  
+            <box>
+              <size>0.6 0.4 0.8</size>
+            </box>
+          </geometry>  
+        </collision>
+        <visual name="visual">
+          <geometry>  
+            <box>
+              <size>0.6 0.4 0.8</size>
+            </box> 
+          </geometry> 
+        </visual>
+      </link>
+    </model>
+
+    <model name="obstacle3">
+      <static>true</static>
+      <pose>-0.5 1.0 0.6 0 0 0</pose>
+      <link name="box">
+        <collision name="collision">
+          <geometry>  
+            <box>
+              <size>0.4 0.8 1.2</size>
+            </box>
+          </geometry>  
+        </collision>
+        <visual name="visual">
+          <geometry>  
+            <box>
+              <size>0.4 0.8 1.2</size>
+            </box> 
+          </geometry> 
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>
