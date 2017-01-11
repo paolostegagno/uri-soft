@@ -30,6 +30,7 @@ namespace uri_uav{
 		bool _first_run;
 		
 		
+		
 		Eigen::Vector3d _goal_pos;
 		Eigen::Vector3d _pos;
 		Eigen::Vector3d _vel;
@@ -43,7 +44,7 @@ namespace uri_uav{
 		
 		Eigen::Vector3d _pos_s;
 		double _yaw_s;
-		ros::Time _time_s;
+		ros::Time _time_start;
 		
 		
 	public:

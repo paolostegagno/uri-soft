@@ -35,7 +35,7 @@ catkin_package(
 ## Build ##
 ###########
 
-message(${catkin_INCLUDE_DIRS})
+# message(${catkin_INCLUDE_DIRS})
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations

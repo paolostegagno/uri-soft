@@ -4,39 +4,47 @@
 
 namespace uri_base{
 
-void quaternion_to_rpy(const Eigen::Quaterniond& q, double& roll, double& pitch, double& yaw)
-{
-	double ysqr = q.y() * q.y();
+	void quaternion_to_rpy(const Eigen::Quaterniond& q, double& roll, double& pitch, double& yaw)
+	{
+		double ysqr = q.y() * q.y();
 
-	// roll (x-axis rotation)
-	double t0 = +2.0f * (q.w() * q.x() + q.y() * q.z());
-	double t1 = +1.0f - 2.0f * (q.x() * q.x() + ysqr);
-	roll = std::atan2(t0, t1);
+		// roll (x-axis rotation)
+		double t0 = +2.0f * (q.w() * q.x() + q.y() * q.z());
+		double t1 = +1.0f - 2.0f * (q.x() * q.x() + ysqr);
+		roll = std::atan2(t0, t1);
 
-	// pitch (y-axis rotation)
-	double t2 = +2.0f * (q.w() * q.y() - q.z() * q.x());
-	t2 = t2 > 1.0f ? 1.0f : t2;
-	t2 = t2 < -1.0f ? -1.0f : t2;
-	pitch = std::asin(t2);
+		// pitch (y-axis rotation)
+		double t2 = +2.0f * (q.w() * q.y() - q.z() * q.x());
+		t2 = t2 > 1.0f ? 1.0f : t2;
+		t2 = t2 < -1.0f ? -1.0f : t2;
+		pitch = std::asin(t2);
 
-	// yaw (z-axis rotation)
-	double t3 = +2.0f * (q.w() * q.z() + q.x() *q.y());
-	double t4 = +1.0f - 2.0f * (ysqr + q.z() * q.z());  
-	yaw = std::atan2(t3, t4);
-}
-
-
+		// yaw (z-axis rotation)
+		double t3 = +2.0f * (q.w() * q.z() + q.x() *q.y());
+		double t4 = +1.0f - 2.0f * (ysqr + q.z() * q.z());  
+		yaw = std::atan2(t3, t4);
+	}
 
 
-void quaternion_to_yaw(const Eigen::Quaterniond& q, double& yaw)
-{
-	double ysqr = q.y() * q.y();
-	
-	// yaw (z-axis rotation)
-	double t3 = +2.0f * (q.w() * q.z() + q.x() *q.y());
-	double t4 = +1.0f - 2.0f * (ysqr + q.z() * q.z());  
-	yaw = std::atan2(t3, t4);
-}
+	double quaternion_to_yaw(const Eigen::Quaterniond& q)
+	{
+		double ysqr = q.y() * q.y();
+		
+		// yaw (z-axis rotation)
+		double t3 = +2.0f * (q.w() * q.z() + q.x() *q.y());
+		double t4 = +1.0f - 2.0f * (ysqr + q.z() * q.z());  
+		return std::atan2(t3, t4);
+	}
+
+	void quaternion_to_yaw(const Eigen::Quaterniond& q, double& yaw)
+	{
+		double ysqr = q.y() * q.y();
+		
+		// yaw (z-axis rotation)
+		double t3 = +2.0f * (q.w() * q.z() + q.x() *q.y());
+		double t4 = +1.0f - 2.0f * (ysqr + q.z() * q.z());  
+		yaw = std::atan2(t3, t4);
+	}
 
 
 	Eigen::Quaterniond rpy_to_quaternion(double roll, double pitch, double yaw)

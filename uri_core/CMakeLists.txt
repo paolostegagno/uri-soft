@@ -166,7 +166,7 @@ target_link_libraries(uri_core_node
   ${OpenCV_LIBRARIES}
 )
 
-message (${catkin_LIBRARIES})
+# message (${catkin_LIBRARIES})
 
 
 #############

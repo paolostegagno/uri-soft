@@ -54,6 +54,6 @@ add_library(uri_uav
 	src/behavior_controllers/joystick.cpp
 	)
 target_link_libraries(uri_uav ${catkin_LIBRARIES} ${EIGEN_LIBRARIES})
-message(WARNING ${EIGEN_LIBRARIES})
+# message(WARNING ${EIGEN_LIBRARIES})
 
 

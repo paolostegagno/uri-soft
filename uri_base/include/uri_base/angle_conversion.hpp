@@ -13,7 +13,12 @@ namespace uri_base{
 	/// @param[out] &pitch output pitch
 	/// @param[out] &yaw output yaw
 	void quaternion_to_rpy(const Eigen::Quaterniond& q, double& roll, double& pitch, double& yaw);
-
+	
+	/// @brief Extracts yaw from Eigen::Quaterniond
+	/// @param[in] &q Input Quaternion 
+	/// @return yaw.
+	double quaternion_to_yaw(const Eigen::Quaterniond& q);
+	
 	/// @brief Extracts yaw from Eigen::Quaterniond
 	/// @param[in] &q Input Quaternion 
 	/// @param[out] &yaw output yaw

@@ -36,6 +36,9 @@ namespace uri_uav{
 		
 		uri_base::Trajectory traj;
 		
+		bool _guided_mode_requested;
+		
+		
 		
 		// ################ put here your the declaration of your private methods.
 		//

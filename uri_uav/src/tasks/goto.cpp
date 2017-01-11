@@ -33,7 +33,7 @@ GotoTask::GotoTask():Task(){
 	_options.addDoubleOption("goal_vx", 0.0);
 	_options.addDoubleOption("goal_vy", 0.0);
 	_options.addDoubleOption("goal_vz", 0.0);
-	_options.addDoubleOption("goal_yaw", 3.1);
+	_options.addDoubleOption("goal_yaw", 179.0);
 	// _options.addBoolOption("name_option_3",false);
 	// _options.addStringOption("name_option_2","default_value");
 	//

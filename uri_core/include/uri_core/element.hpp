@@ -54,49 +54,21 @@ namespace uri{
 		/// @brief Reads the options from the xml file and setup the timer to call run at constant time period
 		void init(ros::NodeHandle &nh, TiXmlAttribute* attribute);
 		
-		/// @brief Set an option.
-		/// 
+		/// @brief Set an option of type double.
 		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
-		bool set_option_double(std::string &oname, double value){
-			std::map<std::string,Option*>::iterator it;
-			it = _options.find(oname);
-			if ( it == _options.end() ) {
-				ROS_INFO("WARNING: Trying to set non-existing %s option.", oname.c_str());
-				return false;
-			}
-			((OptionDouble*)it->second)->value = value;
-			return true;
-		}
-		bool set_option_bool(std::string &oname, bool value){
-			std::map<std::string,Option*>::iterator it;
-			it = _options.find(oname);
-			if ( it == _options.end() ) {
-				ROS_INFO("WARNING: Trying to set non-existing %s option.", oname.c_str());
-				return false;
-			}
-			((OptionBool*)it->second)->value = value;
-			return true;
-		}
-		bool set_option_string(std::string &oname, std::string value){
-			std::map<std::string,Option*>::iterator it;
-			it = _options.find(oname);
-			if ( it == _options.end() ) {
-				ROS_INFO("WARNING: Trying to set non-existing %s option.", oname.c_str());
-				return false;
-			}
-			((OptionString*)it->second)->value = value;
-			return true;
-		}
-		bool set_option_int(std::string &oname, int value){
-			std::map<std::string,Option*>::iterator it;
-			it = _options.find(oname);
-			if ( it == _options.end() ) {
-				ROS_INFO("WARNING: Trying to set non-existing %s option.", oname.c_str());
-				return false;
-			}
-			((OptionInt*)it->second)->value = value;
-			return true;
-		}
+		bool set_option_double(std::string &oname, double value);
+		
+		/// @brief Set an option of type bool.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_bool(std::string &oname, bool value);
+		
+		/// @brief Set an option of type string.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_string(std::string &oname, std::string value);
+		
+		/// @brief Set an option of type int.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_int(std::string &oname, int value);
 		
 	};
 

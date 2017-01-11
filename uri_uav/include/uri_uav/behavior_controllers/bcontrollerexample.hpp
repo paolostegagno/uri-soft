@@ -15,13 +15,17 @@ namespace uri_uav{
 		
 	private:
 		
+			int goto_number;
+		
 		IrisInterface* uav;
 		
 		virtual TaskOutput __run();
 		
 		virtual void _initialize(){}
 		
-		virtual void _activate(){}
+		virtual void _activate(){
+			goto_number = 0;
+		}
 		
 		virtual void _deactivate(){}
 		

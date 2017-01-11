@@ -24,6 +24,7 @@ Hover::Hover():Task()/*:_name(nm)*/{
 	_options.addDoubleOption("Y", 0.0);
 	_options.addDoubleOption("Z", 3.0);
 	_options.addDoubleOption("Yaw", 0.0);
+	_options.addDoubleOption("Countdown", -1.0);
 	
 }
 
@@ -40,6 +41,7 @@ void Hover::_activate(){
 		Eigen::Quaterniond ori = uav->orientation();
 		uri_base::quaternion_to_yaw(ori, _goal_yaw);
 	}
+	_time_start = ros::Time::now();
 }
 
 TaskOutput Hover::_run(){
@@ -52,6 +54,12 @@ TaskOutput Hover::_run(){
 	traj.yawrate = 0;
 	
 	trajectory->set(traj,0.01);
+	
+	if (_options["Countdown"]->getDoubleValue()>0.0){
+		if ((ros::Time::now()-_time_start).toSec()>_options["Countdown"]->getDoubleValue()){
+			return Terminate;
+		}
+	}
 	
 	return Continue;
 	

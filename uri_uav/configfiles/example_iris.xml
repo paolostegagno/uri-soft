@@ -5,12 +5,15 @@
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
 
 	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="3" takeoff_height_tollerance="0.05" />
-	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" />
+	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0"/>
 	<task name="uri_uav::GotoTask" period="0.05" period_tollerance="0.002" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
-	<task name="uri_uav::TrajectoryControllerTask" period="0.05" period_tollerance="0.002" />
+	<task name="uri_uav::TrajectoryControllerTask" period="0.02" period_tollerance="0.002" />
+	<task name="uri_uav::YawrateController" period="0.1" period_tollerance="0.002" />
 	
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
+<!-- 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::TrajectoryControllerTask uri_uav::YawrateController"/> -->
+<!-- 	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::TrajectoryControllerTask uri_uav::YawrateController"/> -->
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::TrajectoryControllerTask"/>
 	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::TrajectoryControllerTask"/>
 	<behavior name="Land" tasklist="uri_uav::Land"/>

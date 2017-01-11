@@ -13,8 +13,8 @@
 
 #include <fstream>
 
-#ifndef __MIP2_EXAMPLE_TASK_HPP__
-#define __MIP2_EXAMPLE_TAKS_HPP__
+#ifndef __TRAJECTORYCONTROLLERTASK_HPP__
+#define __TRAJECTORYCONTROLLERTASK_HPP__
 
 
 
@@ -81,6 +81,8 @@ namespace uri_uav{
 		PID _y_controller;
 		PID _z_controller;
 		
+		ros::Time _init_time;
+		
 		IrisInterface* uav;
 		uri_base::SharedMemory<uri_base::Trajectory>* trajectory;
 		
@@ -102,7 +104,9 @@ namespace uri_uav{
 		/// @details This method is mandatory since it is defined as purely virtual in the class uri::Task.
 		virtual TaskOutput _run();
 		
-		virtual void _initialize(){}
+		virtual void _initialize(){
+			_guided_mode_requested= false;
+		}
 		
 		/// @brief Mandatory method containing the routine executed ony once every time the task is activated.
 		/// @details This method is mandatory since it is defined as purely virtual in the class uri::Task.

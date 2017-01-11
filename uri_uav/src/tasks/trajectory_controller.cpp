@@ -44,20 +44,17 @@ TrajectoryControllerTask::TrajectoryControllerTask():Task(){
 
 TaskOutput TrajectoryControllerTask::_run(){
 	
-	
-	
+	// Check if operating mode of the UAV is correct (GUIDED)
 	if (not uav->guided()){
 		if (uav->setMode("guided")) _guided_mode_requested=true;
 		else _guided_mode_requested=false;
 	}
 	
-	
+	// get trajectory from shared memory
 	if (trajectory->get(traj,0.0005)){
 		if (not trajectory->ever_set()){
 			traj.pos = uav->position();
 		}
-		
-// 		std::cout << Eigen::Transpose<Eigen::Vector3d>( traj.pos) << std::endl;
 	}
 	else {
 		ROS_INFO("WARNING: %s unable to retrieve %s", _name.c_str(), traj.name().c_str());
@@ -66,13 +63,15 @@ TaskOutput TrajectoryControllerTask::_run(){
 // 	return Continue;
 	
 	Eigen::Vector3d pos = uav->position();
+	double yaw = uav->yaw();
 	
 	double vx = _x_controller.run(pos(0), traj.pos(0), traj.vel(0), traj.vel(0));
 	double vy = _y_controller.run(pos(1), traj.pos(1), traj.vel(1), traj.vel(1));
 	double vz = _z_controller.run(pos(2), traj.pos(2), traj.vel(2), traj.vel(2));
 		savefile  << " " << vx << " " << vy << " " << vz
 							<< " " << pos(0) << " " << pos(1) << " " << pos(2)
-							<< " " << traj.pos(0) << " " << traj.pos(1) << " " << traj.pos(2) << std::endl;
+							<< " " << traj.pos(0) << " " << traj.pos(1) << " " << traj.pos(2) 
+							<< " " << yaw << " " << traj.yaw << " " << traj.yawrate << " " << (ros::Time::now().toSec()-_init_time.toSec()) << std::endl;
 	
 							
 	
@@ -97,6 +96,8 @@ void TrajectoryControllerTask::_activate(){
 	
 	savefile.open("/home/paolos/savefile.txt", std::fstream::out | std::fstream::app);
 	// what do you need to do every time the task is activated?
+	
+	_init_time = ros::Time::now();
 }
 
 void TrajectoryControllerTask::_deactivate(){

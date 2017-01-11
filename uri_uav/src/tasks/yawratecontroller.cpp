@@ -36,13 +36,25 @@ YawrateController::YawrateController():Task(){
 
 TaskOutput YawrateController::_run(){
 	// do your cool code here!
+
+	if (not uav->guided()){
+		if (uav->setMode("guided")) _guided_mode_requested=true;
+		else _guided_mode_requested=false;
+	}
 	
-	// how to get the value of an option - use the following syntax:
-	// _options["OPTION_NAME"]->getTYPEValue()
-	//
-	// example:
-	// _options["name_option_2"]->getDoubleValue();
-	//
+	
+	if (trajectory->get(traj,0.0005)){
+		if (not trajectory->ever_set()){
+			traj.yaw = uav->yaw();
+		}
+	}
+	else {
+		ROS_INFO("WARNING: %s unable to retrieve %s", _name.c_str(), traj.name().c_str());
+	}
+	
+// 	uav->commandYawrate(traj.yawrate);
+	uav->commandYawrate(0.5);
+	
 }
 
 void YawrateController::_activate(){

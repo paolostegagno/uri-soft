@@ -15,6 +15,9 @@
 
 #include "uri_uav/resources/iris_interface.hpp"
 
+#include <bitset>
+
+
 
 
 namespace uri_uav{
@@ -36,17 +39,17 @@ void IrisInterface::_local_position_pose_CB(const geometry_msgs::PoseStamped::Co
 	_orientation.x() = msg->pose.orientation.x;
 	_orientation.y() = msg->pose.orientation.y;
 	_orientation.z() = msg->pose.orientation.z;
-	
-//   ROS_INFO("I heard pose: [%f %f %f %f %f %f %f]",
-// 						msg->pose.position.x,
-// 						msg->pose.position.y,
-// 						msg->pose.position.z,
-// 						msg->pose.orientation.x,
-// 						msg->pose.orientation.y,
-// 						msg->pose.orientation.z,
-// 						msg->pose.orientation.w);
 }
 
+void IrisInterface::_local_position_velocity_CB(const geometry_msgs::TwistStamped::ConstPtr& msg)
+{
+	_velocity_lin(0)=msg->twist.linear.x;
+	_velocity_lin(1)=msg->twist.linear.y;
+	_velocity_lin(2)=msg->twist.linear.z;
+	_velocity_ang(0)=msg->twist.angular.x;
+	_velocity_ang(1)=msg->twist.angular.y;
+	_velocity_ang(2)=msg->twist.angular.z;
+}
 
 void IrisInterface::_state_CB(const mavros_msgs::State::ConstPtr& msg)
 {
@@ -84,6 +87,7 @@ IrisInterface::IrisInterface(ros::NodeHandle &_n):Resource(_n)
 	// subscribe to all topics published by mavros
 	_sub_local_position_pose = n->subscribe("/mavros/local_position/pose", 1, &IrisInterface::_local_position_pose_CB, this);
 	_local_position_pose_received = false;
+	_sub_local_position_velocity = n->subscribe("/mavros/local_position/velocity", 1, &IrisInterface::_local_position_velocity_CB, this);
 
 	// find all services provided by mavros
 	_srv_set_mode = n->serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
@@ -122,6 +126,7 @@ void IrisInterface::_init()
 	// subscribe to all topics published by mavros
 	_sub_local_position_pose = n->subscribe("/mavros/local_position/pose", 1, &IrisInterface::_local_position_pose_CB, this);
 	_local_position_pose_received = false;
+	_sub_local_position_velocity = n->subscribe("/mavros/local_position/velocity", 1, &IrisInterface::_local_position_velocity_CB, this);
 	
 	_sub_state = n->subscribe("/mavros/state", 1, &IrisInterface::_state_CB, this);
 	_connected = false;
@@ -260,7 +265,19 @@ void IrisInterface::commandVelocity(double x, double y, double z)
 void IrisInterface::commandYawrate(double yr)
 {
 	mavros_msgs::AttitudeTarget _msg_setpoint_raw_attitude;
+	
+	char a = -58;    
+	std::bitset<8> x(a);
+	std::cout << x;
 
+	short c = -315;
+	std::bitset<16> y(c);
+	std::cout << y;
+	
+	uint8_t mask = (1 << 7) | (1 << 6) | (1 << 1) | (1 << 0);
+	
+	std::cout << "!!! " << mask << std::endl;
+	
 	_msg_setpoint_raw_attitude.body_rate.x = 0;
 	_msg_setpoint_raw_attitude.body_rate.y = 0;
 	_msg_setpoint_raw_attitude.body_rate.z = yr;
@@ -268,7 +285,7 @@ void IrisInterface::commandYawrate(double yr)
 	_msg_setpoint_raw_attitude.orientation.y = 0;
 	_msg_setpoint_raw_attitude.orientation.z = 0;
 	_msg_setpoint_raw_attitude.orientation.w = 0;
-	_msg_setpoint_raw_attitude.type_mask = 32;
+	_msg_setpoint_raw_attitude.type_mask = (uint8_t)64;
 //   _msg_setpoint_velocity_cmd_vel.twist.linear.y = y;
 //   _msg_setpoint_velocity_cmd_vel.twist.linear.z = z;
 //   _msg_setpoint_velocity_cmd_vel.twist.angular.z = -1;

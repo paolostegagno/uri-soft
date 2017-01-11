@@ -11,64 +11,74 @@
 
 namespace uri{
 	
-	/// \brief A Behavior of the robot as collection of Task.
-	/// \details This is the base class for the many behaviors that a robot can assume during operation.
+	/// @brief A Behavior of the robot as collection of Task.
+	/// @details This is the base class for the many behaviors that a robot can assume during operation.
 	/// A Behavior is defined as a collection of Task that the robot must execute at constant time intervals.
 	class Behavior{
 		
 		std::string _name;
 		
-		int _id;
-		
 		std::vector<boost::shared_ptr<uri::Task> > _task;
 		
 	public:
 		
-		/// standard constructor
+		/// @brief Default constructor.
+		/// @details It does nothing.
 		Behavior();
 		
-		/// name constructor
+		/// @brief Full contructor.
+		/// @details This constructor sets the name of the Behavior, and create a Task list extracting the required Tasks out of a vector of Task pointers.
+		/// @param[in] &name The name of the behavior.
+		/// @param[in] &tasks A vector of pointers to allocated existing uri::Task's.
+		/// @param[in] &required_tasks A string containing a list of all required tasks.
 		Behavior(std::string &name, std::vector<boost::shared_ptr<uri::Task> > &tasks, const std::string &required_tasks);
 		
-		
+		/// @brief Get the i-th task.
+		/// @param[in] i The number of the required Task.
+		/// @return A boot pointer to the i-th Task.
 		boost::shared_ptr<uri::Task> task(int i){
 			return _task[i];
 		}
 		
+		/// @brief Get number of tasks in the behavior.
+		/// @return An int corresponding to the number of tasks in the behavior.
 		int num_tasks(){
 			return _task.size();
 		}
 		
+		/// @brief Get the name of the behavior.
+		/// @return A std::string corresponding to the name of the behavior.
 		std::string& name(){
 			return _name;
 		}
 		
-		int contains_task(std::string &tn){
-			
-			for (int i=0; i<_task.size(); i++){
-				if (tn.compare(_task[i]->name())==0){
-					return i;
-				}
-			}
-			return -1;
-		}
+		/// @brief Get the name of the behavior.
+		/// @return A std::string corresponding to the name of the behavior.
+		int contains_task(std::string &tn);
 		
-		void print(){
-			std::cout << "Behavior: " << _name << std::endl;
-			std::cout << " # of tasks: " << _task.size() << std::endl;
-			for (int i=0; i < _task.size(); i++){
-				std::cout << _task[i]->name() << std::endl;
-			}
-		}
+		/// @brief Set an option of type double.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_double(std::string &oname, std::string &tname, double value);
 		
-		bool terminate(){
-			for (int i=0; i < _task.size(); i++){
-				if (_task[i]->terminate()) {
-					return true;
-				}
-			}
-			return false;
-		}
+		/// @brief Set an option of type bool.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_bool(std::string &oname, std::string &tname, bool value);
+		
+		/// @brief Set an option of type string.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_string(std::string &oname, std::string &tname, std::string value);
+		
+		/// @brief Set an option of type int.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_int(std::string &oname, std::string &tname, int value);
+		
+		/// @brief Print the behavior.
+		/// @details Prints on screen (through cout) interesting data about the behavior, i.e., name, # and names of Tasks. 
+		void print();
+		
+		/// @brief Whether or not the Behavior requires termination.
+		/// @return \b true if a Task has required termination, \b false otherwise
+		bool terminate();
 		
 	};
 	

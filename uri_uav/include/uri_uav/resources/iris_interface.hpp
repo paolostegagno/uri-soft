@@ -25,6 +25,8 @@
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/resource.hpp>
 
+#include <uri_base/angle_conversion.hpp>
+
 #include <Eigen/Geometry>
 
 
@@ -67,12 +69,15 @@ class IrisInterface: public Resource{
 	ros::Publisher _pub_setpoint_accel_accel;
 	
 
-	// here all subscribers which reads topics published by mavros and theyr respective callback function
+	// here all subscribers which reads topics published by mavros and their respective callback function
 	ros::Subscriber _sub_local_position_pose;
 	void _local_position_pose_CB(const geometry_msgs::PoseStamped::ConstPtr& msg);
 	bool _local_position_pose_received;
 	
-	// here all subscribers which reads topics published by mavros and theyr respective callback function
+	ros::Subscriber _sub_local_position_velocity;
+	void _local_position_velocity_CB(const geometry_msgs::TwistStamped::ConstPtr& msg);
+	
+	// here all subscribers which reads topics published by mavros and their respective callback function
 	ros::Subscriber _sub_state;
 	void _state_CB(const mavros_msgs::State::ConstPtr& msg);
 
@@ -98,8 +103,11 @@ class IrisInterface: public Resource{
 	bool _armed;
 	bool _guided;
 	std::string _mode;
-
-
+	
+	Eigen::Vector3d _velocity_lin;
+	Eigen::Vector3d _velocity_ang;
+	
+	
 	public:
 		/// @brief Standard constructor
 		/// @details Only takes as input parameter a ros::NodeHandle.
@@ -168,31 +176,29 @@ class IrisInterface: public Resource{
 // 		void commandAttitude(Eigen::Vector3d &p, Eigen::Vector3d &v, Eigen::Vector3d &a, double yaw, double yawrate);
 		
 		
-	void commandAngularVelocity(double rr, double pr, double yr){
-		geometry_msgs::TwistStamped msg;
-		msg.twist.angular.x=rr;
-		msg.twist.angular.x=pr;
-		msg.twist.angular.x=yr;
+		void commandAngularVelocity(double rr, double pr, double yr){
+			geometry_msgs::TwistStamped msg;
+			msg.twist.angular.x=rr;
+			msg.twist.angular.x=pr;
+			msg.twist.angular.x=yr;
+			
+			_pub_setpoint_attitude_ext_cmd_vel.publish<geometry_msgs::TwistStamped>(msg);
+		}
 		
-		_pub_setpoint_attitude_ext_cmd_vel.publish<geometry_msgs::TwistStamped>(msg);
-	}
-	
-	void commandAttitude(Eigen::Quaterniond qu){
-		geometry_msgs::PoseStamped msg;
-		msg.pose.orientation.x = qu.x();
-		msg.pose.orientation.y = qu.y();
-		msg.pose.orientation.z = qu.z();
-		msg.pose.orientation.w = qu.w();
-		std::cout << "here " << std::endl;
-		_pub_setpoint_attitude_ext_attitude.publish<geometry_msgs::PoseStamped>(msg);
-	}
-	
-	void commandAttitudeThrottle(){
-		std_msgs::Float64 msg;
-		_pub_setpoint_attitude_ext_att_throttle.publish<std_msgs::Float64>(msg);
-	}
+		void commandAttitude(Eigen::Quaterniond qu){
+			geometry_msgs::PoseStamped msg;
+			msg.pose.orientation.x = qu.x();
+			msg.pose.orientation.y = qu.y();
+			msg.pose.orientation.z = qu.z();
+			msg.pose.orientation.w = qu.w();
+			std::cout << "here " << std::endl;
+			_pub_setpoint_attitude_ext_attitude.publish<geometry_msgs::PoseStamped>(msg);
+		}
 		
-		
+		void commandAttitudeThrottle(){
+			std_msgs::Float64 msg;
+			_pub_setpoint_attitude_ext_att_throttle.publish<std_msgs::Float64>(msg);
+		}
 		
 		/// @brief Get current position.
 		inline Eigen::Vector3d& position(){
@@ -204,10 +210,21 @@ class IrisInterface: public Resource{
 			return _orientation;
 		}
 		
+		/// @brief Get current linear velocity.
+		inline Eigen::Vector3d& velocity_linear(){
+			return _velocity_lin;
+		}
+		
+		/// @brief Get current angular velocity.
+		inline Eigen::Vector3d& velocity_angular(){
+			return _velocity_ang;
+		}
+		
 		/// @brief Get current orientation.
 		inline double yaw(){
-			Eigen::Vector3d euler = _orientation.toRotationMatrix().eulerAngles(2, 1, 0);
-			return euler[0];
+			return uri_base::quaternion_to_yaw(_orientation);
+// 			Eigen::Vector3d euler = _orientation.toRotationMatrix().eulerAngles(2, 1, 0);
+// 			return euler[0];
 		}
 		
 		/// @brief Get connected bool.

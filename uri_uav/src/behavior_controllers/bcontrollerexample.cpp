@@ -24,6 +24,8 @@ BControllerExample::BControllerExample():BehaviorController()/*:_name(nm)*/{
 
 
 TaskOutput BControllerExample::__run(){
+	
+
 // 	std::cout << executions() << std::endl;
 	
 	// at beginning, no behavior is selected. Select here start behavior
@@ -34,14 +36,59 @@ TaskOutput BControllerExample::__run(){
 	
 	// exit from behavior takeoff only when requested by such behavior
 	if (_active_behavior == behavior("Takeoff")){
-		if (_active_behavior->terminate())
+		if (_active_behavior->terminate()){
+			std::string taskname("uri_uav::GotoTask");
+			std::string oname("goal_x");
+			behavior("Goto")->set_option_double(oname, taskname, 5.0);
+			oname=std::string("goal_y");
+			behavior("Goto")->set_option_double(oname, taskname, -7.0);
 			_next_active_behavior = behavior("Goto");
+			return Continue;
+		}
 	}
 	
 	// exit from behavior takeoff only when requested by such behavior
 	if (_active_behavior == behavior("Goto")){
 		if (_active_behavior->terminate())
 			_next_active_behavior = behavior("Hover");
+	}
+	
+	// exit from behavior takeoff only when requested by such behavior
+	if (_active_behavior == behavior("Hover")){
+		if (_active_behavior->terminate()){
+			std::string tname("uri_uav::GotoTask");
+			std::string oname_x("goal_x");
+			std::string oname_y("goal_y");
+			switch(goto_number){
+				case 0:
+				{
+					goto_number++;
+					behavior("Goto")->set_option_double(oname_x, tname, 5.0);
+					behavior("Goto")->set_option_double(oname_y, tname, -1.0);
+					_next_active_behavior = behavior("Goto");
+					break;
+				}
+				case 1: {
+					goto_number++;
+					behavior("Goto")->set_option_double(oname_x, tname, 0.0);
+					behavior("Goto")->set_option_double(oname_y, tname, -1.0);
+					_next_active_behavior = behavior("Goto");
+					break;
+				}
+				case 2:{
+					goto_number++;
+					behavior("Goto")->set_option_double(oname_x, tname, 0.0);
+					behavior("Goto")->set_option_double(oname_y, tname, 0.0);
+					_next_active_behavior = behavior("Goto");
+					break;
+				}
+				default:{
+					goto_number=0;
+					_next_active_behavior = behavior("Land");
+					break;
+				}
+			}
+		}
 	}
 	
 	
