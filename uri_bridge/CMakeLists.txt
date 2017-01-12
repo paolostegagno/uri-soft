@@ -61,6 +61,7 @@ include_directories(
 add_library(uri_bridge
 # src/tasks/dummy_task.cpp
 # src/tasks/example_task.cpp
+src/bridge_map.cpp
 src/behavior_controllers/example_behavior_controller.cpp
 )
 

@@ -6,12 +6,12 @@
 	<link name="base_link">
 		<collision name='body'>
 			<geometry>
-				<mesh filename="package://uri_gazebo/meshes/iris_12_coll.dae" scale="1 1 1" />
+				<mesh filename="package://uri_gazebo/meshes/iris_collision.dae" scale="1 1 1" />
 			</geometry>
 		</collision>
 		<visual name='body'>
 			<geometry>
-				<mesh filename="package://uri_gazebo/meshes/iris_12.dae" scale="1 1 1" />
+				<mesh filename="package://uri_gazebo/meshes/iris.dae" scale="1 1 1" />
 			</geometry>
 		</visual>
 	</link>
