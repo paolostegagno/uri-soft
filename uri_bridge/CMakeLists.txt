@@ -11,7 +11,12 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   uri_core
   uri_base
+  cmake_modules
 )
+
+find_package(Eigen REQUIRED)
+find_package(OpenCV REQUIRED)
+
 
 ###################################
 ## catkin specific configuration ##
@@ -74,6 +79,25 @@ target_link_libraries(uri_bridge
   ${catkin_LIBRARIES}
   ${TinyXML_LIBRARIES}
   ${OpenCV_LIBRARIES}
+)
+
+
+
+## Declare a C++ executable
+add_executable(test_grid_map
+src/test/test_grid_map.cpp
+)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+add_dependencies(test_grid_map uri_bridge)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(test_grid_map
+  ${catkin_LIBRARIES}
+  ${TinyXML_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+  uri_bridge
 )
 
 
