@@ -43,6 +43,7 @@ GotoTask::GotoTask():Task(){
 	// If the option specfied is not in the config_file, the option will have the default value
 	// note that the options are updated after the execution of this constructor, so any option in this
 	// construction will have its default value.
+	
 }
 
 
@@ -123,9 +124,10 @@ TaskOutput GotoTask::_run(){
 			break;
 	}
 	
+	
 	double next_yaw = _start_yaw + _yawrate*t_elapsed;
 	
-	std::cout << nextpos.transpose() << " " << nextvel.transpose() << " " << nextacc.transpose() << " " << next_yaw << " " << _yawrate << " " << t_elapsed << std::endl;
+// 	std::cout << nextpos.transpose() << " " << nextvel.transpose() << " " << nextacc.transpose() << " " << next_yaw << " " << _yawrate << " " << t_elapsed << std::endl;
 	
 	uri_base::Trajectory traj;
 	traj.pos = nextpos;
@@ -133,7 +135,7 @@ TaskOutput GotoTask::_run(){
 	traj.acc = nextacc;
 	
 	traj.yaw = next_yaw;
-	traj.yawrate = _yawrate;
+	traj.yawrate = 0.0/*_yawrate*/;
 	
 	trajectory->set(traj, 0.01);
 	
@@ -241,7 +243,8 @@ void GotoTask::_activate(){
 		if (t3>t2 and t2>t1){
 			
 			double yawdiff = _goal_yaw - _start_yaw;
-			_yawrate = yawdiff/t3;
+			_yawrate = yawdiff/t3*M_PI/180.0;
+			_yawrate = 0.1;
 			
 			good_trajectory = true;
 		}

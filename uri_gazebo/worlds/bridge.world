@@ -67,7 +67,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>2 5 1 0 0 0</pose>
+      <pose>20 5 1 0 0 0</pose>
     </model>
 		
 		

@@ -39,6 +39,7 @@ namespace uri_uav{
 		uri_base::SharedMemory<uri_base::Trajectory>* trajectory;
 		
 		
+		
 		Eigen::Vector3d _start;
 		Eigen::Vector3d _startvel;
 		double _start_yaw;

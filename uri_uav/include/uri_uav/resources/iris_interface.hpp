@@ -195,9 +195,36 @@ class IrisInterface: public Resource{
 			_pub_setpoint_attitude_ext_attitude.publish<geometry_msgs::PoseStamped>(msg);
 		}
 		
-		void commandAttitudeThrottle(){
-			std_msgs::Float64 msg;
-			_pub_setpoint_attitude_ext_att_throttle.publish<std_msgs::Float64>(msg);
+		
+		/// @brief commands the attitude and thrust of the UAV in guided or stabilize mode
+		void commandAttitudeThrottle(float thr, Eigen::Quaterniond ori){
+			
+			
+			mavros_msgs::AttitudeTarget _msg_setpoint_raw_attitude;
+			
+// 			char a = -58;    
+// 			std::bitset<8> x(a);
+// 			std::cout << x;
+			
+// 			short c = -315;
+// 			std::bitset<16> y(c);
+// 			std::cout << y;
+			
+// 			uint8_t mask = (1 << 7) | (1 << 6) | (1 << 1) | (1 << 0);
+			
+// 			std::cout << "!!! " << mask << std::endl;
+			
+			_msg_setpoint_raw_attitude.body_rate.x = 0.0;
+			_msg_setpoint_raw_attitude.body_rate.y = 0.0;
+			_msg_setpoint_raw_attitude.body_rate.z = 0.0;
+			_msg_setpoint_raw_attitude.orientation.x = ori.x();
+			_msg_setpoint_raw_attitude.orientation.y = ori.y();
+			_msg_setpoint_raw_attitude.orientation.z = ori.z();
+			_msg_setpoint_raw_attitude.orientation.w = ori.w();
+			_msg_setpoint_raw_attitude.thrust = thr;
+			_msg_setpoint_raw_attitude.type_mask = (uint8_t)7;
+			
+			_pub_setpoint_raw_attitude.publish<mavros_msgs::AttitudeTarget>(_msg_setpoint_raw_attitude);
 		}
 		
 		/// @brief Get current position.

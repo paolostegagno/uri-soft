@@ -50,7 +50,9 @@ add_library(uri_uav
 	src/tasks/goto.cpp
 	src/tasks/trajectory_controller.cpp
 	src/tasks/yawratecontroller.cpp
+	src/tasks/attitudethrustcontroller.cpp
 	src/behavior_controllers/bcontrollerexample.cpp
+	src/behavior_controllers/attitudethrusthover.cpp
 	src/behavior_controllers/joystick.cpp
 	)
 target_link_libraries(uri_uav ${catkin_LIBRARIES} ${EIGEN_LIBRARIES})

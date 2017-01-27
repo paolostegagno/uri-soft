@@ -38,10 +38,14 @@ TaskOutput BControllerExample::__run(){
 	if (_active_behavior == behavior("Takeoff")){
 		if (_active_behavior->terminate()){
 			std::string taskname("uri_uav::GotoTask");
-			std::string oname("goal_x");
-			behavior("Goto")->set_option_double(oname, taskname, 5.0);
-			oname=std::string("goal_y");
-			behavior("Goto")->set_option_double(oname, taskname, -7.0);
+			std::string oname_x("goal_x");
+			std::string oname_y("goal_y");
+			std::string oname_z("goal_z");
+			std::string oname_yaw("goal_yaw");
+			behavior("Goto")->set_option_double(oname_x, taskname, 5.0);
+			behavior("Goto")->set_option_double(oname_y, taskname, -7.0);
+			behavior("Goto")->set_option_double(oname_z, taskname, 3.0);
+			behavior("Goto")->set_option_double(oname_yaw, taskname, 90.0);
 			_next_active_behavior = behavior("Goto");
 			return Continue;
 		}
@@ -59,12 +63,16 @@ TaskOutput BControllerExample::__run(){
 			std::string tname("uri_uav::GotoTask");
 			std::string oname_x("goal_x");
 			std::string oname_y("goal_y");
+			std::string oname_z("goal_z");
+			std::string oname_yaw("goal_yaw");
 			switch(goto_number){
 				case 0:
 				{
 					goto_number++;
 					behavior("Goto")->set_option_double(oname_x, tname, 5.0);
 					behavior("Goto")->set_option_double(oname_y, tname, -1.0);
+					behavior("Goto")->set_option_double(oname_z, tname, 5.0);
+					behavior("Goto")->set_option_double(oname_yaw, tname, 180.0);
 					_next_active_behavior = behavior("Goto");
 					break;
 				}
@@ -72,6 +80,8 @@ TaskOutput BControllerExample::__run(){
 					goto_number++;
 					behavior("Goto")->set_option_double(oname_x, tname, 0.0);
 					behavior("Goto")->set_option_double(oname_y, tname, -1.0);
+					behavior("Goto")->set_option_double(oname_z, tname, 3.0);
+					behavior("Goto")->set_option_double(oname_yaw, tname, 280.0);
 					_next_active_behavior = behavior("Goto");
 					break;
 				}
@@ -79,6 +89,8 @@ TaskOutput BControllerExample::__run(){
 					goto_number++;
 					behavior("Goto")->set_option_double(oname_x, tname, 0.0);
 					behavior("Goto")->set_option_double(oname_y, tname, 0.0);
+					behavior("Goto")->set_option_double(oname_z, tname, 5.0);
+					behavior("Goto")->set_option_double(oname_yaw, tname, 330.0);
 					_next_active_behavior = behavior("Goto");
 					break;
 				}

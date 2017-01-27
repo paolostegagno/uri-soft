@@ -30,16 +30,19 @@ Hover::Hover():Task()/*:_name(nm)*/{
 
 
 void Hover::_activate(){
+	std::cout << " activate!!!! " << std::endl; 
 	_goal_pos;
 	uri_base::Trajectory traj;
 	if (trajectory->get(traj, 0.001)){
 		_goal_pos = traj.pos;
 		_goal_yaw = traj.yaw;
+		std::cout << " got goal pose from trajectory " << _goal_pos.transpose() << " " << _goal_yaw << std::endl; 
 	}
 	else {
 		_goal_pos = uav->position();
 		Eigen::Quaterniond ori = uav->orientation();
 		uri_base::quaternion_to_yaw(ori, _goal_yaw);
+		std::cout << " got goal pose from current position" << std::endl; 
 	}
 	_time_start = ros::Time::now();
 }
