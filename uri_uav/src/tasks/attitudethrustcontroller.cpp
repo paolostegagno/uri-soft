@@ -84,7 +84,7 @@ TaskOutput AttitudeThrustController::_run(){
 	
 	// apply near hovering control law.
 	// NOTE: some firmware developer thought it was a good idea to change the thrust command that I give to the quadcopter.
-	// although the correct line is in throttle_phys - which I have to compute to use it in the coputation of roll_d and pitch_d,
+	// although the physically correct line is in throttle_phys - which I have to compute to use it in the computation of roll_d and pitch_d,
 	// the command that is actually given is throttle, where -g is replaced with 0.5.
 	// If you open this file and want to change something, keep it in mind and deal with it...
 	double throttle = mass /(cos(roll)*cos(pitch))*(0.5 - kvz*vel(2) + kpz*e(2) + kiz*integral_error(2));
@@ -113,6 +113,8 @@ TaskOutput AttitudeThrustController::_run(){
 	return uri::Continue;
 }
 
+
+
 void AttitudeThrustController::_activate(){
 	// what do you need to do every time the task is activated?
 	
@@ -123,9 +125,13 @@ void AttitudeThrustController::_activate(){
 	integral_error(2) = 0.0;	
 }
 
+
+
 void AttitudeThrustController::_deactivate(){
 	// what do you need to do every time the task is deactivated?
 }
+
+
 
 void AttitudeThrustController::get_mandatory_resources(ResourceVector &res){
 	
