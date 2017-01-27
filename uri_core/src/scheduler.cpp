@@ -24,7 +24,7 @@
 namespace uri{
 
 
-Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name, double scheduler_time):n(nh){
+Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 	
 	resource_loader = new pluginlib::ClassLoader<uri::Resource>("uri_core", "uri::Resource");
 	
@@ -37,16 +37,11 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name, double 
 		ROS_FATAL("Terminating...");
 	}
 	
-	
-// 	std::cout << "a" << std::endl;
 	load_resources(&configuration_xml);
-// 	std::cout << "b" << std::endl;
 
 	load_tasks(&configuration_xml);
-// 	std::cout << "c" << std::endl;
 	
 	load_behaviors(&configuration_xml);
-// 	std::cout << "d" << std::endl;
 	
 	behavior_controller_found = false;
 	load_behavior_controller(&configuration_xml);
@@ -57,16 +52,6 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name, double 
 	
 	ROS_INFO("Activating " ANSI_COLOR_BEHAVIOR_CONTROLLER "%s" ANSI_COLOR_RESET ".", behavior_controller->name().c_str());
 	behavior_controller->activate_task();
-	
-// 	_active_behavior = NULL;
-// 	_next_active_behavior = behaviors[0];
-
-	
-// 	_active_behavior=0;
-// 	_callbacks = 0;
-	
-// 	timer = nh.createTimer(ros::Duration(scheduler_time), &Scheduler::run, this);
-	
 	
 }
 

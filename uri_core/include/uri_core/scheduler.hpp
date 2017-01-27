@@ -24,17 +24,10 @@
 
 namespace uri{
 	
+	/// @brief This class contains the functionalities to load and peoridically run Resources, Tasks, Behaviors, and a BehaviorController.
 	class Scheduler{
 		
-		
-// 		int _active_behavior;
-// 		std::string _active_behavior_name;
-		
-// 		int _callbacks;
-		
 		ros::NodeHandle n;
-		
-	public:
 		
 		pluginlib::ClassLoader<uri::Resource> *resource_loader;
 		ResourceVector resources;
@@ -42,34 +35,39 @@ namespace uri{
 		pluginlib::ClassLoader<uri::Task> *task_loader;
 		std::vector<boost::shared_ptr<uri::Task> > tasks;
 		
-		
 		pluginlib::ClassLoader<uri::BehaviorController> *behavior_controller_loader;
 		boost::shared_ptr<uri::BehaviorController> behavior_controller;
 		bool behavior_controller_found;
 		
 		std::vector<uri::Behavior*> behaviors;
 		
-// 		ros::Timer timer;
 		
+	public:
 		
-		Scheduler(ros::NodeHandle &nh, std::string &config_file_name, double scheduler_time);
-
+		/// @brief Complete constructor
+		/// @param[in] nh a ros::NodeHandle
+		/// @param[in] config_file_name the name of the uri-soft configuration file that contains all tasks, resources, parameters, behaviors, etc.
+		Scheduler(ros::NodeHandle &nh, std::string &config_file_name);
 		
+	private:
+		
+		// this function prints all the attributes of an element in an xml file
 		int dump_attribs_to_stdout(TiXmlElement* pElement);
 		
 		// load the named file and dump its structure to STDOUT
 		bool load_configuration_file(const char* pFilename, TiXmlDocument &doc);
 		
+		// load all the resources in the TiXmlNode tree provided
 		void load_resources( TiXmlNode* pParent);
 		
+		// load all the Tasks in the TiXmlNode tree provided
 		void load_tasks( TiXmlNode* pParent);
 		
+		// load one behavior_controller in the TiXmlNode tree provided
 		void load_behavior_controller( TiXmlNode* pParent);
 		
+		// load all the behaviors in the TiXmlNode tree provided
 		void load_behaviors( TiXmlNode* pParent);
-		
-// 		void run(const ros::TimerEvent&);
-		
 		
 	};
 	

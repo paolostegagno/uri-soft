@@ -16,8 +16,9 @@
 
 namespace uri{
 	
-/// @brief Base class for any element to be executed in uri.
-/// @details This class is the base class for any element that can run in URI.
+	/// @brief Base class for any element to be executed in uri.
+	/// @details This class is the base class for any element that can run in URI.
+	/// each Element in uri-soft maust have: a name, a set of options and a ros::NodeHandle.
 	class Element{
 		
 	private:

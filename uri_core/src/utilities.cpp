@@ -7,13 +7,6 @@
 
 namespace uri{
 	
-	void ERROR(){
-	}
-
-	void WARNING(std::string msg){
-	}
-	
-	
 	
 	bool getStringParam(ros::NodeHandle &nh, std::string &s, std::string param_name, std::string robot_name){
 	std::stringstream param_name_ss;
