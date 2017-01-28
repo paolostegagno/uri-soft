@@ -42,6 +42,12 @@ else:
 
 
 destination_path = rospack.get_path(packagename)
+print packagename
+print packagename
+print packagename
+print packagename
+print packagename
+print packagename
 destination_path_inc = destination_path + '/include/' + packagename + '/tasks'
 if not os.path.exists(destination_path_inc):
 	os.makedirs(destination_path_inc)
