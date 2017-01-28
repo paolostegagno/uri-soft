@@ -1,0 +1,8 @@
+<library path="liburi_sensors">
+	
+	<class type="uri_sensors::LaserScanner" base_class_type="uri::Resource">
+		<description> This Resource manages the readings from a laser scanner </description>
+	</class>
+	
+	
+</library>

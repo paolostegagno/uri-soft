@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(uri_example)
+project(uri_sensors)
 
 set(CMAKE_CXX_FLAGS "-g -std=c++11")
 # set(CMAKE_C '-std=c++11')
@@ -60,18 +60,15 @@ include_directories(
 
 
 ## Declare a C++ library
-add_library(uri_example
-src/resources/example_resource.cpp
-src/tasks/dummy_task.cpp
-src/tasks/example_task.cpp
-src/behavior_controllers/example_behavior_controller.cpp
+add_library(uri_sensors
+src/resources/laserscanner.cpp
 )
 
 ## Add cmake target dependencies of the library
-add_dependencies(uri_example ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(uri_sensors ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(uri_example
+target_link_libraries(uri_sensors
   ${catkin_LIBRARIES}
   ${TinyXML_LIBRARIES}
   ${OpenCV_LIBRARIES}
@@ -79,15 +76,15 @@ target_link_libraries(uri_example
 )
 
 ## Declare a C++ executable
-# add_executable(uri_example_executable
+# add_executable(uri_sensors_executable
 #   src/${PROJECT_NAME}/main.cpp
 # )
 
 ## Add cmake target dependencies of the executable
-# add_dependencies(uri_example_executable ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(uri_sensors_executable ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(uri_example_executable
+# target_link_libraries(uri_sensors_executable
 #   ${catkin_LIBRARIES}
 #   ${TinyXML_LIBRARIES}
 #   ${OpenCV_LIBRARIES}

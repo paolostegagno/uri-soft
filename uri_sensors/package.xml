@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-	<name>uri_example</name>
+	<name>uri_sensors</name>
 	<version>0.0.0</version>
-	<description>The uri_example package</description>
+	<description>The uri_sensors package</description>
 
 	<!-- One maintainer tag required, multiple allowed, one person per tag --> 
 	<!-- Example:  -->
@@ -53,7 +53,7 @@
 	
 	<!-- The export tag contains other, unspecified, tags -->
 	<export>
-		<uri_core plugin="${prefix}/task_plugins.xml" />
+		<uri_core plugin="${prefix}/uri_sensors_plugins.xml" />
 		<!-- Other tools can request additional information be placed here -->
 	</export>
 </package>

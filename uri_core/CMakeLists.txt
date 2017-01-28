@@ -130,7 +130,7 @@ include_directories(
 )
 
 ## Declare a C++ library
- add_library(uri_core
+add_library(uri_core
    src/utilities.cpp
    src/element.cpp
    src/resource.cpp
