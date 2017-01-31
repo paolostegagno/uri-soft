@@ -8,7 +8,7 @@
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/task.hpp>
 
-#include <uri_base/keyboard.hpp>
+#include <uri_base/shared_memory.hpp>
 #include <uri_uav/resources/iris_interface.hpp>
 
 #include <uri_sensors/resources/laserscanner.hpp>
@@ -31,27 +31,19 @@ namespace uri_shorefollowing{
 	class ShoreFollowing: public Task{
 		
 		// ################ put here your private variables.
-		//
-		// int _variable1;
-		// double _variable2;
-		uri_uav::IrisInterface* uav;
-		
-		uri_sensors::LaserScanner* ls;
-		
-		double speed;
-		
+
+		// time variables
 		double delta_t;
-		
 		ros::Time start_t;
-		double max_speed_time;
-		
-		Eigen::Vector3d pos;
-		Eigen::Vector3d vel;
-		Eigen::Vector3d acc;
-		
-		double yaw;
-		
 		double last_elapsed;
+		
+		Heading heading_d;
+		double last_current_yaw;
+		
+		// Resources
+		uri_sensors::LaserScanner* ls;
+		uri_base::SharedMemory<uri_base::Heading>* desired_heading;
+		uri_uav::IrisInterface* uav;
 		
 		// ################ put here your the declaration of your private methods.
 		//

@@ -47,6 +47,7 @@ include_directories(
 add_library(uri_shorefollowing
 		src/tasks/shorefollowing.cpp
 		src/behavior_controllers/shorefollowingexperiment.cpp
+		src/tasks/fixedspeeddesiredheadingcontroller.cpp
 	)
 # target_link_libraries(uri_shorefollowing ${catkin_LIBRARIES} ${EIGEN_LIBRARIES})
 

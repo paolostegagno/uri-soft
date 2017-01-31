@@ -9,6 +9,7 @@
 
 #include <Eigen/Geometry>
 
+#include <uri_base/trajectory.hpp>
 
 
 
@@ -117,6 +118,11 @@ template<class TYPE> class SharedMemory: public Resource{
 }
 
 
+
+
+PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Trajectory>, uri::Resource)
+
+PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Heading>, uri::Resource)
 
 
 #endif

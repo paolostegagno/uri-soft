@@ -8,7 +8,8 @@
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/task.hpp>
 
-#include <uri_base/keyboard.hpp>
+#include <uri_base/shared_memory.hpp>
+#include <uri_uav/resources/iris_interface.hpp>
 
 #ifndef __URI_FIXEDSPEEDDESIREDHEADINGCONTROLLER_HPP__
 #define __URI_EXAMPLE_TAKS_HPP__
@@ -30,8 +31,23 @@ namespace uri_shorefollowing{
 		//
 		// int _variable1;
 		// double _variable2;
-		Keyboard* keyboard;
 		
+		// kinematic variables
+		double linear_speed;
+		double linear_acceleration;
+		double max_speed_time;
+		
+		// time variables
+		double delta_t;
+		ros::Time start_t;
+		double last_elapsed;
+		
+		
+		// resources
+		uri_base::Trajectory trajectory;
+		uri_uav::IrisInterface* uav;
+		uri_base::SharedMemory<uri_base::Heading>*  desired_heading;
+		uri_base::SharedMemory<uri_base::Trajectory>*  traj;
 		
 		// ################ put here your the declaration of your private methods.
 		//

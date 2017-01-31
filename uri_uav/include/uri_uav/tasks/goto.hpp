@@ -10,6 +10,7 @@
 
 #include <uri_uav/resources/iris_interface.hpp>
 #include <uri_base/trajectory.hpp>
+#include <uri_base/shared_memory.hpp>
 
 
 #ifndef __GOTO_HPP__

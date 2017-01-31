@@ -25,8 +25,6 @@ ShoreFollowing::ShoreFollowing():Task(){
 	// _options.addDoubleOption("name_option_2",0.05);
 	// _options.addBoolOption("name_option_3",false);
 	// _options.addStringOption("name_option_2","default_value");
-	_options.addDoubleOption("speed",2.0);
-	_options.addDoubleOption("max_acc",0.5);
 	//
 	// Note that options are only of those types listed here.
 	// The first parameter in the above lines is the name, while the second parameter is the default value.
@@ -35,14 +33,16 @@ ShoreFollowing::ShoreFollowing():Task(){
 	// note that the options are updated after the execution of this constructor, so any option in this
 	// construction will have its default value.
 	
-	speed = 0.0;
+// 	speed = 0.0;
 }
 
 TaskOutput ShoreFollowing::_run(){
+	
 	// do your cool code here!
 	
 	bool terminate = false;
-	
+	double elapsed = (ros::Time::now() - start_t).toSec();
+	delta_t = elapsed - last_elapsed;	
 	
 	if (!ls->new_laser_available()){
 		return uri::Continue;
@@ -52,21 +52,33 @@ TaskOutput ShoreFollowing::_run(){
 		return uri::Continue;
 	}
 	
-	std::cout << scan.header << std::endl;
+// 	std::cout << scan.header << std::endl;
 	
-	double elapsed = (ros::Time::now() - start_t).toSec();
-	delta_t = elapsed - last_elapsed;
+	double current_yaw;
+	Eigen::Quaterniond current_ori = uav->orientation();
+	uri_base::quaternion_to_yaw(current_ori, current_yaw);
+			last_current_yaw = current_yaw;
+
 	
-	// put here algorithm to decide heading direction
+	// if a new pose estmate is available => integrateusing the new yaw as base
+	if (current_yaw != last_current_yaw){
+		heading_d.heading = current_yaw + 0.1*delta_t;
+// 		std::cout << "a " << current_yaw << " " << last_current_yaw << " " <<  delta_t << " " << heading_d.heading << std::endl;
+		last_current_yaw = current_yaw;
+	}
+	// if a new pose estimate is not available, then keep integrating what using the result of the previous step as base 
+	else {
+		last_current_yaw = current_yaw;
+		heading_d.heading = heading_d.heading + 0.1*delta_t;
+		if (heading_d.heading > M_PI) heading_d.heading = heading_d.heading - M_PI;
+		if (heading_d.heading < -M_PI) heading_d.heading = heading_d.heading + M_PI;
+
+// 		std::cout << "b " << current_yaw << " " << last_current_yaw << " " <<  delta_t << " " << heading_d.heading << std::endl;
+	}
+	desired_heading->set(heading_d, 0.001);
 	
-	if (elapsed<max_speed_time)
-		speed = _options["max_acc"]->getDoubleValue()*elapsed;
-	else
-		speed = _options["speed"]->getDoubleValue();
 	
-	
-// 	pos = pos + elapsed
-	
+	// PUT HERE CODE FOR DECIDING THE HEADING!!!
 	
 	last_elapsed = elapsed;
 	
@@ -84,25 +96,15 @@ TaskOutput ShoreFollowing::_run(){
 }
 
 void ShoreFollowing::_activate(){
+	
+// 		std::cout << "ShoreFollowing::_activate() a" << std::endl;
+
 	// what do you need to do every time the task is activated?
-	
-	max_speed_time = _options["speed"]->getDoubleValue()/_options["max_acc"]->getDoubleValue();
-	
-	vel(0) = 0.0;
-	vel(1) = 0.0;
-	vel(2) = 0.0;
-	acc(0) = 0.0;
-	acc(1) = 0.0;
-	acc(2) = 0.0;
-	
 	last_elapsed = 0.0;
-	
-	pos = uav->position();
-	Eigen::Quaterniond ori = uav->orientation();
-	uri_base::quaternion_to_yaw(ori, yaw);
-	
 	start_t = ros::Time::now();
 	
+	last_current_yaw = 0.0;
+// 		std::cout << "ShoreFollowing::_activate() b" << std::endl;
 }
 
 void ShoreFollowing::_deactivate(){
@@ -117,13 +119,16 @@ void ShoreFollowing::get_mandatory_resources(ResourceVector &res){
 	// std::string iint("uri::name_of_the_resource");
 	// res = (ResourceType*)res.get_resource_ptr(iint);
 	
-	std::string iint("uri_uav::IrisInterface");
-	uav = (uri_uav::IrisInterface*)res.get_resource_ptr(iint);
-	
 	
 	std::string lint("uri_sensors::LaserScanner");
 	ls = (uri_sensors::LaserScanner*)res.get_resource_ptr(lint);
+	
+	std::string iint("uri_base::SharedMemory<uri_base::Heading>");
+	desired_heading = (uri_base::SharedMemory<uri_base::Heading>*)res.get_resource_ptr(iint);
 
+	
+	std::string mint("uri_uav::IrisInterface");
+	uav = (uri_uav::IrisInterface*)res.get_resource_ptr(mint);
 	//
 	// if you have put res in the header file, you'll be able to use it in any other method of this class (except fo the constructor, which is executed first)
 }

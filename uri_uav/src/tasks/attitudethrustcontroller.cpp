@@ -39,9 +39,8 @@ AttitudeThrustController::AttitudeThrustController():Task(){
 	// If the option specfied is not in the config_file, the option will have the default value
 	// note that the options are updated after the execution of this constructor, so any option in this
 	// construction will have its default value.
-	if (_options["save_data"]->getBoolValue()){
-		ofile.open(_options["savefile_name"]->getStringValue(), std::ios_base::out);
-	}
+	
+
 }
 
 TaskOutput AttitudeThrustController::_run(){
@@ -117,6 +116,11 @@ TaskOutput AttitudeThrustController::_run(){
 
 void AttitudeThrustController::_activate(){
 	// what do you need to do every time the task is activated?
+	
+	
+	if (_options["save_data"]->getBoolValue()){
+		ofile.open(_options["savefile_name"]->getStringValue(), std::ios_base::out);
+	}
 	
 	ros::Time previous = ros::Time::now();
 		

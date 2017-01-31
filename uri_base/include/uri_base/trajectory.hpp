@@ -4,7 +4,7 @@
 
 
 #include <pluginlib/class_list_macros.h>
-#include <uri_base/shared_memory.hpp>
+// #include <uri_base/shared_memory.hpp>
 
 #include <Eigen/Geometry>
 
@@ -17,6 +17,31 @@
 
 
 namespace uri_base {
+	
+	
+	
+	
+	
+	class Heading{
+		
+		public:
+			
+			double heading;
+			
+			Heading(){
+				heading = 0.0;
+			}
+			
+			std::string name(){
+				return "uri_base::Heading";
+			}
+	};
+
+	
+	
+	
+	
+	
 	
 	
 	class Trajectory{
@@ -49,7 +74,6 @@ namespace uri_base {
 
 }
 
-PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Trajectory>, uri::Resource)
 
 
 

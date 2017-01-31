@@ -4,17 +4,19 @@
 	<resource name="uri_uav::IrisInterface" />
 	<resource name="uri_base::Keyboard" />
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
+	<resource name="uri_base::SharedMemory<uri_base::Heading>"/>
 	<resource name="uri_sensors::LaserScannerGazebo" input_topic="/hokuyo"/>
 
 	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="4" takeoff_height_tollerance="0.05" />
 	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="pose"/>
 	<task name="uri_shorefollowing::ShoreFollowing" period="0.01" period_tollerance="0.002" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" />
+	<task name="uri_shorefollowing::FixedSpeedDesiredHeadingController" period="0.01" period_tollerance="0.002" speed="1.0" max_acc="0.5" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" />
 	
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>
-	<behavior name="ShoreFollowing" tasklist="uri_shorefollowing::ShoreFollowing uri_uav::AttitudeThrustController"/>
+	<behavior name="ShoreFollowing" tasklist="uri_shorefollowing::ShoreFollowing uri_shorefollowing::FixedSpeedDesiredHeadingController uri_uav::AttitudeThrustController"/>
 	<behavior name="Land" tasklist="uri_uav::Land"/>
 	
 	<behavior_controller name="uri_shorefollowing::ShoreFollowingExperiment" period="0.01" period_tollerance="0.001" />

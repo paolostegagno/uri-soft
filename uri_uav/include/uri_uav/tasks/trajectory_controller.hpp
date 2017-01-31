@@ -10,6 +10,8 @@
 
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/task.hpp>
+#include <uri_base/shared_memory.hpp>
+
 
 #include <fstream>
 
