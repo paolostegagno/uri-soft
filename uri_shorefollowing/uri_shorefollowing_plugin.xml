@@ -1,6 +1,9 @@
 <library path="liburi_shorefollowing">
 	
 	
+	
+	
+	
 	<class type="uri_shorefollowing::ShoreFollowing" base_class_type="uri::Task">
 		<description> This drives an UAV to follow a shoreline based on lidar measurements.</description>
 	</class>

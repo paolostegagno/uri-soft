@@ -9,12 +9,8 @@
 #include <uri_core/task.hpp>
 
 #include <uri_base/keyboard.hpp>
-#include <uri_uav/resources/iris_interface.hpp>
 
-#include <uri_sensors/resources/laserscanner.hpp>
-
-
-#ifndef __URI_SHOREFOLLOWING_HPP__
+#ifndef __URI_FIXEDSPEEDDESIREDHEADINGCONTROLLER_HPP__
 #define __URI_EXAMPLE_TAKS_HPP__
 
 
@@ -28,30 +24,14 @@ namespace uri_shorefollowing{
 	/// @brief This class is an example on how to implement a Task in uri.
 	/// @details This class is derived from the class uri::Task. Any uri task must provide the method belonging to this class.
 	/// uri users are encouraged to use this class as base to create nrew tasks. An automatic tool may be implemented in the future.
-	class ShoreFollowing: public Task{
+	class FixedSpeedDesiredHeadingController: public Task{
 		
 		// ################ put here your private variables.
 		//
 		// int _variable1;
 		// double _variable2;
-		uri_uav::IrisInterface* uav;
+		Keyboard* keyboard;
 		
-		uri_sensors::LaserScanner* ls;
-		
-		double speed;
-		
-		double delta_t;
-		
-		ros::Time start_t;
-		double max_speed_time;
-		
-		Eigen::Vector3d pos;
-		Eigen::Vector3d vel;
-		Eigen::Vector3d acc;
-		
-		double yaw;
-		
-		double last_elapsed;
 		
 		// ################ put here your the declaration of your private methods.
 		//
@@ -80,7 +60,7 @@ namespace uri_shorefollowing{
 	public:
 		
 		/// @brief Mandatory constructor.
-		ShoreFollowing();
+		FixedSpeedDesiredHeadingController();
 		
 		/// @brief get here the resources needed in the task from the ResourceVector.
 		/// @details This method is mandatory since it is defined as purely virtual in the class uri::Task.
@@ -89,7 +69,7 @@ namespace uri_shorefollowing{
 		
 	};
 	
-	PLUGINLIB_EXPORT_CLASS(uri_shorefollowing::ShoreFollowing, uri::Task)
+	PLUGINLIB_EXPORT_CLASS(uri_shorefollowing::FixedSpeedDesiredHeadingController, uri::Task)
 	
 	
 };

@@ -9,6 +9,7 @@ set(CMAKE_CXX_FLAGS "-g -std=c++11")
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  sensor_msgs
   uri_core
   uri_base
   cmake_modules
@@ -62,6 +63,7 @@ include_directories(
 ## Declare a C++ library
 add_library(uri_sensors
 src/resources/laserscanner.cpp
+src/resources/laserscannergazebo.cpp
 )
 
 ## Add cmake target dependencies of the library

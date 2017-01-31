@@ -7,7 +7,7 @@
   </include>
   
   <!-- Convert an xacro and put on parameter server -->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find uri_gazebo)/urdf/iris.urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find uri_gazebo)/urdf/iris_laser_shore_following.urdf.xacro" />
   
   <!-- Spawn a robot into Gazebo -->
   <node name="qc13_spawm" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -x -0.0 -y 0.0 -z 0.001 -model iris" />

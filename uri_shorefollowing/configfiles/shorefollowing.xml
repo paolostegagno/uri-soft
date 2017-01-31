@@ -4,11 +4,11 @@
 	<resource name="uri_uav::IrisInterface" />
 	<resource name="uri_base::Keyboard" />
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
-	<resource name="uri_sensors::LaserScanner"/>
+	<resource name="uri_sensors::LaserScannerGazebo" input_topic="/hokuyo"/>
 
 	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="4" takeoff_height_tollerance="0.05" />
-	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0"/>
-	<task name="uri_shorefollowing::ShoreFollowing" period="0.05" period_tollerance="0.002" />
+	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="pose"/>
+	<task name="uri_shorefollowing::ShoreFollowing" period="0.01" period_tollerance="0.002" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
 	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" />
 	

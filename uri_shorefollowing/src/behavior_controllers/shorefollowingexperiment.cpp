@@ -25,19 +25,27 @@ TaskOutput ShoreFollowingExperiment::__run(){
 		_next_active_behavior = behavior("Takeoff");
 	}
 	
-// 	// exit from behavior takeoff only when requested by such behavior
-// 	if (_active_behavior == behavior("ExampleBehavior1")){
-// 		if (_active_behavior->terminate()){
-// 			_next_active_behavior = behavior("ExampleBehavior2");
-// 		}
-// 	}
-// 	
-// 	// exit from behavior takeoff only when requested by such behavior
-// 	if (_active_behavior == behavior("ExampleBehavior2")){
-// 		if (_active_behavior->terminate()){
-// 			_next_active_behavior = behavior("ExampleBehavior1");
-// 		}
-// 	}
+	// exit from behavior takeoff only when requested by such behavior
+	if (_active_behavior == behavior("Takeoff")){
+		if (_active_behavior->terminate()){
+			_next_active_behavior = behavior("Hover");
+		}
+	}
+	
+	// exit from behavior takeoff only when requested by such behavior
+	if (_active_behavior == behavior("Hover")){
+		if (_active_behavior->terminate()){
+			_next_active_behavior = behavior("ShoreFollowing");
+		}
+	}
+	
+	// exit from behavior takeoff only when requested by such behavior
+	if (_active_behavior == behavior("ShoreFollowing")){
+		if (_active_behavior->terminate()){
+			_next_active_behavior = behavior("Land");
+		}
+	}
+
 	
 }
 

@@ -19,7 +19,7 @@ Hover::Hover():Task()/*:_name(nm)*/{
 	
 	_first_run = true;
 	
-	_options.addBoolOption("GetGoalPoseFromTrajectory", true);
+	_options.addStringOption("GoalSource", "options"); // possible values are trajectory, pose, options
 	_options.addDoubleOption("X", 0.0);
 	_options.addDoubleOption("Y", 0.0);
 	_options.addDoubleOption("Z", 3.0);
@@ -30,19 +30,30 @@ Hover::Hover():Task()/*:_name(nm)*/{
 
 
 void Hover::_activate(){
-	std::cout << " activate!!!! " << std::endl; 
-	_goal_pos;
-	uri_base::Trajectory traj;
-	if (trajectory->get(traj, 0.001)){
-		_goal_pos = traj.pos;
-		_goal_yaw = traj.yaw;
-		std::cout << " got goal pose from trajectory " << _goal_pos.transpose() << " " << _goal_yaw << std::endl; 
+// 	std::cout << " activate!!!! " << std::endl; 
+	
+	if (_options["GoalSource"]->getStringValue().compare("options") == 0) { // get goal from options
+		_goal_pos(0) = _options["X"]->getDoubleValue();
+		_goal_pos(1) = _options["Y"]->getDoubleValue();
+		_goal_pos(2) = _options["Z"]->getDoubleValue();
+		_goal_yaw = _options["Yaw"]->getDoubleValue();
 	}
-	else {
+	else if (_options["GoalSource"]->getStringValue().compare("trajectory") == 0) {  // get goal from current desired trajectory
+		uri_base::Trajectory traj;
+		if (trajectory->get(traj, 0.001) && trajectory->ever_set()){
+			_goal_pos = traj.pos;
+			_goal_yaw = traj.yaw;
+		}
+		else {
+			_goal_pos = uav->position();
+			Eigen::Quaterniond ori = uav->orientation();
+			uri_base::quaternion_to_yaw(ori, _goal_yaw);
+		}
+	}
+	else {  // get goal from current pose
 		_goal_pos = uav->position();
 		Eigen::Quaterniond ori = uav->orientation();
 		uri_base::quaternion_to_yaw(ori, _goal_yaw);
-		std::cout << " got goal pose from current position" << std::endl; 
 	}
 	_time_start = ros::Time::now();
 }

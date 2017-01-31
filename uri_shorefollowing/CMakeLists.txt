@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   uri_core
   uri_base
   uri_uav
+  uri_sensors
   pluginlib
   cmake_modules
 )
