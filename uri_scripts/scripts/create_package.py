@@ -12,7 +12,9 @@ import fileinput
 
 if __name__=="__main__":
 	if len(sys.argv) < 2:
-		sys.exit("USAGE ERROR!: not enough arguments\nUSAGE       : my_node.py new_package_name")
+		print("USAGE ERROR!: not enough arguments")
+		print("USAGE       : rosrun uri_scripts create_task.py new_package_name")
+		sys.exit(1)
 	else:
 		packagename = sys.argv[1]
 		print 'I\'ll create a package named',  packagename

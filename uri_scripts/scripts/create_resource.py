@@ -13,7 +13,7 @@ import fileinput
 if __name__=="__main__":
 	if len(sys.argv) < 3:
 		print("USAGE ERROR!: not enough arguments")
-		print("USAGE       : my_node.py new_resource_name destitation_package")
+		print("USAGE       : rosrun uri_scripts create_task.py new_resource_name destitation_package")
 		sys.exit(1)
 	else:
 		resourcename = sys.argv[1]
