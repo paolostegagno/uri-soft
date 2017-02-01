@@ -12,7 +12,7 @@
 	<task name="uri_shorefollowing::ShoreFollowing" period="0.01" period_tollerance="0.002" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
 	<task name="uri_shorefollowing::FixedSpeedDesiredHeadingController" period="0.01" period_tollerance="0.002" speed="1.0" max_acc="0.5" />
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="false" savefile_name="/home/paolos/savefile.txt" />
 	
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>

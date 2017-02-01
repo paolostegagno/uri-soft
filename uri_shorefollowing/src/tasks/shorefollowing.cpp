@@ -33,60 +33,6 @@ ShoreFollowing::ShoreFollowing():Task(){
 	// note that the options are updated after the execution of this constructor, so any option in this
 	// construction will have its default value.
 	
-// 	speed = 0.0;
-}
-
-TaskOutput ShoreFollowing::_run(){
-	
-	// do your cool code here!
-	
-	bool terminate = false;
-	double elapsed = (ros::Time::now() - start_t).toSec();
-	delta_t = elapsed - last_elapsed;	
-	
-	if (!ls->new_laser_available()){
-		return uri::Continue;
-	}
-	sensor_msgs::LaserScan scan;
-	if (!ls->get(scan, 0.001)){
-		return uri::Continue;
-	}
-	
-// 	std::cout << scan.header << std::endl;
-	
-	double current_yaw;
-	Eigen::Quaterniond current_ori = uav->orientation();
-	uri_base::quaternion_to_yaw(current_ori, current_yaw);
-			last_current_yaw = current_yaw;
-
-	
-	// if a new pose estmate is available => integrateusing the new yaw as base
-	if (current_yaw != last_current_yaw){
-		heading_d.heading = current_yaw + 0.1*delta_t;
-// 		std::cout << "a " << current_yaw << " " << last_current_yaw << " " <<  delta_t << " " << heading_d.heading << std::endl;
-		last_current_yaw = current_yaw;
-	}
-	// if a new pose estimate is not available, then keep integrating what using the result of the previous step as base 
-	else {
-		last_current_yaw = current_yaw;
-		heading_d.heading = heading_d.heading + 0.1*delta_t;
-		if (heading_d.heading > M_PI) heading_d.heading = heading_d.heading - M_PI;
-		if (heading_d.heading < -M_PI) heading_d.heading = heading_d.heading + M_PI;
-
-// 		std::cout << "b " << current_yaw << " " << last_current_yaw << " " <<  delta_t << " " << heading_d.heading << std::endl;
-	}
-	desired_heading->set(heading_d, 0.001);
-	
-	
-	// PUT HERE CODE FOR DECIDING THE HEADING!!!
-	
-	last_elapsed = elapsed;
-	
-	if (terminate){
-		
-		return uri::Terminate;
-	}
-	return uri::Continue;
 	// how to get the value of an option - use the following syntax:
 	// _options["OPTION_NAME"]->getTYPEValue()
 	//
@@ -95,16 +41,59 @@ TaskOutput ShoreFollowing::_run(){
 	//
 }
 
+TaskOutput ShoreFollowing::_run(){
+	
+	// compute elapsed time since beginning and delta_t since last successful call
+	bool terminate = false;
+	double elapsed = (ros::Time::now() - start_t).toSec();
+	delta_t = elapsed - last_elapsed;	
+	
+	// check if new laser scan is available. If not, terminate the execution of this _run 
+	if (!ls->new_laser_available()){
+		return uri::Continue;
+	}
+	// try to retrieve the scan. If the laser scanner is busy and does not respond in 0.001 seconds, terminate the execution of this _run
+	sensor_msgs::LaserScan scan;
+	if (!ls->get(scan, 0.001)){
+		return uri::Continue;
+	}
+	
+	// if we made it this far, scan contains a new scan! we should decide the new heading based on it
+	// PUT HERE CODE FOR DECIDING THE HEADING!!!
+	// PUT HERE CODE FOR DECIDING THE HEADING!!!
+	// PUT HERE CODE FOR DECIDING THE HEADING!!!
+	// PUT HERE CODE FOR DECIDING THE HEADING!!!
+	// the lines below simply make the UAV go in circle
+	heading_d.heading = heading_d.heading + 0.1*delta_t;
+	// normalize the heading_d between -M_PI and M_PI
+	while (heading_d.heading > M_PI) heading_d.heading = heading_d.heading - 2*M_PI;
+	while (heading_d.heading < -M_PI) heading_d.heading = heading_d.heading + 2*M_PI;
+	
+	// here we set the desired heading in the shared memory - the controller will use it
+	desired_heading->set(heading_d, 0.001);
+	
+	// update last time  we computed the heading
+	last_elapsed = elapsed;
+	
+	// set terminate at true to communicate to the behavior controller to terminate the execution of the task.
+	if (terminate){
+		return uri::Terminate;
+	}
+	// but usually, terminate is false.
+	return uri::Continue;
+}
+
 void ShoreFollowing::_activate(){
 	
-// 		std::cout << "ShoreFollowing::_activate() a" << std::endl;
-
 	// what do you need to do every time the task is activated?
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
 	
-	last_current_yaw = 0.0;
-// 		std::cout << "ShoreFollowing::_activate() b" << std::endl;
+	// select first desired heading as the current yaw
+	double current_yaw;
+	Eigen::Quaterniond current_ori = uav->orientation();
+	uri_base::quaternion_to_yaw(current_ori, current_yaw);
+	heading_d.heading = current_yaw;
 }
 
 void ShoreFollowing::_deactivate(){
@@ -125,7 +114,6 @@ void ShoreFollowing::get_mandatory_resources(ResourceVector &res){
 	
 	std::string iint("uri_base::SharedMemory<uri_base::Heading>");
 	desired_heading = (uri_base::SharedMemory<uri_base::Heading>*)res.get_resource_ptr(iint);
-
 	
 	std::string mint("uri_uav::IrisInterface");
 	uav = (uri_uav::IrisInterface*)res.get_resource_ptr(mint);

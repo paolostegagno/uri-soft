@@ -15,19 +15,19 @@
 	<xacro:generic_laser
 		name="hokuyo"
 		parent="base_link"
-		size_x="0.1" size_y="0.1" size_z="0.1"
+		size_x="0.062" size_y="0.062" size_z="0.0875"
 		ros_topic="hokuyo"
 		visualize_laser="true"
-		update_rate="30"
-		samples="720"
-		min_angle="-1.570796" 
-		max_angle="1.570796"
+		update_rate="40"
+		samples="1080"
+		min_angle="-2.35619449019" 
+		max_angle="2.35619449019"
 		range_min="0.1"
 		range_max="30.0"
 		range_res="0.01"
 		noise_mean="0.0"
-		noise_stddv="0.01">
-		<origin xyz="0.15 0.0 -0.02" rpy="0 ${M_PI/2} 0"/>
+		noise_stddv="0.03">
+		<origin xyz="0.0 0.0 -0.10" rpy="0 ${M_PI/2} 0"/>
 	</xacro:generic_laser>
 	
 	<!-- Sonar Range Finder -->
