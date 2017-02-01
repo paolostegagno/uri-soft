@@ -4,14 +4,14 @@
   xmlns:xacro="http://ros.org/wiki/xacro"
 >
 	
-	<xacro:include filename="iris_base.urdf.xacro" />
+	<xacro:include filename="$(find uri_gazebo)/urdf/iris_base.urdf.xacro" />
 	<xacro:iris_base name="iris_base">
 		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</xacro:iris_base>
 	
 	
 	<!-- laser Range Finder -->
-	<xacro:include filename="generic_laser.urdf.xacro" />
+	<xacro:include filename="$(find uri_gazebo)/urdf/generic_laser.urdf.xacro" />
 	<xacro:generic_laser
 		name="hokuyo"
 		parent="base_link"

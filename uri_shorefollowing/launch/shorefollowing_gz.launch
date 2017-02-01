@@ -41,7 +41,7 @@
 	</group>
 	
 	
-	<include file="$(find uri_gazebo)/launch/shore.launch">
+	<include file="$(find uri_shorefollowing)/launch/shore.launch">
 	</include>
 	
 	
