@@ -24,6 +24,7 @@ Hover::Hover():Task()/*:_name(nm)*/{
 	_options.addDoubleOption("Y", 0.0);
 	_options.addDoubleOption("Z", 3.0);
 	_options.addDoubleOption("Yaw", 0.0);
+	_options.addDoubleOption("YawRate", 0.0);
 	_options.addDoubleOption("Countdown", -1.0);
 	
 }
@@ -56,6 +57,7 @@ void Hover::_activate(){
 		uri_base::quaternion_to_yaw(ori, _goal_yaw);
 	}
 	_time_start = ros::Time::now();
+	_prev_time = _time_start;
 }
 
 TaskOutput Hover::_run(){
@@ -64,8 +66,20 @@ TaskOutput Hover::_run(){
 	traj.pos = _goal_pos;
 	traj.vel << 0,0,0;
 	traj.acc << 0,0,0;
+	traj.yawrate = _options["YawRate"]->getDoubleValue();
+	
+	if (traj.yawrate != 0.0){
+		ros::Time _time_now = ros::Time::now();
+		double delta_t = (_time_now - _prev_time).toSec();
+		_goal_yaw = _goal_yaw + traj.yawrate*delta_t;
+		while  (_goal_yaw >  M_PI) _goal_yaw -= 2*M_PI;
+		while  (_goal_yaw < -M_PI) _goal_yaw += 2*M_PI;
+		traj.yawrate = 0.0;
+		_prev_time = _time_now;
+	}
+	
 	traj.yaw = _goal_yaw;
-	traj.yawrate = 0;
+// 	std::cout << "a "<< _goal_yaw << std::endl;
 	
 	trajectory->set(traj,0.01);
 	

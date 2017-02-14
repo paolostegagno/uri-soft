@@ -135,6 +135,7 @@ TaskOutput GotoTask::_run(){
 	traj.acc = nextacc;
 	
 	traj.yaw = next_yaw;
+// // 	std::cout << "y " <<  traj.yaw << std::endl;
 	traj.yawrate = 0.0/*_yawrate*/;
 	
 	trajectory->set(traj, 0.01);

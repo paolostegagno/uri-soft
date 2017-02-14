@@ -93,6 +93,8 @@ TaskOutput AttitudeThrustController::_run(){
 	double pitch_d = mass/throttle_phys*( cos(yaw)/cos(roll)*(-kvx*vel(0) +kpx*e(0) + kix*integral_error(0) ) + sin(yaw)/cos(roll)*(-kvy*vel(1) +kpy*e(1) + kiy*integral_error(1) ) );
 	double yaw_d = traj.yaw;
 	
+// 	std::cout << yaw_d << std::endl;
+	
 	// save the interesting quantities in an output file to plot the result
 	if (_options["save_data"]->getBoolValue()){
 		ofile << ros::Time::now().toSec() << " " << pos(0) << " " << pos(1) << " " << pos(2) << " " << traj.pos(0) << " " << traj.pos(1) << " " << traj.pos(2) << " "

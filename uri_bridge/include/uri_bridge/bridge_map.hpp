@@ -155,6 +155,11 @@ namespace uri_bridge{
 		/// @param[in] window_name name of the OpenCV window (default = "GridMap").
 		void show_grid_map(int scale=1, int wait_time = 0, std::string window_name="GridMap");
 		
+		/// @brief Shows the gridmap in an OpenCV window.
+		/// @param[in] scale the map is scaled by this factor when displayed (i.e., each cell is represented by a square of scale X scale pixels) (default 1)
+		/// @param[in] wait_time time in ms the image is displayed before closing the window. If wait_time=0 (default) the window stays open until a key is hit on it. If  wait_time<0 the window closes immediately.
+		/// @param[in] window_name name of the OpenCV window (default = "GridMap").
+		void show_grid_map_color(int scale=1, int wait_time = 0, std::string window_name="GridMap");
 		
 		void find_blobs(const cv::Mat &binary, std::vector < Frontier > &blobs);
 		

@@ -37,13 +37,13 @@
 		
 <!--	<xacro:include filename="generic_camera.urdf.xacro" />-->
 	<xacro:generic_camera name="right_camera" parent="base_link" ros_topic="camera_image" cam_info_topic="camera_info" update_rate="30" res_x="320" res_y="240" image_format="R8G8B8" hfov="${0.6/M_PI * 180.0}">
-		<origin xyz="-0.01 -0.15 0.06" rpy="0 ${-M_PI/10} ${-M_PI/4}"/>
+		<origin xyz="-0.01 -0.15 0.06" rpy="0.1 ${-M_PI/10} ${-M_PI/4}"/>
 	</xacro:generic_camera>
 
 	<!-- Sonar Range Finder -->
 	<xacro:include filename="sonar_sensor.urdf.xacro" />
 	<xacro:sonar_sensor name="sonar" parent="base_link" ros_topic="sonar_distance" update_rate="40" min_range="0.01" max_range="25.0" field_of_view="0.01" ray_count="1">
-		<origin xyz="-0.0 0.0 -0.07" rpy="0 ${M_PI/2} 0"/>
+		<origin xyz="-0.0 0.0 -0.07" rpy="0.1 ${M_PI/2} 0"/>
 	</xacro:sonar_sensor>
 	
 	<!-- laser Range Finder -->
@@ -51,19 +51,19 @@
 	<xacro:generic_laser
 		name="hokuyo"
 		parent="base_link"
-		size_x="0.1" size_y="0.1" size_z="0.1"
+		size_x="0.05" size_y="0.05" size_z="0.07"
 		ros_topic="hokuyo"
 		visualize_laser="true"
 		update_rate="30"
-		samples="720"
-		min_angle="-1.570796" 
-		max_angle="1.570796"
+		samples="1080"
+		min_angle="-2.09439510239" 
+		max_angle="2.09439510239"
 		range_min="0.1"
-		range_max="30.0"
+		range_max="10.0"
 		range_res="0.01"
 		noise_mean="0.0"
 		noise_stddv="0.01">
-		<origin xyz="0.25 0.0 0.02" rpy="${M_PI/2} ${-M_PI/3} 0"/>
+		<origin xyz="-0.02 0.0 0.18" rpy="${M_PI/2} ${-M_PI/2} 0"/>
 	</xacro:generic_laser>
 	
 

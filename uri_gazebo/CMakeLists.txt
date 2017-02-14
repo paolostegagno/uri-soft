@@ -11,8 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rosbag
   gazebo_msgs
   tf_conversions
-#   telekyb_msgs
-#   telekyb_srvs
+  uri_base
 )
 
 find_package(mav_msgs QUIET)

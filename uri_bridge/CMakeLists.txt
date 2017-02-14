@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   uri_core
   uri_base
+  uri_uav
+  uri_sensors
   cmake_modules
 )
 
@@ -30,8 +32,14 @@ find_package(OpenCV REQUIRED)
 catkin_package(
 	INCLUDE_DIRS
 		include
-#  LIBRARIES uri_core
-#  CATKIN_DEPENDS opencv3 roscpp rospy
+	LIBRARIES
+		uri_bridge
+	CATKIN_DEPENDS
+		roscpp
+		rospy
+		uri_core
+		uri_sensors
+		uri_uav
 	DEPENDS
 #		TinyXML
 )
@@ -67,6 +75,7 @@ add_library(uri_bridge
 # src/tasks/dummy_task.cpp
 # src/tasks/example_task.cpp
 src/bridge_map.cpp
+src/tasks/collect3dscan.cpp
 src/behavior_controllers/example_behavior_controller.cpp
 )
 

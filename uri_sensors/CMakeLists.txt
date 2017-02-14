@@ -32,7 +32,7 @@ catkin_package(
 	INCLUDE_DIRS
 		include
 	LIBRARIES
-		uri_core
+		uri_sensors
 	CATKIN_DEPENDS roscpp rospy uri_core uri_base
 	DEPENDS
 		TinyXML

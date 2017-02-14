@@ -8,6 +8,8 @@
 
 #include <Eigen/Geometry>
 
+#include <uri_base/angle_conversion.hpp>
+
 
 // #include "telekyb_msgs/TKState.h"
 // #include "telekyb_srvs/BinOccupancySrv.h"
@@ -67,6 +69,13 @@ void stateTimerCB(const ros::TimerEvent&)
 	_position[0] += timerDuration*_velocity_lin(0);
 	_position[1] += timerDuration*_velocity_lin(1);
 	_position[2] += timerDuration*_velocity_lin(2);
+	
+	double r, p, y;
+	uri_base::quaternion_to_rpy(_orientation, r, p, y);
+	y +=  timerDuration*_velocity_ang(2);
+	while (y >  M_PI) y -= 2*M_PI;
+	while (y < -M_PI) y += 2*M_PI;
+	_orientation = uri_base::rpy_to_quaternion(r, p, y);
     
 	setModelState.model_name = "iris";
 	setModelState.pose.position.x = _position[0];// = getModelState.response.pose;

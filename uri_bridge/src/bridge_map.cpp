@@ -62,8 +62,13 @@ namespace uri_bridge{
 		for(unsigned int i = 0; i < num_readings+1; ++i){
 			if (i < num_readings) { // every point but the last point
 				range = ls.ranges[i]; // traslate polar coordinates into cartesian coordinates
-				x = ls.ranges[i] * std::cos(angle);
-				y = ls.ranges[i] * std::sin(angle);
+				if (range <0.2){
+					angle += ls.angle_increment;
+					continue;
+// 					range = (ls.ranges[i-1] + ls.ranges[i+1])/2;
+				}
+				x = range * std::cos(angle);
+				y = range * std::sin(angle);
 			}
 			else { // the last time the very first point is selected again
 				x = x_f;
@@ -81,18 +86,18 @@ namespace uri_bridge{
 					dx = (x-x_p);
 					dy = (y-y_p);
 					double lenght = sqrt( dx*dx + dy*dy);
-					if (range >= ls.range_max && range_p >= ls.range_max) {
+					if (range >= ls.range_max-0.1 && range_p >= ls.range_max-0.1) {
 						cv::line(*(this->dataptr()), cv::Point(y_cell,x_cell), cv::Point(y_cell_p,x_cell_p), FRONTIER, 2);
 					}
 					else if (lenght>gap_as_frontier_distance) {
 						cv::line(*(this->dataptr()), cv::Point(y_cell,x_cell), cv::Point(y_cell_p,x_cell_p), cv::Scalar(FRONTIER), 2);
 					}
 					else{
-						cv::line(*(this->dataptr()), cv::Point(y_cell,x_cell), cv::Point(y_cell_p,x_cell_p), cv::Scalar(OBSTACLE), 1);
-						if (range >= ls.range_max) {
+						cv::line(*(this->dataptr()), cv::Point(y_cell,x_cell), cv::Point(y_cell_p,x_cell_p), cv::Scalar(OBSTACLE), 2);
+						if (range >= ls.range_max-0.1) {
 							this->dataptr()->at<uchar>(x_cell,y_cell) = FRONTIER;
 						}
-						if (range_p >= ls.range_max) {
+						if (range_p >= ls.range_max-0.1) {
 							this->dataptr()->at<uchar>(x_cell_p,y_cell_p) = FRONTIER;
 						}
 					}
@@ -195,7 +200,36 @@ namespace uri_bridge{
 	
 	
 	
-	
+	void GridMap::show_grid_map_color(int scale, int wait_time, std::string window_name){
+		cv::namedWindow( window_name, cv::WINDOW_AUTOSIZE );// Create a window for display.
+		
+		cv::Mat a(*(this->dataptr())),b,c;
+		
+		b = Mat::zeros(scale*number_cells_x, scale*number_cells_y, CV_8UC3);
+		for (int i=0; i<number_cells_x; i++){
+			for (int j=0; j<number_cells_y; j++){
+				uchar val = this->dataptr()->at<uchar>(i,j);
+				for (int k=0; k<scale; k++){
+					for (int h=0; h<scale; h++){
+						cv::Vec3b color;
+						switch (val){
+							case UNKNOWN: 			color[0] = 255; color[1] = 255; color[2] = 255; 			b.at<cv::Vec3b>(scale*i+k,scale*j+h) = color; break;
+							case OBSTACLE: 				color[0] = 0; color[1] = 0; color[2] = 0;		b.at<cv::Vec3b>(scale*i+k,scale*j+h) = color;  break;
+							case FRONTIER: 					color[0] = 0; color[1] = 255; color[2] = 0;	b.at<cv::Vec3b>(scale*i+k,scale*j+h) = color;  break;
+							case FREE: 							color[0] = 100; color[1] = 255; color[2] = 255;	b.at<cv::Vec3b>(scale*i+k,scale*j+h) = color;  break;
+							case SAFE_NEAR_FRONTIER: color[0] = 60; color[1] = 255; color[2] = 255;	b.at<cv::Vec3b>(scale*i+k,scale*j+h) = color;  break;
+							case SAFE: 							color[0] = 255; color[1] = 180; color[2] = 100;	b.at<cv::Vec3b>(scale*i+k,scale*j+h) = color;  break;
+							default: 								color[0] = 0; color[1] = 0; color[2] = 0;	b.at<cv::Vec3b>(scale*i+k,scale*j+h) = color;  break;
+						}
+					}
+				}
+			}
+		}
+		
+		cv::imshow( window_name, b );                   // Show our image inside it.
+		if (wait_time>=0)
+			cv::waitKey(wait_time);                         // Wait for a keystroke in the window
+	}
 	
 	
 	

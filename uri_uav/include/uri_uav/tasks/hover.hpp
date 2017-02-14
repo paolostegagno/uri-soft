@@ -47,6 +47,7 @@ namespace uri_uav{
 		Eigen::Vector3d _pos_s;
 		double _yaw_s;
 		ros::Time _time_start;
+		ros::Time _prev_time;
 		
 		
 	public:
