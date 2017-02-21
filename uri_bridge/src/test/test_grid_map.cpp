@@ -21,6 +21,10 @@
 int main(int argc, char** argv){
 	
 	
+   ros::init(argc, argv, "test");
+	 ros::NodeHandle n;
+	
+	
 	std::fstream fin("/home/paolos/Desktop/data_ridot/mapscan_polar.txt", std::fstream::in);
 	
 	
@@ -29,7 +33,7 @@ int main(int argc, char** argv){
 	
 	fin >> num_readings;
 	
-	std::cout << "num readings " << std::endl;
+// 	std::cout << "num readings " << std::endl;
 	
 	double laser_frequency = 40;
 	
@@ -57,50 +61,69 @@ int main(int argc, char** argv){
 	for(unsigned int i = 0; i < num_readings; ++i){
 		
 		fin >> scan.ranges[i];
-		
 // 		scan.ranges[i] = std::min(3.5 + 1.3*std::sin(4.5*angle), (double)scan.range_max);
 // 		angle += scan.angle_increment;
-		
-		
 	}
 	
-		std::cout << "a" << std::endl;
+// 		std::cout << "a" << std::endl;
+	ros::Time start = ros::Time::now();
 	
-	uri_bridge::GridMap map(0.05, 0.05, 11.00, 11.00);
-		std::cout << "a" << std::endl;
-
-	map.import_scan(scan, 0.901);
-		std::cout << "a" << std::endl;
+	// create a node
+	Eigen::Vector2d pos; pos(0) = 0; pos(1) = -0;
+	uri_bridge::GridMapParams gmp(pos, 0.05, 0.05, 10.80, 10.80, 0.31, 0.5);
+	uri_bridge::GridMap node(nullptr, gmp);
 	
-// 	map.print_stats();
-// 	int a,b;
-// 	double x,y;
-// 	
-// 	map.coordinates_to_cell(5,-5,a,b);
-// 	std::cout << " " << a << " " << b << std::endl;
-// 	map.cell_to_coordinates(a,b,x,y);
-// 	std::cout << " " << x << " " << y << std::endl;
-// 	map.coordinates_to_cell(5.01,-5.01,a,b);
-// 	std::cout << " " << a << " " << b << std::endl;
-// 	map.cell_to_coordinates(a,b,x,y);
-// 	std::cout << " " << x << " " << y << std::endl;
-// 	map.coordinates_to_cell(5.02,-5.02,a,b);
-// 	std::cout << " " << a << " " << b << std::endl;
-// 	map.cell_to_coordinates(a,b,x,y);
-// 	std::cout << " " << x << " " << y << std::endl;
-// 	map.coordinates_to_cell(5.03,-5.03,a,b);
-// 	std::cout << " " << a << " " << b << std::endl;
-// 	map.cell_to_coordinates(a,b,x,y);
-// 	std::cout << " " << x << " " << y << std::endl;
-// 	map.coordinates_to_cell(5.04,-5.04,a,b);
-// 	std::cout << " " << a << " " << b << std::endl;
-// 	map.cell_to_coordinates(a,b,x,y);
-// 	std::cout << " " << x << " " << y << std::endl;
+	// save pointer to current node
+	uri_bridge::GridMap* current_node = node.ptr();
 	
-// 	map.print();
-	map.show_grid_map_color(1,0);
+	// import the scan
+	node.import_scan(scan);
+	// output
+	std::cout << ( ros::Time::now() - start ).toSec() << std::endl ;
+	
+	///////////////////////////////////////////////////////////
+	// here we'll test the creation of a child node
+	// selection of new waypoint (provided as cell in the gridmap)
+	cv::Point2i new_wp_cell = node.select_next_waypoint();
+	
+	// transform the cell in world coordinates
+	Eigen::Vector2d pos2;
+	node.cell_to_cartesian_global(new_wp_cell.x, new_wp_cell.y, pos2(0), pos2(1));
+	std::cout << " aaaa "<< pos2 << std::endl;
 	
 	
-
+	uri_bridge::GridMapParams gmp2(pos2, 0.05, 0.05, 10.80, 10.80, 0.31, 0.5);
+	std::cout << " b1"<< pos2 << std::endl;
+	uri_bridge::GridMap* new_child = node.create_new_child(gmp2, scan);
+	std::cout << " c1"<< pos2 << std::endl;
+	node.update_node(new_child);
+	std::cout << " d1"<< pos2 << std::endl;
+	
+	node.show_grid_map(2,0.1, "node1");
+	std::cout << " e1"<< pos2 << std::endl;
+	node.print_stats();
+	std::cout << " f1"<< pos2 << std::endl;
+	
+	new_child->show_grid_map(2,0, "node2");
+	std::cout << " g1"<< pos2 << std::endl;
+	new_child->print_stats();
+	std::cout << " h1"<< pos2 << std::endl;
+	
+// 	int a, b;
+// 	node.cartesian_local_to_cell(0,0,a,b);
+// 	std::cout << " 0  0  " << a << " " << b << std::endl;
+// 	node.cartesian_local_to_cell(1,1,a,b);
+// 	std::cout << " 1  1  " << a << " " << b << std::endl;
+// 	node.cartesian_local_to_cell(4,4,a,b);
+// 	std::cout << " 4  4  " << a << " " << b << std::endl;
+// 	node.cartesian_local_to_cell(8,8,a,b);
+// 	std::cout << " 8  8  " << a << " " << b << std::endl;
+// 	node.cartesian_local_to_cell(10.8,10.8,a,b);
+// 	std::cout << " 10.8  10.8  " << a << " " << b << std::endl;
+// 	node.cartesian_local_to_cell(-5,-5,a,b);
+// 	std::cout << " -5  -5  " << a << " " << b << std::endl;
+// 	node.cartesian_local_to_cell(-10.8,-10.8,a,b);
+// 	std::cout << " -10.8 -10.8  " << a << " " << b << std::endl;
+	
 }
 

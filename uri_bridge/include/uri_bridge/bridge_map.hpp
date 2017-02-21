@@ -23,6 +23,7 @@ namespace uri_bridge{
 #define UNKNOWN 0
 #define OBSTACLE 30
 #define FRONTIER 120
+#define WAYPOINT 150
 #define FREE 180
 #define SAFE_NEAR_FRONTIER 220
 #define SAFE 255
@@ -30,24 +31,13 @@ namespace uri_bridge{
 #define FULL_PIXEL_VALUE 255
 #define ZERO_PIXEL_VALUE 0
 	
-// 	/// @brief 
-// 	enum CellValue : int{
-// 		UNKNOWN = 0,
-// 		FREE = 1,
-// 		FRONTIER = 2,
-// 		OBSTACLE = 3
-// 	};
 	
 	
-	typedef int CellValue;
-	
-// 	template<typename T>
-// 	std::ostream& operator<<(typename std::enable_if<std::is_enum<T>::value, std::ostream>::type& stream, const T& e)
-// 	{
-// 		return stream << static_cast<typename std::underlying_type<T>::type>(e);
-// 	}
+// 	typedef int CellValue;
 	
 	
+	
+	/// \brief A collection of points creating a connected piece of frontier
 	class Frontier : public std::vector<cv::Point2i> {
 		
 	public:
@@ -56,24 +46,12 @@ namespace uri_bridge{
 			this->clear();
 		}
 		
-// 		cv::Point2i baricenter(){
-// 			cv::Point2i
-// 			
-// 			for (int i=0; i<
-// 			
-// 			
-// 			return cv::Point2i
-// 		}
-		
-		
-		
 	};
 	
 	
 	
-// 	class GridMap : public Eigen::Matrix<CellValue,Eigen::Dynamic,Eigen::Dynamic>{
-	class GridMap : public cv::Mat{
-		
+	/// \brief All the parameters of a GridMap collected in a single struct
+	struct GridMapParams{
 		
 		double cell_size_x;
 		double cell_size_y;
@@ -84,8 +62,45 @@ namespace uri_bridge{
 		int number_cells_x;
 		int number_cells_y;
 		
-		int center_cell_x;
-		int center_cell_y;
+		cv::Point2i center_cell;
+		
+		double safety_distance_from_obstacles_or_frontier;
+		int safe_cells_band;
+		
+		double gap_as_frontier_threshold;
+		
+		Eigen::Vector2d p;
+		
+		double border_x_pos;
+		double border_x_neg;
+		double border_y_pos;
+		double border_y_neg;
+		
+		
+		/// @brief Complete constructor.
+		/// @param[in] _p position of the center cell of the map in the world frame
+		/// @param[in] csx cell size along the x axis, default value 0.05 m
+		/// @param[in] csy cell size along the y axis, default value 0.05 m
+		/// @param[in] msx map size along the x axis, default value 5.00 m
+		/// @param[in] msy map size along the y axis, default value 5.00 m
+		/// @param[in] sd safety distance from any obstacle or frontier, default value 0.50 m
+		/// @param[in] gft threshold to consider what is between two obstacles as a frontier (obstacle if lower), default value 0.50 m
+		GridMapParams (Eigen::Vector2d _p, double csx = 0.05, double csy = 0.05, double msx = 5.00, double msy = 5.00, double sd = 0.5, double gft = 0.5);
+		
+		/// @brief Copy constructor.
+		/// @param[in] &other Copied GridMapParams.
+		GridMapParams (const GridMapParams& other);
+		
+		/// @brief Copy operator.
+		/// @param[in] &other Copied GridMapParams.
+		GridMapParams& operator=(const GridMapParams& other);
+		
+	};
+	
+	
+	/// \brief This class represents a grid map
+	/// \details The map is represented through a cv::Mat
+	class GridMap : public cv::Mat{
 		
 		std::vector<Frontier> safe_frontiers;
 		
@@ -95,15 +110,33 @@ namespace uri_bridge{
 		cv::Mat safe_mask;
 		cv::Mat free_mask;
 		
+		GridMap* parent;
+		std::vector<GridMap*> child;
+		
 	public:
 		
-		/// @brief complete constructor.
-		/// @param[in] csx cell size along the x axis, default value 0.05 m
-		/// @param[in] csy cell size along the y axis, default value 0.05 m
-		/// @param[in] msx map size along the x axis, default value 5.00 m
-		/// @param[in] msy map size along the y axis, default value 5.00 m
-		GridMap(double csx = 0.05, double csy = 0.05, double msx = 5.00, double msy = 5.00);
+		GridMapParams params;
 		
+		/// @brief complete constructor.
+		/// @param[in] parptr pointer to the parent node
+		/// @param[in] gmp set of parameters
+		GridMap(GridMap* parptr, GridMapParams& gmp);
+		
+		/// @brief Copy Constructor.
+		/// @param[in] other copied GridMap
+		GridMap(const GridMap& other);
+		
+		/// @brief Copy operator.
+		/// @param[in] other copied GridMap
+		GridMap& operator=(const GridMap& other);
+		
+		
+		/// @brief Returns \b this.
+		GridMap* ptr(){
+			return this;
+		}
+		
+		/// @brief Returns a cv::Mat* pointer at \b this.
 		cv::Mat* dataptr() const{
 			return (cv::Mat*)this;
 		}
@@ -124,14 +157,35 @@ namespace uri_bridge{
 		/// @param[in] y y coordinate
 		/// @param[out] &a map row
 		/// @param[out] &b map column
-		void coordinates_to_cell(double x, double y, int &a, int &b);
+		void cartesian_local_to_cell(double x, double y, int &a, int &b);
 		
 		/// @brief translates a b cell indexes into x y coordinates w.r.t. the center of the map
 		/// @param[in] a map row
 		/// @param[in] b map column
 		/// @param[out] &x x coordinate
 		/// @param[out] &y y coordinate
-		void cell_to_coordinates(int a, int b, double &x, double &y);
+		void cell_to_cartesian_local(int a, int b, double &x, double &y);
+		
+		
+		/// @brief translates x y coordinates in world frame into cell indexes
+		/// @param[in] x x coordinate
+		/// @param[in] y y coordinate
+		/// @param[out] &a map row
+		/// @param[out] &b map column
+		void cartesian_global_to_cell(double x, double y, int &a, int &b);
+		
+		/// @brief translates a b cell indexes into x y coordinates in world frame
+		/// @param[in] a map row
+		/// @param[in] b map column
+		/// @param[out] &x x coordinate
+		/// @param[out] &y y coordinate
+		void cell_to_cartesian_global(int a, int b, double &x, double &y);
+		
+		/// @brief check if a point in the global frame is within the mapped area
+		/// @param[in] x x coordinate [m]
+		/// @param[in] y y coordinate [m]
+		/// @return \b true if it is within the mapped area, \b false otherwise 
+		bool cartesian_global_in_map(double x, double y);
 		
 		/// @brief create the map based on the provided scan.
 		/// @param[in] ls a laser scanner in the format of a ROS message.
@@ -140,13 +194,13 @@ namespace uri_bridge{
 		/// 2) all scan points whose range is less than ls.range_max are projected on the map and set as OBSTACLE \n
 		/// 3) all cells in gaps between two FRONTIER cells originating from consecutive scan points are set as FRONTIER following a straight line. \n
 		/// 4) all cells in gaps between two OBSTACLE cells or an OBSTACLE and a FRONTIER cell originating from consecutive scan points are: \n
-		///    - set as FRONTIER following a straight line if the gap between the two points is larger than \b gap_as_frontier_distance \n
-		///    - set as OBSTACLE following a straight line if the gap between the two points is less than \b gap_as_frontier_distance \n
+		///    - set as FRONTIER following a straight line if the gap between the two points is larger than \b gap_as_frontier_threshold \n
+		///    - set as OBSTACLE following a straight line if the gap between the two points is less than \b gap_as_frontier_threshold \n
 		/// 5) all map cells contained into the FRONTIER/OBSTACLE border and with distance
 		/// from any OBSTACLE or FRONTIER cell less than than safety_clearance are set as FREE \n
 		/// 6) all map cells contained into the FRONTIER/OBSTACLE border and with distance
 		/// from any OBSTACLE or FRONTIER cell greater than safety_clearance are set as SAFE
-		void import_scan(sensor_msgs::LaserScan &ls, double safety_clearance=0.301, double gap_as_frontier_distance=0.5);
+		void import_scan(sensor_msgs::LaserScan &ls);
 		
 		
 		/// @brief Shows the gridmap in an OpenCV window.
@@ -161,7 +215,23 @@ namespace uri_bridge{
 		/// @param[in] window_name name of the OpenCV window (default = "GridMap").
 		void show_grid_map_color(int scale=1, int wait_time = 0, std::string window_name="GridMap");
 		
+		/// @brief Extracts frontier blobs
 		void find_blobs(const cv::Mat &binary, std::vector < Frontier > &blobs);
+		
+		/// @brief Selects next waypoint based on frontiers, obstacles, ...
+		/// @return cv::Point2i containg the cell coordinates of the selected waypoint
+		cv::Point2i select_next_waypoint();
+		
+		/// @brief Create a new child node
+		/// @param[in] _pos The coordinates of the center cel in world frame
+		/// @param[in] scan The scan used to ceate the map.
+		/// @return a pointer to the new GridMap
+		GridMap* create_new_child(GridMapParams &gmp, sensor_msgs::LaserScan scan);
+		
+		
+		/// @brief update the map using another node  
+		/// @param[in] other other node
+		void update_node(GridMap* other);
 		
 	};
 	
@@ -169,10 +239,10 @@ namespace uri_bridge{
 	
 	std::ostream& operator<<(std::ostream& os, const GridMap& g)  
 	{  
-		os << "cell size: " << g.cell_size_x << ',' << g.cell_size_y ;
-		os << " map size: " << g.map_size_x  << ',' << g.map_size_y  ;
-		os << " number cells: " << g.number_cells_x  << ',' << g.number_cells_y;
-		os << " center cell: " << g.center_cell_x  << ',' << g.center_cell_y ;
+		os << "cell size: " << g.params.cell_size_x << ',' << g.params.cell_size_y ;
+		os << " map size: " << g.params.map_size_x  << ',' << g.params.map_size_y  ;
+		os << " number cells: " << g.params.number_cells_x  << ',' << g.params.number_cells_y;
+		os << " center cell: " << g.params.center_cell ;
 		os << std::endl ;
 		os << *(g.dataptr()) << std::endl;
 // 		for (int i=0; i < g.number_cells_x ; i++){
@@ -182,53 +252,24 @@ namespace uri_bridge{
 // 		}
 		return os;
 	}
-
 	
 	
 	
 	
-	/// @brief A node of the srt map.
-	class SRTNode{
-		
-		double x;
-		double y;
-		
-		GridMap map;
-		
-	public:
-		/// @brief Null constructor.
-		SRTNode(){}
-		
-		/// @brief Position Constructor.
-		SRTNode(int a, int b){
-			x=a;
-			y=b;
-		}
-		
-		/// @brief destructor.
-		~SRTNode(){}
-		
-		/// @brief Copy operator.
-		SRTNode& operator=(const SRTNode& other)
-		{
-			if (this != &other) {
-			}
-			return *this;
-		}
-		
-	};
-	
-	
-
 	
 	/// @brief A map for srt exploration.
-	class SRTMap{
+	class SRT{
 		
-		std::vector<SRTNode> node;
+		std::vector<GridMap*> node;
 		
 	public:
 		
-		void add_node(){
+		/// \brief Constructor
+		SRT(){
+			node.clear();
+		}
+		
+		void add_node(Eigen::Vector2d, sensor_msgs::LaserScan ls){
 			
 		}
 		

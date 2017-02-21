@@ -1,0 +1,54 @@
+<!-- -->
+
+<launch>
+
+	
+	<!-- ros_args.launch -->
+	<arg name="config_file" default="$(find uri_bridge)/configfiles/collect_3dscan_iris.xml" doc="example configuration file for uri-soft using iris interface"/>
+	<arg name="sched_time" default="0.001" doc="Interval time at which the scheduler checks if some task must be run."/>
+	
+	
+	
+	
+	<!-- vim: set ft=xml noet : -->
+	<!-- example launch script for ArduPilotMega based FCU's -->
+
+<!-- 	<arg name="fcu_url" default="/dev/ttyACM0:57600" /> -->
+	<arg name="fcu_url" default="udp://:14550@" />
+	<arg name="gcs_url" default="" />
+	<arg name="tgt_system" default="1" />
+	<arg name="tgt_component" default="1" />
+	<arg name="log_output" default="log" />
+
+	<include file="$(find uri_uav)/launch/node.launch">
+		<arg name="pluginlists_yaml" value="$(find uri_uav)/launch/apm_pluginlists.yaml" />
+		<arg name="config_yaml" value="$(find uri_uav)/launch/apm_config.yaml" />
+
+		<arg name="fcu_url" value="$(arg fcu_url)" />
+		<arg name="gcs_url" value="$(arg gcs_url)" />
+		<arg name="tgt_system" value="$(arg tgt_system)" />
+		<arg name="tgt_component" value="$(arg tgt_component)" />
+		<arg name="log_output" value="$(arg log_output)" />
+	</include>
+	
+	
+	
+	
+	<group ns="robot_1">
+		
+		<node name="uri_core_1" pkg="uri_core" type="uri_core_node">
+			<param name="configuration_file" value="$(arg config_file)" />
+			<param name="scheduler_time" value="$(arg sched_time)" />
+		</node>
+		
+		<node name="node" pkg="uri_gazebo" type="sitl_gazebo_interface">
+		</node>
+		
+	</group>
+	
+	
+	<include file="$(find uri_gazebo)/launch/bridge.launch">
+	</include>
+	
+	
+</launch>

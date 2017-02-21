@@ -77,6 +77,7 @@ add_library(uri_bridge
 src/bridge_map.cpp
 src/tasks/collect3dscan.cpp
 src/behavior_controllers/example_behavior_controller.cpp
+src/behavior_controllers/srtexploration.cpp
 )
 
 ## Add cmake target dependencies of the executable
@@ -108,6 +109,27 @@ target_link_libraries(test_grid_map
   ${OpenCV_LIBRARIES}
   uri_bridge
 )
+
+
+
+
+## Declare a C++ executable
+add_executable(test_SRTNode
+src/test/test_SRTNode.cpp
+)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+add_dependencies(test_SRTNode uri_bridge)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(test_SRTNode
+  ${catkin_LIBRARIES}
+  ${TinyXML_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+  uri_bridge
+)
+
 
 
 #############

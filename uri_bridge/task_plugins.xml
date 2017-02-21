@@ -9,6 +9,9 @@
 		<description> This is a task which is not doing anything </description>
 	</class>
 	
+	<class type="uri_bridge::SRTExploration" base_class_type="uri::BehaviorController">
+		<description> This controller drives the exploration of a bridge using the SRT method </description>
+	</class>
 	
 	
 </library>
