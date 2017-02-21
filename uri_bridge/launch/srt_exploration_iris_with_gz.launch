@@ -4,7 +4,7 @@
 
 	
 	<!-- ros_args.launch -->
-	<arg name="config_file" default="$(find uri_bridge)/configfiles/collect_3dscan_iris.xml" doc="example configuration file for uri-soft using iris interface"/>
+	<arg name="config_file" default="$(find uri_bridge)/configfiles/srt_exploration_iris.xml" doc="example configuration file for uri-soft using iris interface"/>
 	<arg name="sched_time" default="0.001" doc="Interval time at which the scheduler checks if some task must be run."/>
 	
 	
