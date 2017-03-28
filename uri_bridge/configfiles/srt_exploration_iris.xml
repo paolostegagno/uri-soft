@@ -3,23 +3,25 @@
 
 	<resource name="uri_uav::IrisInterface" number="4"/>
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
+	<resource name="uri_base::SharedMemory<uri_bridge::LaserScan>"/>
+<!-- 	<resource name="uri_base::SharedMemory<uri_bridge::PointCloud>"/> -->
 	<resource name="uri_sensors::LaserScannerGazebo" input_topic="/hokuyo"/>
 
 	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="4" takeoff_height_tollerance="0.05" />
-	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="20000.0" GoalSource="trajectory" YawRate="0.5" />
-	<task name="uri_uav::GotoTask" period="0.05" period_tollerance="0.002" />
+	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="5.0" GoalSource="trajectory" YawRate="0.0" />
+	<task name="uri_uav::GotoTask" period="0.05" period_tollerance="0.002" goal_x="-2.0" goal_y="2.5" goal_z="8.0"/>
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" />
-	<task name="uri_uav::YawrateController" period="0.1" period_tollerance="0.002" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/paolos/exploration_data/controller.txt"/>
 	<task name="uri_bridge::Collect3DScan" period="0.01" period_tollerance="0.002" />
+<!-- 	<task name="uri_bridge::Process3DScan" period="1.00" period_tollerance="0.1" /> -->
 	
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
-<!-- 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::TrajectoryControllerTask uri_uav::YawrateController"/> -->
-<!-- 	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::TrajectoryControllerTask uri_uav::YawrateController"/> -->
-	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController uri_bridge::Collect3DScan"/>
+	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>
 	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::AttitudeThrustController"/>
+	<behavior name="Collect3DScan" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController uri_bridge::Collect3DScan"/>
+<!-- 	<behavior name="Process3DScan" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController uri_bridge::Process3DScan"/> -->
 	<behavior name="Land" tasklist="uri_uav::Land"/>
 	
-	<behavior_controller name="uri_uav::BControllerExample" period="0.01" period_tollerance="0.001" />
+	<behavior_controller name="uri_bridge::SRTExploration" period="0.01" period_tollerance="0.001" />
 	
 </robot>

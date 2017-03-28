@@ -68,6 +68,12 @@ class IrisInterface: public Resource{
 	ros::Publisher _pub_mavros_rc_override;
 	ros::Publisher _pub_setpoint_accel_accel;
 	
+	ros::Timer _timer_interpolate_poses;
+	void _timer_interpolate_poses_CB(const ros::TimerEvent& event);
+	double delta_t;
+	ros::Time start_t;
+	double last_elapsed;
+
 
 	// here all subscribers which reads topics published by mavros and their respective callback function
 	ros::Subscriber _sub_local_position_pose;

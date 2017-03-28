@@ -12,7 +12,7 @@
 #include <uri_uav/resources/iris_interface.hpp>
 
 #ifndef __URI_FIXEDSPEEDDESIREDHEADINGCONTROLLER_HPP__
-#define __URI_EXAMPLE_TAKS_HPP__
+#define __URI_FIXEDSPEEDDESIREDHEADINGCONTROLLER_HPP__
 
 
 

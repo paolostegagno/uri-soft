@@ -83,6 +83,7 @@ void Task::deactivate_task(){
 void Task::reset_task()
 {
 	_output = Continue;
+	_reset();
 }
 
 

@@ -16,7 +16,7 @@
 
 
 #ifndef __URI_YAWRATECONTROLLER_HPP__
-#define __URI_EXAMPLE_TAKS_HPP__
+#define __URI_YAWRATECONTROLLER_HPP__
 
 
 

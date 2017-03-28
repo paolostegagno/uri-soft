@@ -34,7 +34,7 @@
 				<visual name='visual1'>
 					<geometry>
 						<box>
-							<size>1000 300 0.01</size>
+							<size>40 300 0.01</size>
 <!-- 							<material>Blue</material> -->
 						</box>
 					</geometry>
@@ -47,11 +47,50 @@
 				<kinematic>0</kinematic>
 				<gravity>1</gravity>
 			</link>
-			<pose>0 -142 0 0 0 0</pose>
+			<pose>0 148 0 0 0 0</pose>
 		</model>
 		
 		
 		
+		<model name='landmass_2'>
+			<static>1</static>
+			<link name='link'>
+				<pose>0 0 0.01 0 -0 0</pose>
+				<collision name='wall1'>
+					<geometry>
+						<box>
+							<size>1 1 1</size>
+						</box>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<bounce/>
+						<friction>
+							<ode/>
+						</friction>
+						<contact>
+							<ode/>
+						</contact>
+					</surface>
+				</collision>
+				<visual name='visual1'>
+					<geometry>
+						<box>
+							<size>40 300 0.01</size>
+<!-- 							<material>Blue</material> -->
+						</box>
+					</geometry>
+				</visual>
+				<velocity_decay>
+					<linear>0</linear>
+					<angular>0</angular>
+				</velocity_decay>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose>40 118 0 0 0 0</pose>
+		</model>
 		
 		
 		

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<robot name="UAV" >
+
+	<resource name="uri_base::Keyboard"/>
+
+	<task name="uri_gazebo::DirectPoseCommandGZ" period="0.01" period_tollerance="0.002" takeoff_height="4" takeoff_height_tollerance="0.05" />
+	
+	<behavior name="Viewer" tasklist="uri_gazebo::DirectPoseCommandGZ"/>
+	
+	<behavior_controller name="uri_gazebo::CommandPoseBC" period="0.01" period_tollerance="0.001" />
+	
+</robot>

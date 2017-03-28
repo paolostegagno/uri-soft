@@ -1,4 +1,4 @@
-#include <uri_bridge/bridge_map.hpp>
+#include <uri_bridge/SRTNode.hpp>
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
 
@@ -6,7 +6,7 @@
 
 // int main(void){
 // 	
-// 	uri_bridge::GridMap map;
+// 	uri_bridge::SRTNode map;
 // 	
 // // 	map.print();
 // 	std::cout << map;
@@ -65,7 +65,7 @@ int main(int argc, char** argv){
 	Eigen::Vector2d pos;
 	pos(0) = 0.5;
 	pos(1) = -0.5;
-	uri_bridge::GridMapParams gmp(pos,0.05, 0.05, 10.80, 10.80, 0.91, 0.5);
+	uri_bridge::SRTNodeParams gmp(pos,0.05, 0.05, 10.80, 10.80, 0.91, 0.5);
 // 	uri_bridge::SRTNode node(pos, gmp, scan);
 	
 // 	node. ;

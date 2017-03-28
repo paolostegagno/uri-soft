@@ -15,7 +15,7 @@
 #include <uri_base/trajectory.hpp>
 
 #ifndef __URI_ATTITUDETHRUSTCONTROLLER_HPP__
-#define __URI_EXAMPLE_TAKS_HPP__
+#define __URI_ATTITUDETHRUSTCONTROLLER_HPP__
 
 
 

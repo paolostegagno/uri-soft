@@ -27,7 +27,7 @@
 		range_res="0.01"
 		noise_mean="0.0"
 		noise_stddv="0.03">
-		<origin xyz="0.0 0.0 -0.10" rpy="0 ${M_PI/2} 0"/>
+		<origin xyz="0.0 0.0 -0.10" rpy="0 ${M_PI/3} 0"/>
 	</xacro:generic_laser>
 	
 	<!-- Sonar Range Finder -->

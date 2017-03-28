@@ -6,8 +6,13 @@
 	</class>
 	
 	<class type="uri_base::SharedMemory<uri_base::Heading>" base_class_type="uri::Resource">
-		<description> A 3D Trajectory that can be shared among tasks.</description>
+		<description> A single double representing the heading (yaw) of a UAV.</description>
 	</class>
+	
+	<class type="uri_base::SharedMemory<uri_base::Pose>" base_class_type="uri::Resource">
+		<description> Position and orientation.</description>
+	</class>
+	
 	
 	<class type="uri_base::Keyboard" base_class_type="uri::Resource">
 		<description> A resource that reads input form the keybpard.</description>

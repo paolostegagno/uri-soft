@@ -28,10 +28,35 @@ namespace uri_uav{
 //#################################################################################################
 //###  all ROS callback functions goes here   #####################################################
 //#################################################################################################
+	
+void IrisInterface::_timer_interpolate_poses_CB(const ros::TimerEvent& event){
+	double elapsed = (ros::Time::now() - start_t).toSec();
+	delta_t = elapsed - last_elapsed;
+	
+	// integrate position
+	_position[0] += delta_t*_velocity_lin(0);
+	_position[1] += delta_t*_velocity_lin(1);
+	_position[2] += delta_t*_velocity_lin(2);
+	
+	// integrate yaw
+	double r, p, y;
+	uri_base::quaternion_to_rpy(_orientation, r, p, y);
+	y +=  delta_t*_velocity_ang(2);
+	while (y >  M_PI) y -= 2*M_PI;
+	while (y < -M_PI) y += 2*M_PI;
+	_orientation = uri_base::rpy_to_quaternion(r, p, y);
+	
+// 	std::cout << "pos " << delta_t << " " << _position[0] << " " << _position[1] << " " << _position[2] << std::endl;
+	
+	// update last time we integrated the pose
+	last_elapsed = elapsed;
+// 	_local_position_pose_received = true;
+	
+}
+
+
 void IrisInterface::_local_position_pose_CB(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
-  _local_position_pose_received = true;
-	
 	_position(0)=msg->pose.position.x;
 	_position(1)=msg->pose.position.y;
 	_position(2)=msg->pose.position.z;
@@ -39,6 +64,7 @@ void IrisInterface::_local_position_pose_CB(const geometry_msgs::PoseStamped::Co
 	_orientation.x() = msg->pose.orientation.x;
 	_orientation.y() = msg->pose.orientation.y;
 	_orientation.z() = msg->pose.orientation.z;
+	_local_position_pose_received = true;
 }
 
 void IrisInterface::_local_position_velocity_CB(const geometry_msgs::TwistStamped::ConstPtr& msg)
@@ -94,6 +120,10 @@ IrisInterface::IrisInterface(ros::NodeHandle &_n):Resource(_n)
 	_srv_cmd_arming = n->serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
 	_srv_cmd_takeoff = n->serviceClient<mavros_msgs::CommandTOL>("/mavros/cmd/takeoff");
 	_srv_cmd_land = n->serviceClient<mavros_msgs::CommandTOL>("/mavros/cmd/land");
+	
+	last_elapsed = 0.0;
+	start_t = ros::Time::now();
+	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, true);
 };
 
 
@@ -140,6 +170,10 @@ void IrisInterface::_init()
   _srv_cmd_arming = n->serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
   _srv_cmd_takeoff = n->serviceClient<mavros_msgs::CommandTOL>("/mavros/cmd/takeoff");
 
+	// what do you need to do every time the task is activated?
+	last_elapsed = 0.0;
+	start_t = ros::Time::now();
+	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, true);
 };
 
 

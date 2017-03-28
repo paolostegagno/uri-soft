@@ -39,6 +39,28 @@ namespace uri_base {
 
 	
 	
+	class Pose{
+		
+		public:
+			
+			Eigen::Vector3d pos;
+			
+			Eigen::Quaterniond ori;
+			
+			Pose(){
+				pos(0) = 0.0;
+				pos(1) = 0.0;
+				pos(2) = 0.0;
+				ori.x() = 0.0;
+				ori.y() = 0.0;
+				ori.z() = 0.0;
+				ori.w() = 1.0;
+			}
+			
+			std::string name(){
+				return "uri_base::Pose";
+			}
+	};
 	
 	
 	

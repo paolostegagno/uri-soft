@@ -63,6 +63,17 @@ namespace uri_base{
 		q.z() = t1 * t2 * t4 - t0 * t3 * t5;
 		return q;
 	}
+	
+	
+	Eigen::Matrix3d rpy_to_rot(double roll, double pitch, double yaw){
+		Eigen::Matrix3d R;
+		R(0,0) = cos(pitch)*cos(yaw);	R(0,1) = cos(yaw)*sin(pitch)*sin(roll) - cos(roll)*sin(yaw);	R(0,2) = sin(roll)*sin(yaw) + cos(roll)*cos(yaw)*sin(pitch);
+		R(1,0) = cos(pitch)*sin(yaw);	R(1,1) = cos(roll)*cos(yaw) + sin(pitch)*sin(roll)*sin(yaw);	R(1,2) = cos(roll)*sin(pitch)*sin(yaw) - cos(yaw)*sin(roll);
+		R(2,0) = -sin(pitch);					R(2,1) = cos(pitch)*sin(roll);																R(2,2) = cos(pitch)*cos(roll);
+		
+		return R;
+	}
+
 
 
 

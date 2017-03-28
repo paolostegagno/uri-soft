@@ -39,8 +39,9 @@
           <geometry>
             <mesh>
 <!--               <uri>file://meshes/bridge.dae</uri> -->
-              <uri>file://meshes/b_04/DarkBridge.dae</uri>
-<!-- 							<scale>300 300 150</scale> -->
+<!--               <uri>file://meshes/b_04/DarkBridge.dae</uri> -->
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+							<scale>1 1 1</scale>
 
 <!--              <scale>15 6 3</scale>-->
             </mesh>
@@ -60,7 +61,9 @@
           <geometry>
             <mesh>
 <!--               <uri>file://meshes/bridge.dae</uri> -->
-              <uri>file://meshes/b_04/DarkBridge.dae</uri>
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+<!--               <uri>file://meshes/b_04/DarkBridge.dae</uri> -->
+							<scale>1 1 1</scale>
 <!--              <scale>15 6 3</scale> -->
 <!--              <scale>15 6 3</scale>-->
             </mesh>
@@ -75,7 +78,7 @@
         <gravity>1</gravity>
       </link>
 <!--       <pose>35 35 3 0 0 0</pose> -->
-      <pose>30.5 8 -18 0 0 0</pose>
+      <pose>8 8 -22 0 0 0</pose>
     </model>
 		
 		
@@ -92,7 +95,8 @@
           <geometry>
             <mesh>
 <!--               <uri>file://meshes/bridge.dae</uri> -->
-              <uri>file://meshes/b_04/DarkBridge.dae</uri>
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+							<scale>1 1 1</scale>
 <!-- 							<scale>300 300 150</scale> -->
 
 <!--              <scale>15 6 3</scale>-->
@@ -113,7 +117,8 @@
           <geometry>
             <mesh>
 <!--               <uri>file://meshes/bridge.dae</uri> -->
-              <uri>file://meshes/b_04/DarkBridge.dae</uri>
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+							<scale>1 1 1</scale>
 <!--              <scale>15 6 3</scale> -->
 <!--              <scale>15 6 3</scale>-->
             </mesh>
@@ -128,8 +133,262 @@
         <gravity>1</gravity>
       </link>
 <!--       <pose>35 35 3 0 0 0</pose> -->
-      <pose>-42 8 -18 0 0 0</pose>
+      <pose>-4 8 -22 0 0 0</pose>
     </model>
+		
+		
+		
+						<model name='bridge_3'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0 0 0.01 0 -0 0</pose>
+        <collision name='wall1'>
+          <geometry>
+            <mesh>
+<!--               <uri>file://meshes/bridge.dae</uri> -->
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+							<scale>1 1 1</scale>
+<!-- 							<scale>300 300 150</scale> -->
+
+<!--              <scale>15 6 3</scale>-->
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='visual1'>
+          <geometry>
+            <mesh>
+<!--               <uri>file://meshes/bridge.dae</uri> -->
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+							<scale>1 1 1</scale>
+<!--              <scale>15 6 3</scale> -->
+<!--              <scale>15 6 3</scale>-->
+            </mesh>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+<!--       <pose>35 35 3 0 0 0</pose> -->
+      <pose>-18 8 -22 0 0 0</pose>
+    </model>
+		
+		
+		
+						<model name='bridge_4'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0 0 0.01 0 -0 0</pose>
+        <collision name='wall1'>
+          <geometry>
+            <mesh>
+<!--               <uri>file://meshes/bridge.dae</uri> -->
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+							<scale>1 1 1</scale>
+<!-- 							<scale>300 300 150</scale> -->
+
+<!--              <scale>15 6 3</scale>-->
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='visual1'>
+          <geometry>
+            <mesh>
+<!--               <uri>file://meshes/bridge.dae</uri> -->
+              <uri>file://meshes/bridges/bridge_01.dae</uri>
+							<scale>1 1 1</scale>
+<!--              <scale>15 6 3</scale> -->
+<!--              <scale>15 6 3</scale>-->
+            </mesh>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+<!--       <pose>35 35 3 0 0 0</pose> -->
+      <pose>20 8 -22 0 0 0</pose>
+    </model>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				  <model name='bridge_defect_1'>
+      <pose>-1.335 5.647 10.335 0 0 0</pose>
+      <link name='link'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+<!--           <transparency>0.5</transparency> -->
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>1</kinematic>
+        <gravity>0</gravity>
+      </link>
+      <static>1</static>
+    </model>
+		
+		
+						  <model name='bridge_defect_2'>
+      <pose>3.8 8.98 11.22 0 0 0</pose>
+      <link name='link'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+<!--           <transparency>0.5</transparency> -->
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>1</kinematic>
+        <gravity>0</gravity>
+      </link>
+      <static>1</static>
+    </model>
+
+		
+		
+		
+		
+						  <model name='bridge_defect_3'>
+      <pose>2.86 8.315 11.215 0 0 0</pose>
+      <link name='link'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.1 0.03 0.03</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+<!--           <transparency>0.5</transparency> -->
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>1</kinematic>
+        <gravity>0</gravity>
+      </link>
+      <static>1</static>
+    </model>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

@@ -245,7 +245,7 @@ void GotoTask::_activate(){
 			
 			double yawdiff = _goal_yaw - _start_yaw;
 			_yawrate = yawdiff/t3*M_PI/180.0;
-			_yawrate = 0.1;
+			_yawrate = 0.0;
 			
 			good_trajectory = true;
 		}

@@ -119,7 +119,7 @@ class Keyboard: public Resource{
 				return 0;
 			}
 			_busy = true;
-		std::cout << "getting "  << _buffer_end << " " << _buffer_start  << std::endl; 
+// 		std::cout << "getting "  << _buffer_end << " " << _buffer_start  << std::endl; 
 			if (_buffer_end > _buffer_start){
 				num = _buffer_end - _buffer_start;
 				out = new char[num];
@@ -145,7 +145,7 @@ class Keyboard: public Resource{
 				}
 				_buffer_start = _buffer_end;
 			}
-		std::cout << "getting end "  << _buffer_end << " " << _buffer_start  << std::endl; 
+// 		std::cout << "getting end "  << _buffer_end << " " << _buffer_start  << std::endl; 
 			_busy = false;
 			return num;
 			

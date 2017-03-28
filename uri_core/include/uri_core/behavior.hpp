@@ -60,6 +60,10 @@ namespace uri{
 		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
 		bool set_option_double(std::string &oname, std::string &tname, double value);
 		
+		/// @brief Set an option of type double.
+		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
+		bool set_option_double(const char* oname_c, const char* tname_c, double value);
+		
 		/// @brief Set an option of type bool.
 		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
 		bool set_option_bool(std::string &oname, std::string &tname, bool value);

@@ -72,10 +72,11 @@ include_directories(
 
 ## Declare a C++ executable
 add_library(uri_bridge
-# src/tasks/dummy_task.cpp
-# src/tasks/example_task.cpp
-src/bridge_map.cpp
+#src/bridge_map.cpp
+src/SRTNode.cpp
+src/SRT.cpp
 src/tasks/collect3dscan.cpp
+src/tasks/process3dscan.cpp
 src/behavior_controllers/example_behavior_controller.cpp
 src/behavior_controllers/srtexploration.cpp
 )

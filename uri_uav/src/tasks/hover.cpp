@@ -56,9 +56,17 @@ void Hover::_activate(){
 		Eigen::Quaterniond ori = uav->orientation();
 		uri_base::quaternion_to_yaw(ori, _goal_yaw);
 	}
+// 	std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " << _goal_yaw << std::endl;
 	_time_start = ros::Time::now();
 	_prev_time = _time_start;
 }
+
+
+void Hover::_reset(){
+	_time_start = ros::Time::now();
+	_prev_time = _time_start;
+}
+
 
 TaskOutput Hover::_run(){
 	
@@ -68,9 +76,10 @@ TaskOutput Hover::_run(){
 	traj.acc << 0,0,0;
 	traj.yawrate = _options["YawRate"]->getDoubleValue();
 	
+	double delta_t ;
 	if (traj.yawrate != 0.0){
 		ros::Time _time_now = ros::Time::now();
-		double delta_t = (_time_now - _prev_time).toSec();
+		delta_t = (_time_now - _prev_time).toSec();
 		_goal_yaw = _goal_yaw + traj.yawrate*delta_t;
 		while  (_goal_yaw >  M_PI) _goal_yaw -= 2*M_PI;
 		while  (_goal_yaw < -M_PI) _goal_yaw += 2*M_PI;
@@ -79,7 +88,7 @@ TaskOutput Hover::_run(){
 	}
 	
 	traj.yaw = _goal_yaw;
-// 	std::cout << "a "<< _goal_yaw << std::endl;
+// 	std::cout << "a "<< _goal_yaw << " " << delta_t << std::endl;
 	
 	trajectory->set(traj,0.01);
 	

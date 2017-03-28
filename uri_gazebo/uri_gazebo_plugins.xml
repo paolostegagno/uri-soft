@@ -1,0 +1,17 @@
+<library path="liburi_gazebo">
+	
+
+	
+	
+	<class type="uri_gazebo::DirectPoseCommandGZ" base_class_type="uri::Task">
+		<description> Collects a 3D scan while the UAV rotate by merging the scans from a laser scanner.</description>
+	</class>
+	
+	
+	
+	<class type="uri_gazebo::CommandPoseBC" base_class_type="uri::BehaviorController">
+		<description> This controller drives the exploration of a bridge using the SRT method </description>
+	</class>
+	
+	
+</library>

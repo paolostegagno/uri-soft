@@ -1,19 +1,8 @@
-#include <uri_bridge/bridge_map.hpp>
+#include <uri_bridge/SRTNode.hpp>
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
 
 #include <fstream>
-
-// int main(void){
-// 	
-// 	uri_bridge::GridMap map;
-// 	
-// // 	map.print();
-// 	std::cout << map;
-// 	
-// 	
-// 	return 0;
-// }
 
 
 
@@ -70,11 +59,11 @@ int main(int argc, char** argv){
 	
 	// create a node
 	Eigen::Vector2d pos; pos(0) = 0; pos(1) = -0;
-	uri_bridge::GridMapParams gmp(pos, 0.05, 0.05, 10.80, 10.80, 0.31, 0.5);
-	uri_bridge::GridMap node(nullptr, gmp);
+	uri_bridge::SRTNodeParams gmp(pos, 0.05, 0.05, 10.80, 10.80, 0.31, 0.5);
+	uri_bridge::SRTNode node(nullptr, gmp);
 	
 	// save pointer to current node
-	uri_bridge::GridMap* current_node = node.ptr();
+	uri_bridge::SRTNode* current_node = node.ptr();
 	
 	// import the scan
 	node.import_scan(scan);
@@ -92,9 +81,9 @@ int main(int argc, char** argv){
 	std::cout << " aaaa "<< pos2 << std::endl;
 	
 	
-	uri_bridge::GridMapParams gmp2(pos2, 0.05, 0.05, 10.80, 10.80, 0.31, 0.5);
+	uri_bridge::SRTNodeParams gmp2(pos2, 0.05, 0.05, 10.80, 10.80, 0.31, 0.5);
 	std::cout << " b1"<< pos2 << std::endl;
-	uri_bridge::GridMap* new_child = node.create_new_child(gmp2, scan);
+	uri_bridge::SRTNode* new_child = node.create_new_child(gmp2, scan);
 	std::cout << " c1"<< pos2 << std::endl;
 	node.update_node(new_child);
 	std::cout << " d1"<< pos2 << std::endl;
@@ -109,21 +98,79 @@ int main(int argc, char** argv){
 	new_child->print_stats();
 	std::cout << " h1"<< pos2 << std::endl;
 	
-// 	int a, b;
-// 	node.cartesian_local_to_cell(0,0,a,b);
-// 	std::cout << " 0  0  " << a << " " << b << std::endl;
-// 	node.cartesian_local_to_cell(1,1,a,b);
-// 	std::cout << " 1  1  " << a << " " << b << std::endl;
-// 	node.cartesian_local_to_cell(4,4,a,b);
-// 	std::cout << " 4  4  " << a << " " << b << std::endl;
-// 	node.cartesian_local_to_cell(8,8,a,b);
-// 	std::cout << " 8  8  " << a << " " << b << std::endl;
-// 	node.cartesian_local_to_cell(10.8,10.8,a,b);
-// 	std::cout << " 10.8  10.8  " << a << " " << b << std::endl;
-// 	node.cartesian_local_to_cell(-5,-5,a,b);
-// 	std::cout << " -5  -5  " << a << " " << b << std::endl;
-// 	node.cartesian_local_to_cell(-10.8,-10.8,a,b);
-// 	std::cout << " -10.8 -10.8  " << a << " " << b << std::endl;
 	
+	long int num_frontier_cells = 4000;
+	std::cout << time(NULL) << std::endl;
+	srand(time(NULL));
+	long int selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	usleep(1000000);
+	
+	std::cout << time(NULL) << std::endl;
+	srand(time(NULL));
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	selected_cell = rand()%num_frontier_cells;
+	std::cout << selected_cell << std::endl;
+	std::cout << time(NULL) << std::endl;	
+
 }
 

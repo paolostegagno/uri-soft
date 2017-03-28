@@ -11,7 +11,7 @@
 #include <uri_base/keyboard.hpp>
 
 #ifndef __URI_EXAMPLE_TASK_HPP__
-#define __URI_EXAMPLE_TAKS_HPP__
+#define __URI_EXAMPLE_TASK_HPP__
 
 
 

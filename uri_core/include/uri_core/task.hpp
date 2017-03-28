@@ -65,6 +65,10 @@ namespace uri{
 		/// @details This method is purely virtual within the Task class, and must be implemented by any derived Task.
 		virtual void _activate()=0;
 		
+		/// @brief This method is executed anytime a Task is reseted through the method reset_task();
+		/// @details This method is virtual within the Task class, and can be implemented by any derived Task.
+		virtual void _reset(){};
+		
 		/// @brief This method is executed anytime a Task is deactivated through the method deactivate_task();
 		/// @details This method is purely virtual within the Task class, and must be implemented by any derived Task.
 		virtual void _deactivate()=0;

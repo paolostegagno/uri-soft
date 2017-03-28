@@ -31,13 +31,13 @@
   
   <!-- MAPIP cameras -->
 	<xacro:include filename="generic_camera.urdf.xacro" />
-	<xacro:generic_camera name="left_camera" parent="base_link" ros_topic="camera_image" cam_info_topic="camera_info" update_rate="30" res_x="320" res_y="240" image_format="R8G8B8" hfov="${0.6/M_PI * 180.0}">
-		<origin xyz="-0.01 0.15 0.06" rpy="0 ${-M_PI/10} ${M_PI/4}"/>
+	<xacro:generic_camera name="left_camera" parent="base_link" ros_topic="camera_image" cam_info_topic="camera_info" update_rate="30" res_x="4608" res_y="3456" image_format="R8G8B8" hfov="${0.6/M_PI * 180.0}">
+		<origin xyz="-0.01 0.15 0.06" rpy="0 ${-M_PI/1000} ${M_PI/4}"/>
 	</xacro:generic_camera>
 		
 <!--	<xacro:include filename="generic_camera.urdf.xacro" />-->
-	<xacro:generic_camera name="right_camera" parent="base_link" ros_topic="camera_image" cam_info_topic="camera_info" update_rate="30" res_x="320" res_y="240" image_format="R8G8B8" hfov="${0.6/M_PI * 180.0}">
-		<origin xyz="-0.01 -0.15 0.06" rpy="0.1 ${-M_PI/10} ${-M_PI/4}"/>
+	<xacro:generic_camera name="right_camera" parent="base_link" ros_topic="camera_image" cam_info_topic="camera_info" update_rate="30" res_x="4608" res_y="3456" image_format="R8G8B8" hfov="${0.6/M_PI * 180.0}">
+		<origin xyz="0.15 -0.15 0.06" rpy="0.0 0.01 0.0"/>
 	</xacro:generic_camera>
 
 	<!-- Sonar Range Finder -->

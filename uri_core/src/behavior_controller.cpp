@@ -54,6 +54,19 @@ void BehaviorController::setTaskList(std::vector<boost::shared_ptr<uri::Task> > 
 
 
 
+Behavior* BehaviorController::behavior(std::string nm){
+	
+	for (int i=0; i < behaviors->size(); i++){
+		if ( nm.compare(behaviors->at(i)->name())==0 ){
+			return behaviors->at(i);
+		}
+	}
+	
+	return NULL;
+}
+
+
+
 
 TaskOutput BehaviorController::_run(){
 	

@@ -59,6 +59,21 @@ namespace uri{
 		return _task[tnumber]->set_option_double(oname, value);
 	}
 	
+	bool Behavior::set_option_double(const char* oname_c, const char* tname_c, double value){
+		
+		std::string oname(oname_c);
+		std::string tname(tname_c);
+		
+		int tnumber = this->contains_task(tname);
+		if (tnumber<0){
+			ROS_ERROR("  Can't find task %s in Behavior %s.", tname.c_str(), _name.c_str());
+			return false;
+		}
+		return _task[tnumber]->set_option_double(oname, value);
+	}
+
+	
+	
 	bool Behavior::set_option_bool(std::string &oname, std::string &tname, bool value){
 		int tnumber = this->contains_task(tname);
 		if (tnumber<0){

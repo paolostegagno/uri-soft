@@ -13,8 +13,13 @@
 #include <uri_uav/resources/iris_interface.hpp>
 #include <uri_base/shared_memory.hpp>
 
+#include <uri_bridge/resources/shared_memory.hpp>
+
+
+#include <sensor_msgs/PointCloud.h>
+
 #ifndef __URI_COLLECT3DSCAN_HPP__
-#define __URI_EXAMPLE_TAKS_HPP__
+#define __URI_COLLECT3DSCAN_HPP__
 
 
 
@@ -31,14 +36,6 @@ namespace uri_bridge{
 	class Collect3DScan: public Task{
 		
 		// ################ put here your private variables.
-		//
-		// int _variable1;
-		// double _variable2;
-		
-		// time variables
-		double delta_t;
-		ros::Time start_t;
-		double last_elapsed;
 		
 		// Resources
 		uri_sensors::LaserScanner* ls;
@@ -47,21 +44,30 @@ namespace uri_bridge{
 		Eigen::Vector3d _position;
 		Eigen::Quaterniond _orientation;
 		
-		Eigen::Vector3d _velocity_lin;
-		Eigen::Vector3d _velocity_ang;
+		double first_yaw;
+		double last_yaw;
+		bool first_yaw_selected;
+		double previous_yaw;
+		double traveled_yaw;
 		
-		
-		ros::Subscriber _sub_local_position_pose;
-		ros::Subscriber _sub_local_position_velocity;
+		int counter;
 		
 		std::fstream fout;
+		
+		uri_bridge::PointCloud pc;
+		
+// 		uri_base::SharedMemory<uri_bridge::PointCloud>* pcl;
+		uri_base::SharedMemory<uri_bridge::LaserScan>* lsc;
+		
+		uri_bridge::LaserScan new_2D_scan;
+// 		std::vector<double> num_rays_per_scan;
+// 		std::vector<Eigen::Vector2d> new_scan_polar;
+
+		
 		
 		// ################ put here your the declaration of your private methods.
 		//
 		// void _cool_method(int input1, double input2);
-		void _local_position_pose_CB(const geometry_msgs::PoseStamped::ConstPtr& msg);
-		void _local_position_velocity_CB(const geometry_msgs::TwistStamped::ConstPtr& msg);
-
 		
 		// ################ the following are mandatory methods that must be implemented for any task.
 		//
@@ -72,10 +78,7 @@ namespace uri_bridge{
 		
 		/// @brief Mandatory method containing the routine executed ony once at the beginning.
 		/// @details This method is mandatory since it is defined as purely virtual in the class uri::Task.
-		virtual void _initialize(){
-				_sub_local_position_pose = n->subscribe("/mavros/local_position/pose", 1, &Collect3DScan::_local_position_pose_CB, this);
-				_sub_local_position_velocity = n->subscribe("/mavros/local_position/velocity", 1, &Collect3DScan::_local_position_velocity_CB, this);
-		}
+		virtual void _initialize();
 		
 		/// @brief Mandatory method containing the routine executed ony once every time the task is activated.
 		/// @details This method is mandatory since it is defined as purely virtual in the class uri::Task.

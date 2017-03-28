@@ -1,8 +1,26 @@
 <library path="liburi_bridge">
 	
-	<class type="uri_bridge::Collect3DScan" base_class_type="uri::Task">
-		<description> This is a task which is not doing anything </description>
+
+	<class type="uri_base::SharedMemory<uri_bridge::LaserScan>" base_class_type="uri::Resource">
+		<description> This resource is a sensor_msgs::LaserScan saved in the SharedMemory </description>
 	</class>
+
+	<class type="uri_base::SharedMemory<uri_bridge::PointCloud>" base_class_type="uri::Resource">
+		<description> This resource is a sensor_msgs::PointCloud saved in the SharedMemory </description>
+	</class>
+	
+	
+	
+	
+	<class type="uri_bridge::Collect3DScan" base_class_type="uri::Task">
+		<description> Collects a 3D scan while the UAV rotate by merging the scans from a laser scanner.</description>
+	</class>
+	
+	<class type="uri_bridge::Process3DScan" base_class_type="uri::Task">
+		<description> Processes a pointcloud for srt exploration.</description>
+	</class>
+	
+	
 	
 	
 	<class type="uri_bridge::ExampleBehaviorController" base_class_type="uri::BehaviorController">

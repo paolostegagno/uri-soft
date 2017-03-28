@@ -26,7 +26,9 @@ namespace uri_uav{
 		virtual void _initialize(){}
 		
 		virtual void _activate();
-
+		
+		virtual void _reset();
+		
 		virtual void _deactivate(){}
 		
 		bool _first_run;

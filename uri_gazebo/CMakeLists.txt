@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_msgs
   tf_conversions
   uri_base
+  uri_core
 )
 
 find_package(mav_msgs QUIET)
@@ -26,6 +27,8 @@ catkin_package(
     rosbag
     gazebo_msgs
     tf_conversions
+    uri_core
+    uri_base
 #     telekyb_msgs
 #     telekyb_srvs
   DEPENDS Eigen
@@ -39,10 +42,17 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_library(${PROJECT_NAME} 
+src/tasks/directposecommandgz.cpp
+src/behavior_controllers/commandposebc.cpp
+)
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+
+
+
 if(mav_msgs_FOUND)
   add_executable(sitl_gazebo_interface src/sitl_gazebo_interface.cpp)
   target_link_libraries(sitl_gazebo_interface ${catkin_LIBRARIES})
-
 else(mav_msgs_FOUND)
   message(WARNING "Missing package 'mav_msgs', this package will not be built!")
 endif(mav_msgs_FOUND)

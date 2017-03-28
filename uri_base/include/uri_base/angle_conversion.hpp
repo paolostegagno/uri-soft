@@ -31,6 +31,12 @@ namespace uri_base{
 	/// @return The converted Eigen::Quaternion
 	Eigen::Quaterniond rpy_to_quaternion(double roll, double pitch, double yaw);
 	
+	/// @brief Converts roll pitch yaw into Eigen::Matrix3d rotation matrix
+	/// @param[in] &pitch Input pitch
+	/// @param[in] &roll Input roll
+	/// @param[in] &yaw Input yaw
+	/// @return The converted Eigen::Matrix3d
+	Eigen::Matrix3d rpy_to_rot(double roll, double pitch, double yaw);
 
 
 }

@@ -91,16 +91,7 @@ namespace uri{
 		/// @brief finds a behavior with the specified name.
 		/// @param[in] nm std::string containing the name of the behavior.
 		/// @return A pointer to the specified behavior if it exists. A NULL pointer of the specified behavior does not exists
-		Behavior* behavior(std::string nm){
-			
-			for (int i=0; i < behaviors->size(); i++){
-				if ( nm.compare(behaviors->at(i)->name())==0 ){
-					return behaviors->at(i);
-				}
-			}
-			
-			return NULL;
-		}
+		Behavior* behavior(std::string nm);
 
 
 // 		

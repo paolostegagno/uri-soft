@@ -124,6 +124,7 @@ PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Trajectory>, uri::Resour
 
 PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Heading>, uri::Resource)
 
+PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Pose>, uri::Resource)
 
 #endif
 
