@@ -39,6 +39,10 @@
 		<description> This Behavior controller does an example flight.</description>
 	</class>
 	
+	<class type="uri_uav::TakeoffLandTest" base_class_type="uri::BehaviorController">
+		<description> This Behavior controller does a takeoff, hovers for some seconds, and lands.</description>
+	</class>
+
 	<class type="uri_uav::AttitudeThrustHover" base_class_type="uri::BehaviorController">
 		<description> This Behavior controller does an example flight.</description>
 	</class>

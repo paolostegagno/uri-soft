@@ -52,6 +52,7 @@ add_library(uri_uav
 	src/tasks/yawratecontroller.cpp
 	src/tasks/attitudethrustcontroller.cpp
 	src/behavior_controllers/bcontrollerexample.cpp
+	src/behavior_controllers/takeofflandtest.cpp
 	src/behavior_controllers/attitudethrusthover.cpp
 	src/behavior_controllers/joystick.cpp
 	)

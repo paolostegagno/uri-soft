@@ -43,8 +43,8 @@ TaskOutput BControllerExample::__run(){
 			std::string oname_z("goal_z");
 			std::string oname_yaw("goal_yaw");
 			behavior("Goto")->set_option_double(oname_x, taskname, 0.0);
-			behavior("Goto")->set_option_double(oname_y, taskname, 9.0);
-			behavior("Goto")->set_option_double(oname_z, taskname, 5.0);
+			behavior("Goto")->set_option_double(oname_y, taskname, 1.0);
+			behavior("Goto")->set_option_double(oname_z, taskname, 1.2);
 			behavior("Goto")->set_option_double(oname_yaw, taskname, M_PI/2);
 			_next_active_behavior = behavior("Goto");
 			return Continue;
