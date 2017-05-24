@@ -12,6 +12,7 @@
 #include <string>
 
 #include "mavros_msgs/SetMode.h"
+#include "mavros_msgs/StreamRate.h"
 #include "mavros_msgs/CommandBool.h"
 #include "mavros_msgs/CommandTOL.h"
 #include "mavros_msgs/State.h"
@@ -90,6 +91,9 @@ class IrisInterface: public Resource{
 	// here all service clients which calls services from mavros with their respective messages
 	ros::ServiceClient _srv_set_mode;
 	mavros_msgs::SetMode _msg_set_mode;
+	
+	ros::ServiceClient _srv_set_stream_rate;
+	mavros_msgs::StreamRate _msg_set_stream_rate;
 
 	ros::ServiceClient _srv_cmd_arming;
 	mavros_msgs::CommandBool _msg_cmd_arming;
@@ -134,6 +138,31 @@ class IrisInterface: public Resource{
 		/// @param[in] mode string containing the name of the desired mode.
 		/// @return \b true if the request is fullfilled, \b false otherwise.
 		bool setMode(std::string mode);
+		
+		/// @brief Set stream rate for all the topics
+		/// @details This method sends a request to set the stream rate of all topics to the passed value
+		/// @param[in] rate desired rate.
+		/// @return \b true if the request is fullfilled, \b false otherwise.
+		bool setRate(unsigned int rate);
+		
+		/// @brief Set stream rate for all the raw sensor topics
+		/// @details This method sends a request to set the stream rate of all topics to the passed value
+		/// @param[in] rate desired rate.
+		/// @return \b true if the request is fullfilled, \b false otherwise.
+		bool setRateRawSensors(unsigned int rate);
+
+		/// @brief Set stream rate for all the raw sensor topics
+		/// @details This method sends a request to set the stream rate of all topics to the passed value
+		/// @param[in] rate desired rate.
+		/// @return \b true if the request is fullfilled, \b false otherwise.
+		bool setRateExtendedStatus(unsigned int rate);
+		
+		/// @brief Set stream rate for all the raw sensor topics
+		/// @details This method sends a request to set the stream rate of all topics to the passed value
+		/// @param[in] rate desired rate.
+		/// @return \b true if the request is fullfilled, \b false otherwise.
+		bool setRatePosition(unsigned int rate);
+		
 		
 		/// @brief Arm the propellers
 		/// @details This method sends a request to arm the propellers.

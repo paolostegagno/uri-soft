@@ -8,7 +8,7 @@
 	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="3.0" GoalSource="trajectory" YawRate="0.0" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
 	<task name="uri_uav::GotoTask" period="0.05" period_tollerance="0.002" />
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="false" savefile_name="/home/paolos/savefile.txt" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/paolos/savefile.txt" />
 	
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>

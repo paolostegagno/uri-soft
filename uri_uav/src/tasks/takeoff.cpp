@@ -27,6 +27,9 @@ TaskOutput Takeoff::_run(){
 	switch (_stage) {
 		case GROUND_START:
 			if (uav->setMode("guided")){
+				uav->setRateRawSensors(20);
+				uav->setRatePosition(10);
+				uav->setRateExtendedStatus(1);
 				_stage = GROUND_PREARM;
 			}
 			break;
@@ -91,6 +94,7 @@ void Takeoff::get_mandatory_resources(ResourceVector &res){
 	
 	std::string iint("uri_uav::IrisInterface");
 	uav = (IrisInterface*)res.get_resource_ptr(iint);
+	
 	
 }
 

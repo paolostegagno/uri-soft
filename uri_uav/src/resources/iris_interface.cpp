@@ -167,6 +167,7 @@ void IrisInterface::_init()
   
   // find all services provided by mavros
   _srv_set_mode = n->serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
+  _srv_set_stream_rate = n->serviceClient<mavros_msgs::StreamRate>("/mavros/set_stream_rate");
   _srv_cmd_arming = n->serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
   _srv_cmd_takeoff = n->serviceClient<mavros_msgs::CommandTOL>("/mavros/cmd/takeoff");
 
@@ -174,6 +175,8 @@ void IrisInterface::_init()
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
 	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, true);
+	
+// 	this->setRate(6);
 };
 
 
@@ -214,6 +217,80 @@ bool IrisInterface::setMode(std::string mode)
     return false;
   }
 }
+
+//#################################################################################################
+bool IrisInterface::setRate(unsigned int rate)
+{
+	_msg_set_stream_rate.request.stream_id = (uint8_t)0;
+	_msg_set_stream_rate.request.message_rate = rate;
+	_msg_set_stream_rate.request.on_off = 1;
+	if (_srv_set_stream_rate.call(_msg_set_stream_rate))
+	{
+		ROS_INFO("called set_stream_rate service.");
+		return true;
+	}
+	else
+	{
+		ROS_ERROR("Failed to call service set_stream_rate");
+		return false;
+	}
+}
+
+//#################################################################################################
+bool IrisInterface::setRateRawSensors(unsigned int rate)
+{
+	_msg_set_stream_rate.request.stream_id = (uint8_t)1;
+	_msg_set_stream_rate.request.message_rate = rate;
+	_msg_set_stream_rate.request.on_off = 1;
+	if (_srv_set_stream_rate.call(_msg_set_stream_rate))
+	{
+		ROS_INFO("called set_stream_rate service.");
+		return true;
+	}
+	else
+	{
+		ROS_ERROR("Failed to call service set_stream_rate");
+		return false;
+	}
+}
+
+//#################################################################################################
+bool IrisInterface::setRatePosition(unsigned int rate)
+{
+	_msg_set_stream_rate.request.stream_id = (uint8_t)6;
+	_msg_set_stream_rate.request.message_rate = rate;
+	_msg_set_stream_rate.request.on_off = 6;
+	if (_srv_set_stream_rate.call(_msg_set_stream_rate))
+	{
+		ROS_INFO("called set_stream_rate service.");
+		return true;
+	}
+	else
+	{
+		ROS_ERROR("Failed to call service set_stream_rate");
+		return false;
+	}
+}
+
+
+//#################################################################################################
+bool IrisInterface::setRateExtendedStatus(unsigned int rate)
+{
+	_msg_set_stream_rate.request.stream_id = (uint8_t)2;
+	_msg_set_stream_rate.request.message_rate = rate;
+	_msg_set_stream_rate.request.on_off = 1;
+	if (_srv_set_stream_rate.call(_msg_set_stream_rate))
+	{
+		ROS_INFO("called set_stream_rate service.");
+		return true;
+	}
+	else
+	{
+		ROS_ERROR("Failed to call service set_stream_rate");
+		return false;
+	}
+}
+
 
 //#################################################################################################
 bool IrisInterface::armThrottle()
