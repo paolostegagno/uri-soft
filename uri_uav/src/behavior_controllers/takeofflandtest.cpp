@@ -29,6 +29,9 @@ TaskOutput TakeoffLandTest::__run(){
 // 	std::cout << executions() << std::endl;
 	
 	// at beginning, no behavior is selected. Select here start behavior
+	
+	std::cout << "ab " << _active_behavior << " nab " << _next_active_behavior << std::endl;
+	
 	if (_next_active_behavior == NULL && _active_behavior == NULL){
 		_next_active_behavior = behavior("Takeoff");
 		return Continue;
