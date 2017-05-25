@@ -123,7 +123,7 @@ IrisInterface::IrisInterface(ros::NodeHandle &_n):Resource(_n)
 	
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
-	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, true);
+	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
 };
 
 
@@ -174,7 +174,7 @@ void IrisInterface::_init()
 	// what do you need to do every time the task is activated?
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
-	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, true);
+	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
 	
 // 	this->setRate(6);
 };

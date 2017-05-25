@@ -28,6 +28,7 @@ int main (int argc, char** argv){
 
 	ros::init(argc, argv, "~");
 	ros::NodeHandle n;
+
 	
 	std::string ns = ros::this_node::getNamespace();
 	ROS_INFO("namespace is : %s", ns.c_str());
@@ -37,12 +38,16 @@ int main (int argc, char** argv){
 	
 	std::string config_file_name;
 	uri::getStringParam(n,config_file_name,"configuration_file",nm);
+
 		
 	uri::Scheduler scheduler(n, config_file_name);
+
 	
 	while (ros::ok()){
 		usleep(100);
 		ros::spinOnce();
 	}
+
+
 }
 

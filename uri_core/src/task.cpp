@@ -30,6 +30,8 @@ std::string& Task::name(){
 
 void Task::run(const ros::TimerEvent&){
 	
+//std::cout << "aaaaa " << this->name() << " haspending " << _timer.hasPending()  << " isValid " << _timer.isValid() << std::endl;
+
 	
 	if (!_first_execution){
 		_first_execution=true;
@@ -51,6 +53,7 @@ void Task::_init(){
 
 	_task_active = false;
 	// and use it to create the run Timer
+//std::cout << "Setting " << this->name() << " period to " << _options["period"]->getDoubleValue() << " nsp :" << n->getNamespace() << std::endl;
 	_timer = n->createTimer(ros::Duration(_options["period"]->getDoubleValue()), &Task::run, this, false, false);
 	
 	_initialize();
