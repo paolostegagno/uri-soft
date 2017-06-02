@@ -42,6 +42,7 @@ TaskOutput Land::_run(){
 			
 			
 		case LAND_DESCENDING:
+			std::cout << "LAND_DESCENDING " << uav->position()(2) << std::endl;
 			uav->commandVelocity(0.0, 0.0, _options["land_speed"]->getDoubleValue());
 			if ( uav->position()(2) < _options["land_height"]->getDoubleValue() ){
 				_stage = LAND_GROUND;
@@ -49,6 +50,8 @@ TaskOutput Land::_run(){
 			break;
 			
 		case LAND_GROUND:
+			std::cout << "LAND_GROUND " << uav->position()(2) << std::endl;
+			uav->commandVelocity(0.0, 0.0, _options["land_speed"]->getDoubleValue());
 			if ( uav->disarmThrottle() ){
 				return Terminate;
 			}

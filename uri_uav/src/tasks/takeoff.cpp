@@ -16,6 +16,7 @@ Takeoff::Takeoff():Task()/*:_name(nm)*/{
 	_options.addDoubleOption("takeoff_height_tollerance",0.05);
 	
 	_stage = GROUND_START;
+	_starting_height = 0.0;
 }
 
 
@@ -65,7 +66,9 @@ TaskOutput Takeoff::_run(){
 				_stage = GROUND_PREARM;
 			}
 			else {
-				if ( uav->takeoff( _options["takeoff_height"]->getDoubleValue() ) ){
+				_starting_height = uav->position()(2);
+				std::cout << "AAAAAAAAAAAAAAAAAAAa " << _options["takeoff_height"]->getDoubleValue() + _starting_height << "  " << _options["takeoff_height"]->getDoubleValue() << " " <<  _starting_height << std::endl;
+				if ( uav->takeoff( _options["takeoff_height"]->getDoubleValue() + _starting_height) ){
 					_stage = TAKEOFF_START;
 				}
 			}
@@ -75,7 +78,7 @@ TaskOutput Takeoff::_run(){
 			if (not uav->armed()){
 				_stage = GROUND_PREARM;
 			}
-			if ( uav->position()(2) > _options["takeoff_height"]->getDoubleValue() - _options["takeoff_height_tollerance"]->getDoubleValue() ){
+			if ( uav->position()(2) > _options["takeoff_height"]->getDoubleValue() + _starting_height - _options["takeoff_height_tollerance"]->getDoubleValue() ){
 				return Terminate;
 			}
 			break;
@@ -94,7 +97,7 @@ void Takeoff::get_mandatory_resources(ResourceVector &res){
 	
 	std::string iint("uri_uav::IrisInterface");
 	uav = (IrisInterface*)res.get_resource_ptr(iint);
-	
+
 	
 }
 

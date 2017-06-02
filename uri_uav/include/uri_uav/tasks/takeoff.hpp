@@ -23,7 +23,8 @@ namespace uri_uav{
 	class Takeoff: public Task{
 		
 	private:
-		
+		double _starting_height;
+
 		IrisInterface* uav;
 		
 		virtual TaskOutput _run();
