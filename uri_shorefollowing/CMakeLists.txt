@@ -45,8 +45,10 @@ include_directories(
 
 ## Declare a C++ library
 add_library(uri_shorefollowing
+		src/tasks/circling.cpp
 		src/tasks/shorefollowing.cpp
 		src/tasks/shorefollowingpaolo.cpp
+		src/behavior_controllers/circlingexperiment.cpp
 		src/behavior_controllers/shorefollowingexperiment.cpp
 		src/tasks/fixedspeeddesiredheadingcontroller.cpp
 	)

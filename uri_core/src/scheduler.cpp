@@ -50,10 +50,8 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 	}
 	
 	
-//	while(not behavior_controller->task_active()){
-		behavior_controller->activate_task();
-//	}
 	ROS_INFO("Activating " ANSI_COLOR_BEHAVIOR_CONTROLLER "%s" ANSI_COLOR_RESET ".", behavior_controller->name().c_str());
+	behavior_controller->activate_task();
 	
 }
 

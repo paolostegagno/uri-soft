@@ -53,6 +53,7 @@ add_library(uri_uav
 	src/tasks/attitudethrustcontroller.cpp
 	src/behavior_controllers/bcontrollerexample.cpp
 	src/behavior_controllers/takeofflandtest.cpp
+	src/behavior_controllers/takeoffgotolandtest.cpp
 	src/behavior_controllers/attitudethrusthover.cpp
 	src/behavior_controllers/joystick.cpp
 	)

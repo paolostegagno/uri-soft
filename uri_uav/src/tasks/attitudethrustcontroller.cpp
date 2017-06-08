@@ -98,6 +98,7 @@ TaskOutput AttitudeThrustController::_run(){
 	// save the interesting quantities in an output file to plot the result
 	if (_options["save_data"]->getBoolValue()){
 		ofile << ros::Time::now().toSec() << " " << pos(0) << " " << pos(1) << " " << pos(2) << " " << traj.pos(0) << " " << traj.pos(1) << " " << traj.pos(2) << " "
+																		<< vel(0) << " " << vel(1) << " " << vel(2) << " "
 																		<< integral_error(0) << " " << integral_error(1) << " " << integral_error(2) << " "
 																		<< e(0) << " " << e(1) << " " << e(2) << " " << traj.yaw << " " << yaw << " " << traj.yaw - yaw << std::endl;
 	}

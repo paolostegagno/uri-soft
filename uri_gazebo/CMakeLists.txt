@@ -58,6 +58,3 @@ else(mav_msgs_FOUND)
 endif(mav_msgs_FOUND)
 
 
-
-
-

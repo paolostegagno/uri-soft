@@ -12,6 +12,10 @@
 		<description> This drives an UAV to follow a shoreline based on lidar measurements. The output is the desired heading and is stored in shared memory.</description>
 	</class>
 	
+	<class type="uri_shorefollowing::Circling" base_class_type="uri::Task">
+		<description> This drives an UAV to follow a circle. The output is the desired heading and is stored in shared memory.</description>
+	</class>
+	
 	
 	<class type="uri_shorefollowing::FixedSpeedDesiredHeadingController" base_class_type="uri::Task">
 		<description> This task takes the desired heading of the UAV from the shared memory and compute the desired trajectory for the UAV controller.</description>
@@ -20,6 +24,10 @@
 	
 	
 	<class type="uri_shorefollowing::ShoreFollowingExperiment" base_class_type="uri::BehaviorController">
+		<description> This Behavior controller coordinates a shore following experiment.</description>
+	</class>
+	
+	<class type="uri_shorefollowing::CirclingExperiment" base_class_type="uri::BehaviorController">
 		<description> This Behavior controller coordinates a shore following experiment.</description>
 	</class>
 	

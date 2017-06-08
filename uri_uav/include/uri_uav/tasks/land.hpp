@@ -17,7 +17,9 @@ namespace uri_uav{
 		LAND_START,
 		LAND_PREDESCEND,
 		LAND_DESCENDING,
-		LAND_GROUND
+		LAND_NOT_CONFIRMED_GROUND,
+		LAND_GROUND,
+		LAND_GROUND_DISARMED
 	};
 
 	
@@ -39,6 +41,12 @@ namespace uri_uav{
 		virtual void _deactivate(){}
 		
 		LandStages _stage;
+		
+		ros::Time _prev_time;
+		ros::Time _landing_detected;
+		
+		Eigen::Vector3d _first_pos;
+		uri_base::Trajectory traj;
 		
 	public:
 		

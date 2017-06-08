@@ -1,0 +1,8 @@
+<!-- -->
+
+<launch>
+		
+		<node name="gazebo_interface" pkg="uri_gazebo" type="sitl_gazebo_interface">
+		</node>
+		
+</launch>

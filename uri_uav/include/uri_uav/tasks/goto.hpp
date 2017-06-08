@@ -46,7 +46,7 @@ namespace uri_uav{
 		double _start_yaw;
 		ros::Time _start_time;
 		
-		double t1, t2, t3;
+		double t1, t2, t3, ty;
 		double x1, x2;
 		double y1, y2;
 		double z1, z2;

@@ -83,8 +83,8 @@ TaskOutput BehaviorController::_run(){
 				
 			for(int i=0; i<tasks->size(); i++){
 				if (_next_active_behavior->contains_task(tasks->at(i)->name())>=0){
-					tasks->at(i)->activate_task();
 					ROS_INFO("  Activating " ANSI_COLOR_TASK "%s" ANSI_COLOR_RESET ".", tasks->at(i)->name().c_str());
+					tasks->at(i)->activate_task();
 				}
 				else{}
 			}
@@ -92,24 +92,24 @@ TaskOutput BehaviorController::_run(){
 		else {
 				
 			ROS_INFO("Switching from behavior " ANSI_COLOR_BEHAVIOR "%s" ANSI_COLOR_RESET " to behavior " ANSI_COLOR_BEHAVIOR "%s" ANSI_COLOR_RESET ".", _active_behavior->name().c_str(), _next_active_behavior->name().c_str());
-				_active_behavior->print();
-				_next_active_behavior->print();
+// 				_active_behavior->print();
+// 				_next_active_behavior->print();
 			
 			for(int i=0; i<tasks->size(); i++){
 				
 // 					std::cout << "   " << tasks[i]->name()  << " " << _active_behavior->contains_task(tasks[i]->name()) << " " << _next_active_behavior->contains_task(tasks[i]->name()) << std::endl;
 				
 				if (_active_behavior->contains_task(tasks->at(i)->name())>=0 && _next_active_behavior->contains_task(tasks->at(i)->name())<0){
-					tasks->at(i)->deactivate_task();
 					ROS_INFO("  Deactivating " ANSI_COLOR_TASK "%s" ANSI_COLOR_RESET ".", tasks->at(i)->name().c_str());
+					tasks->at(i)->deactivate_task();
 				}
 				else if (_active_behavior->contains_task(tasks->at(i)->name())<0 && _next_active_behavior->contains_task(tasks->at(i)->name())>=0){
-					tasks->at(i)->activate_task();
 					ROS_INFO("  Activating " ANSI_COLOR_TASK "%s" ANSI_COLOR_RESET ".", tasks->at(i)->name().c_str());
+					tasks->at(i)->activate_task();
 				}
 				else if (_active_behavior->contains_task(tasks->at(i)->name())>=0 && _next_active_behavior->contains_task(tasks->at(i)->name())>=0){
-					tasks->at(i)->reset_task();
 					ROS_INFO("  Resetting " ANSI_COLOR_TASK "%s" ANSI_COLOR_RESET ".", tasks->at(i)->name().c_str());
+					tasks->at(i)->reset_task();
 				}
 				else {}
 			}

@@ -68,7 +68,7 @@ TaskOutput Takeoff::_run(){
 			else {
 				_starting_height = uav->position()(2);
 				std::cout << "AAAAAAAAAAAAAAAAAAAa " << _options["takeoff_height"]->getDoubleValue() + _starting_height << "  " << _options["takeoff_height"]->getDoubleValue() << " " <<  _starting_height << std::endl;
-				if ( uav->takeoff( _options["takeoff_height"]->getDoubleValue() + _starting_height) ){
+				if ( uav->takeoff( _options["takeoff_height"]->getDoubleValue() /*+ _starting_height*/) ){
 					_stage = TAKEOFF_START;
 				}
 			}

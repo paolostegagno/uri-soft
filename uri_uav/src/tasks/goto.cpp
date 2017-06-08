@@ -26,14 +26,16 @@ GotoTask::GotoTask():Task(){
 	//
 	// _options.addIntOption("name_option_1",15);
 	_options.addDoubleOption("max_acc", 0.25);
-	_options.addDoubleOption("max_vel", 2.0);
+	_options.addDoubleOption("max_vel", 1.0);
+	_options.addDoubleOption("max_yawrate", 0.25);
 	_options.addDoubleOption("goal_x", 26.0);
 	_options.addDoubleOption("goal_y", 26.0);
 	_options.addDoubleOption("goal_z", 3.0);
 	_options.addDoubleOption("goal_vx", 0.0);
 	_options.addDoubleOption("goal_vy", 0.0);
 	_options.addDoubleOption("goal_vz", 0.0);
-	_options.addDoubleOption("goal_yaw", 179.0);
+	_options.addDoubleOption("goal_yaw", 0.0);
+	_options.addBoolOption("relative_commands", false);
 	// _options.addBoolOption("name_option_3",false);
 	// _options.addStringOption("name_option_2","default_value");
 	//
@@ -52,80 +54,150 @@ TaskOutput GotoTask::_run(){
 	Eigen::Vector3d nextpos = _start;
 	Eigen::Vector3d nextvel;
 	Eigen::Vector3d nextacc;
-	double t_elapsed;
+	double next_yaw;
 	
-	switch (_stage) {
-		
-		case GOTO_START:
-			if (uav->guided()){
-				_stage = GOTO_ACCELERATION;
-				_start_time = ros::Time::now();
+	if (t3 >0){
+		switch (_stage) {
+			
+			case GOTO_START:
+				if (uav->guided()){
+					_stage = GOTO_ACCELERATION;
+					_start_time = ros::Time::now();
+				}
+				break;
+				
+			case GOTO_ACCELERATION: {
+	// 			std::cout << "GOTO_ACCELERATION" << std::endl;
+				double t_elapsed = (ros::Time::now() - _start_time).toSec();
+				
+				nextpos(0) = _start(0) + _startvel(0)*t_elapsed + 0.5*max_x_acc*(t_elapsed*t_elapsed);
+				nextpos(1) = _start(1) + _startvel(1)*t_elapsed + 0.5*max_y_acc*(t_elapsed*t_elapsed);
+				nextpos(2) = _start(2) + _startvel(2)*t_elapsed + 0.5*max_z_acc*(t_elapsed*t_elapsed);
+				
+				nextvel(0) = _startvel(0) + max_x_acc*(t_elapsed);
+				nextvel(1) = _startvel(1) + max_y_acc*(t_elapsed);
+				nextvel(2) = _startvel(2) + max_z_acc*(t_elapsed);
+				
+				nextacc(0) = max_x_acc;
+				nextacc(1) = max_y_acc;
+				nextacc(2) = max_z_acc;
+				
+				next_yaw = _start_yaw + _yawrate*t_elapsed;
+				
+				if (t_elapsed>=t1) _stage=GOTO_CONSTANT_SPEED;
+				break;
 			}
-			break;
 			
-		case GOTO_ACCELERATION: {
-			t_elapsed = (ros::Time::now() - _start_time).toSec();
-			nextpos(0) = _start(0) + _startvel(0)*t_elapsed + 0.5*max_x_acc*(t_elapsed*t_elapsed);
-			nextpos(1) = _start(1) + _startvel(1)*t_elapsed + 0.5*max_y_acc*(t_elapsed*t_elapsed);
-			nextpos(2) = _start(2) + _startvel(2)*t_elapsed + 0.5*max_z_acc*(t_elapsed*t_elapsed);
+			case GOTO_CONSTANT_SPEED: {
+	// 			std::cout << "GOTO_CONSTANT_SPEED" << std::endl;
+				double t_elapsed = (ros::Time::now() - _start_time).toSec();
+				
+				nextpos(0) = x1 + max_x_vel*(t_elapsed-t1);
+				nextpos(1) = y1 + max_y_vel*(t_elapsed-t1);
+				nextpos(2) = z1 + max_z_vel*(t_elapsed-t1);
+				
+				nextvel(0) = max_x_vel;
+				nextvel(1) = max_y_vel;
+				nextvel(2) = max_z_vel;
+				
+				nextacc(0) = 0;
+				nextacc(1) = 0;
+				nextacc(2) = 0;
+				
+				next_yaw = _start_yaw + _yawrate*t_elapsed;
+				
+				if (t_elapsed>=t2) _stage=GOTO_DECELERATION;
+				break;
+			}
+				
+			case GOTO_DECELERATION: {
+	// 			std::cout << "GOTO_DECELERATION" << std::endl;
+				double t_elapsed = (ros::Time::now() - _start_time).toSec();
+				
+				nextpos(0) = x2 + max_x_vel*(t_elapsed - t2) - 0.5*max_x_acc*(t_elapsed - t2)*(t_elapsed - t2);
+				nextpos(1) = y2 + max_y_vel*(t_elapsed - t2) - 0.5*max_y_acc*(t_elapsed - t2)*(t_elapsed - t2);
+				nextpos(2) = z2 + max_z_vel*(t_elapsed - t2) - 0.5*max_z_acc*(t_elapsed - t2)*(t_elapsed - t2);
+				
+				nextvel(0) = max_x_vel - max_x_acc*(t_elapsed - t2);
+				nextvel(1) = max_y_vel - max_y_acc*(t_elapsed - t2);
+				nextvel(2) = max_z_vel - max_z_acc*(t_elapsed - t2);
+				
+				nextacc(0) = - max_x_acc;
+				nextacc(1) = - max_y_acc;
+				nextacc(2) = - max_z_acc;
+				
+				next_yaw = _start_yaw + _yawrate*t_elapsed;
+				
+				if (t_elapsed>=t3) {
+					_stage=GOTO_END;
+					if (t_elapsed>=ty) return Terminate;
+				}
+				break;
+			}
 			
-			nextvel(0) = _startvel(0) + max_x_acc*(t_elapsed);
-			nextvel(1) = _startvel(1) + max_y_acc*(t_elapsed);
-			nextvel(2) = _startvel(2) + max_z_acc*(t_elapsed);
-			
-			nextacc(0) = max_x_acc;
-			nextacc(1) = max_y_acc;
-			nextacc(2) = max_z_acc;
-			
-			if (t_elapsed>=t1) _stage=GOTO_CONSTANT_SPEED;
-			break;
+			case GOTO_END: {
+				double t_elapsed = (ros::Time::now() - _start_time).toSec();
+				
+				next_yaw = _start_yaw + _yawrate*t_elapsed;
+	// 			std::cout << "GOTO_END " << _yawrate << " " << next_yaw << std::endl;
+				
+				if (t_elapsed>=ty) return Terminate;
+				break;
+			}
+				
+			default:
+				_stage = GOTO_START;
+				break;
 		}
-		
-		case GOTO_CONSTANT_SPEED: {
-			t_elapsed = (ros::Time::now() - _start_time).toSec();
-			
-			nextpos(0) = x1 + max_x_vel*(t_elapsed-t1);
-			nextpos(1) = y1 + max_y_vel*(t_elapsed-t1);
-			nextpos(2) = z1 + max_z_vel*(t_elapsed-t1);
-			
-			nextvel(0) = max_x_vel;
-			nextvel(1) = max_y_vel;
-			nextvel(2) = max_z_vel;
-			
-			nextacc(0) = 0;
-			nextacc(1) = 0;
-			nextacc(2) = 0;
-			
-			if (t_elapsed>=t2) _stage=GOTO_DECELERATION;
-			break;
-		}
-			
-		case GOTO_DECELERATION: {
-			t_elapsed = (ros::Time::now() - _start_time).toSec();
-			
-			nextpos(0) = x2 + max_x_vel*(t_elapsed - t2) - 0.5*max_x_acc*(t_elapsed - t2)*(t_elapsed - t2);
-			nextpos(1) = y2 + max_y_vel*(t_elapsed - t2) - 0.5*max_y_acc*(t_elapsed - t2)*(t_elapsed - t2);
-			nextpos(2) = z2 + max_z_vel*(t_elapsed - t2) - 0.5*max_z_acc*(t_elapsed - t2)*(t_elapsed - t2);
-			
-			nextvel(0) = max_x_vel - max_x_acc*(t_elapsed - t2);
-			nextvel(1) = max_y_vel - max_y_acc*(t_elapsed - t2);
-			nextvel(2) = max_z_vel - max_z_acc*(t_elapsed - t2);
-			
-			nextacc(0) = - max_x_acc;
-			nextacc(1) = - max_y_acc;
-			nextacc(2) = - max_z_acc;
-			
-			if (t_elapsed>=t3) return Terminate;
-			break;
-		}
-			
-		default:
-			_stage = GOTO_START;
-			break;
 	}
 	
+	else { // if t3 == 0 => yaw rotation only
+				switch (_stage) {
+			
+			case GOTO_START:
+				if (uav->guided()){
+					_stage = GOTO_CONSTANT_SPEED;
+					_start_time = ros::Time::now();
+				}
+				break;
+				
+			case GOTO_CONSTANT_SPEED: {
+	// 			std::cout << "GOTO_ACCELERATION" << std::endl;
+				double t_elapsed = (ros::Time::now() - _start_time).toSec();
+				
+				nextpos(0) = _start(0);
+				nextpos(1) = _start(1);
+				nextpos(2) = _start(2);
+				
+				nextvel(0) = _startvel(0);
+				nextvel(1) = _startvel(1);
+				nextvel(2) = _startvel(2);
+				
+				nextacc(0) = 0;
+				nextacc(1) = 0;
+				nextacc(2) = 0;
+				
+				next_yaw = _start_yaw + _yawrate*t_elapsed;
+				
+				if (t_elapsed>=t1) _stage=GOTO_END;
+				break;
+			}
+			
+			case GOTO_END: {
+				double t_elapsed = (ros::Time::now() - _start_time).toSec();
+				
+				next_yaw = _start_yaw + _yawrate*t_elapsed;
+				
+				if (t_elapsed>=ty) return Terminate;
+				break;
+			}
+				
+			default:
+				_stage = GOTO_START;
+				break;
+		}
+	}
 	
-	double next_yaw = _start_yaw + _yawrate*t_elapsed;
 	
 // 	std::cout << nextpos.transpose() << " " << nextvel.transpose() << " " << nextacc.transpose() << " " << next_yaw << " " << _yawrate << " " << t_elapsed << std::endl;
 	
@@ -147,114 +219,126 @@ TaskOutput GotoTask::_run(){
 
 void GotoTask::_activate(){
 	
-	_goal(0) = _options["goal_x"]->getDoubleValue();
-	_goal(1) = _options["goal_y"]->getDoubleValue();
-	_goal(2) = _options["goal_z"]->getDoubleValue();
+	_start = uav->position();
+	if ( _options["relative_commands"]->getBoolValue() ){
+		_goal(0) = _start(0) + _options["goal_x"]->getDoubleValue();
+		_goal(1) = _start(1) + _options["goal_y"]->getDoubleValue();
+		_goal(2) = _start(2) + _options["goal_z"]->getDoubleValue();
+	}
+	else {
+		_goal(0) = _options["goal_x"]->getDoubleValue();
+		_goal(1) = _options["goal_y"]->getDoubleValue();
+		_goal(2) = _options["goal_z"]->getDoubleValue();
+	}
+	
+	_start_yaw = uav->yaw();
 	_goal_yaw = _options["goal_yaw"]->getDoubleValue();
+	
+	ROS_INFO("Current : (%f, %f, %f).", _start(0), _start(1), _start(2));
+	ROS_INFO("New goal: (%f, %f, %f).", _goal(0), _goal(1), _goal(2));
+	ROS_INFO("Current yaw: %f", _start_yaw);
+	ROS_INFO("Goal yaw   : %f", _goal_yaw);
+	
 	_startvel << 0,0,0;
 	_stage = GOTO_START;
-	_start = uav->position();
-	Eigen::Quaterniond start_ori = uav->orientation();
-	uri_base::quaternion_to_yaw(start_ori, _start_yaw);
+	
 	_direction = _goal-_start;
-	_direction = _direction/_direction.norm();
 	
-	max_speed = _options["max_vel"]->getDoubleValue();
-	max_acc = _options["max_acc"]->getDoubleValue();
-	bool good_trajectory = false;
-	
-	while(not good_trajectory){
-		max_x_vel = max_speed*_direction(0);
-		max_y_vel = max_speed*_direction(1);
-		max_z_vel = max_speed*_direction(2);
+	if (_direction.norm() > 0.0){
+		_direction = _direction/_direction.norm();
 		
-		max_x_acc = max_acc*_direction(0);
-		max_y_acc = max_acc*_direction(1);
-		max_z_acc = max_acc*_direction(2);
+		max_speed = _options["max_vel"]->getDoubleValue();
+		max_acc = _options["max_acc"]->getDoubleValue();
+		bool good_trajectory = false;
 		
-// 		std::cout << "max_x_vel " << max_x_vel  << " max_y_vel " << max_y_vel << " max_z_vel " << max_z_vel << std::endl; 
-// 		std::cout << "max_x_acc " << max_x_acc  << " max_y_acc " << max_y_acc << " max_z_acc " << max_z_acc << std::endl; 
+		while(not good_trajectory){
+			max_x_vel = max_speed*_direction(0);
+			max_y_vel = max_speed*_direction(1);
+			max_z_vel = max_speed*_direction(2);
+			
+			max_x_acc = max_acc*_direction(0);
+			max_y_acc = max_acc*_direction(1);
+			max_z_acc = max_acc*_direction(2);
+			
+// 			std::cout << "A " << max_speed << " " << _direction(0) << " " << _direction(1) << " " << _direction(2)  << std::endl; 
+			if (std::abs<double>(_direction(0))>=std::abs<double>(_direction(1)) and std::abs<double>(_direction(0)) >= std::abs<double>(_direction(2))){
+// 				std::cout << "A1" << std::endl; 
+				t1 = (max_x_vel-_startvel(0))/max_x_acc;
+				x1 = _start(0) + 0.5*t1*(_startvel(0) + max_x_vel);
+				y1 = _start(1) + 0.5*t1*(_startvel(1) + max_y_vel);
+				z1 = _start(2) + 0.5*t1*(_startvel(2) + max_z_vel);
+				
+				x2 = _goal(0) - (_goalvel(0)*_goalvel(0) - max_x_vel*max_x_vel)/(-2*max_x_acc);
+				y2 = _start(1) *( _goal(0) - x2 ) / ( _goal(0)  - _start(0) ) + _goal(1) * ( x2 - _start(0) ) / ( _goal(0)  - _start(0) ) ;
+				z2 = _start(2) *( _goal(0) - x2 ) / ( _goal(0)  - _start(0) ) + _goal(2) * ( x2 - _start(0) ) / ( _goal(0)  - _start(0) ) ;
+				
+				t2 = t1 + (x2 - x1)/max_x_vel;
+				t3 = t2 + (_goalvel(0)-max_x_vel)/(-max_x_acc);
+			}
+			else if (std::abs<double>(_direction(1))>=std::abs<double>(_direction(0)) and std::abs<double>(_direction(1)) >= std::abs<double>(_direction(2))){
+// 				std::cout << "A2" << std::endl; 
+				t1 = (max_y_vel-_startvel(1))/max_y_acc;
+				x1 = _start(0) + 0.5*t1*(_startvel(0) + max_x_vel);
+				y1 = _start(1) + 0.5*t1*(_startvel(1) + max_y_vel);
+				z1 = _start(2) + 0.5*t1*(_startvel(2) + max_z_vel);
+				
+				y2 = _goal(1) - (_goalvel(1)*_goalvel(1) - max_y_vel*max_y_vel)/(-2*max_y_acc);
+				x2 = _start(0) *( _goal(1) - y2 ) / ( _goal(1)  - _start(1) ) + _goal(0) * ( y2 - _start(1) ) / ( _goal(1)  - _start(1) ) ;
+				z2 = _start(2) *( _goal(1) - y2 ) / ( _goal(1)  - _start(1) ) + _goal(2) * ( y2 - _start(1) ) / ( _goal(1)  - _start(1) ) ;
+				
+				t2 = t1 + (y2 - y1)/max_y_vel;
+				t3 = t2 + (_goalvel(1)-max_y_vel)/(-max_y_acc);
+			}
+			else if (std::abs<double>(_direction(2))>=std::abs<double>(_direction(0)) and std::abs<double>(_direction(2)) >= std::abs<double>(_direction(1))){
+// 				std::cout << "A3" << std::endl; 
+				t1 = (max_z_vel-_startvel(2))/max_z_acc;
+				x1 = _start(0) + 0.5*t1*(_startvel(0) + max_x_vel);
+				y1 = _start(1) + 0.5*t1*(_startvel(1) + max_y_vel);
+				z1 = _start(2) + 0.5*t1*(_startvel(2) + max_z_vel);
+				
+				z2 = _goal(2) - (_goalvel(2)*_goalvel(2) - max_z_vel*max_z_vel)/(-2*max_z_acc);
+				x2 = _start(0) *( _goal(2) - z2 ) / ( _goal(2)  - _start(2) ) + _goal(0) * ( z2 - _start(2) ) / ( _goal(2)  - _start(2) ) ;
+				y2 = _start(1) *( _goal(2) - z2 ) / ( _goal(2)  - _start(2) ) + _goal(1) * ( z2 - _start(2) ) / ( _goal(2)  - _start(2) ) ;
+				
+				t2 = t1 + (z2 - z1)/max_z_vel;
+				t3 = t2 + (_goalvel(2)-max_z_vel)/(-max_z_acc);
+			}
 		
-		if (_direction(0)>_direction(1) and _direction(0) > _direction(2)){
-			t1 = (max_x_vel-_startvel(0))/max_x_acc;
-			x1 = _start(0) + 0.5*t1*(_startvel(0) + max_x_vel);
-			y1 = _start(1) + 0.5*t1*(_startvel(1) + max_y_vel);
-			z1 = _start(2) + 0.5*t1*(_startvel(2) + max_z_vel);
-			
-			x2 = _goal(0) - (_goalvel(0)*_goalvel(0) - max_x_vel*max_x_vel)/(-2*max_x_acc);
-// 			y2 = _goal(1) - (_goalvel(1)*_goalvel(1) - max_y_vel*max_y_vel)/(-2*max_y_acc);
-// 			if (max_z_acc>0.0001 or max_z_acc<-0.0001){z2 = _goal(2) - (_goalvel(2)*_goalvel(2) - max_z_vel*max_z_vel)/(-2*max_z_acc);}
-// 			else {_goal(2);}
-			y2 = _start(1) *( _goal(0) - x2 ) / ( _goal(0)  - _start(0) ) + _goal(1) * ( x2 - _start(0) ) / ( _goal(0)  - _start(0) ) ;
-			z2 = _start(2) *( _goal(0) - x2 ) / ( _goal(0)  - _start(0) ) + _goal(2) * ( x2 - _start(0) ) / ( _goal(0)  - _start(0) ) ;
-
-			
-			
-			t2 = t1 + (x2 - x1)/max_x_vel;
-			
-			t3 = t2 + (_goalvel(0)-max_x_vel)/(-max_x_acc);
-		}
-		else if (_direction(1)>_direction(0) and _direction(1) > _direction(2)){
-			t1 = (max_y_vel-_startvel(1))/max_y_acc;
-			x1 = _start(0) + 0.5*t1*(_startvel(0) + max_x_vel);
-			y1 = _start(1) + 0.5*t1*(_startvel(1) + max_y_vel);
-			z1 = _start(2) + 0.5*t1*(_startvel(2) + max_z_vel);
-			
-			y2 = _goal(1) - (_goalvel(1)*_goalvel(1) - max_y_vel*max_y_vel)/(-2*max_y_acc);
-// 			if (max_x_acc>0.0001 or max_x_acc<-0.0001){x2 = _goal(0) - (_goalvel(0)*_goalvel(0) - max_x_vel*max_x_vel)/(-2*max_x_acc);}
-// 			else {x2 = _goal(0);}
-// 			if (max_z_acc>0.0001 or max_z_acc<-0.0001){z2 = _goal(2) - (_goalvel(2)*_goalvel(2) - max_z_vel*max_z_vel)/(-2*max_z_acc);}
-// 			else {_goal(2);}
-			x2 = _start(0) *( _goal(1) - y2 ) / ( _goal(1)  - _start(1) ) + _goal(0) * ( y2 - _start(1) ) / ( _goal(1)  - _start(1) ) ;
-			z2 = _start(2) *( _goal(1) - y2 ) / ( _goal(1)  - _start(1) ) + _goal(2) * ( y2 - _start(1) ) / ( _goal(1)  - _start(1) ) ;
-
-			
-			
-			t2 = t1 + (y2 - y1)/max_y_vel;
-			
-			t3 = t2 + (_goalvel(1)-max_y_vel)/(-max_y_acc);
-		}
-		else if (_direction(2)>_direction(0) and _direction(2) > _direction(1)){
-			
-			// x3-x0 : y3-y0 = x2-x0 : y2-y0
-			// (y3-y0)(x2-x0) = (x3-x0)(y2-y0)
-			// y3(x2-x0) - y0(x2-x0) = x3(y2-y0) - x0(y2-y0) 
-			// y3(x2-x0) - y0(x2-x0) = x3(y2-y0) - x0(y2-y0)
-			// y3 x2 - y3 x0 - y0 x2 + y0 x0 = x3 y2 - x3 y0 - x0 y2 + x0 y0
-			// x2 ( y3  - y0 ) = x0 ( y3 - y2 ) + x3 ( y2 - y0 ) 
-			// x2 = x0 ( y3 - y2 ) / ( y3  - y0 ) + x3 ( y2 - y0 ) / ( y3  - y0 ) 
-			t1 = (max_z_vel-_startvel(2))/max_z_acc;
-			x1 = _start(0) + 0.5*t1*(_startvel(0) + max_x_vel);
-			y1 = _start(1) + 0.5*t1*(_startvel(1) + max_y_vel);
-			z1 = _start(2) + 0.5*t1*(_startvel(2) + max_z_vel);
-			
-			z2 = _goal(2) - (_goalvel(2)*_goalvel(2) - max_z_vel*max_z_vel)/(-2*max_z_acc);
-// 			if (max_x_acc>0.0001 or max_x_acc<-0.0001){x2 = _goal(0) - (_goalvel(0)*_goalvel(0) - max_x_vel*max_x_vel)/(-2*max_x_acc);}
-// 			else {x2 = _goal(0);}
-// 			x2 = x1 + _goal(0);
-			x2 = _start(0) *( _goal(2) - z2 ) / ( _goal(2)  - _start(2) ) + _goal(0) * ( z2 - _start(2) ) / ( _goal(2)  - _start(2) ) ;
-			y2 = _start(1) *( _goal(2) - z2 ) / ( _goal(2)  - _start(2) ) + _goal(1) * ( z2 - _start(2) ) / ( _goal(2)  - _start(2) ) ;
-			
-// 			y2 = _goal(1) - (_goalvel(1)*_goalvel(1) - max_y_vel*max_y_vel)/(-2*max_y_acc);
-			t2 = t1 + (z2 - z1)/max_z_vel;
-			
-			t3 = t2 + (_goalvel(2)-max_z_vel)/(-max_z_acc);
+			if (t3>t2 and t2>t1){
+				good_trajectory = true;
+			}
+			else{
+				max_speed = max_speed*0.95;
+			}
+// 			std::cout << "t1 " << t1  << " t2 " << t2 << " t3 " << t3 << std::endl; 
 		}
 		
-		if (t3>t2 and t2>t1){
-			
-			double yawdiff = _goal_yaw - _start_yaw;
-			_yawrate = yawdiff/t3*M_PI/180.0;
-			_yawrate = 0.0;
-			
-			good_trajectory = true;
-		}
-		else{
-			max_speed = max_speed*0.95;
+		double yawdiff = _goal_yaw - _start_yaw;
+		_yawrate = _options["max_yawrate"]->getDoubleValue();
+		ty = std::abs<double>(yawdiff/_yawrate);
+		if (ty<t3){
+			_yawrate = yawdiff/t3;
 		}
 	}
 	
-// 	std::cout << "t1 " << t1  << " t2 " << t2 << " t3 " << t3 << " x1 " << x1 << " x2 " << x2 << " x3 " << _goal(0) << std::endl; 
+	else {
+		t1=0.0;
+		t2=0.0;
+		t3=0.0;
+		double yawdiff = _goal_yaw - _start_yaw;
+		_yawrate = _options["max_yawrate"]->getDoubleValue();
+		ty = std::abs<double>(yawdiff/_yawrate);
+		
+		max_x_vel = 0.0;
+		max_y_vel = 0.0;
+		max_z_vel = 0.0;
+		
+		max_x_acc = 0.0;
+		max_y_acc = 0.0;
+		max_z_acc = 0.0;
+	}
+	
+	std::cout << "t1 " << t1  << " t2 " << t2 << " t3 " << t3 << " ty " << ty << " x1 " << x1 << " x2 " << x2 << " x3 " << _goal(0) << std::endl; 
 // 	
 // 	if (t2<t1){
 // 		std::cout << "GOTO task problem! t2<t1 " << std::endl;

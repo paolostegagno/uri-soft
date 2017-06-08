@@ -1,0 +1,83 @@
+<!-- -->
+
+
+<launch>
+
+	<!-- Mandatory args (no default selected) -->
+	<!--
+	type of test to be executed
+	- takeoff_goto_land
+	- takeoff_hover_land
+	-->
+	<arg name="test" />
+	<!--
+	gazebo_world selects the gazebo world that is loaded from the package uri_gazebo. Possible values are:
+	- beach
+	- bridge
+	- nogazebo
+	-->
+	<arg name="gazebo_world" />
+	<!--
+	gazebo_interface selects whether a gazebo interface is needed. Possible values are:
+	- yes
+	- no
+	-->
+	<arg name="gazebo_interface" />
+	<!--
+	fcu_url selects where mavros looks for the floght controller. Possible values are:
+	- udp://:14550@127.0.0.1:14550  for gazebo
+	- /dev/ttyACM0:57600            usb connected iris
+	- /dev/ttyUSB0:57600            radio connected iris
+	-->
+	<arg name="fcu_url" />
+	
+	
+	<arg name="help" default="false" />
+	<node name="test_help" pkg="uri_uav" type="test_help.py" if="$(arg help)">
+	</node>
+	
+	
+	
+	
+	<!-- ros_args.launch -->
+	<arg name="sched_time" default="0.001" doc="Interval time at which the scheduler checks if some task must be run."/>
+	
+	<!-- mavros args -->
+	<arg name="gcs_url" default="" />
+	<arg name="tgt_system" default="1" />
+	<arg name="tgt_component" default="1" />
+	<arg name="log_output" default="log" />
+	
+	<!-- mavros node -->
+	<include file="$(find uri_uav)/launch/node.launch" unless="$(arg help)" >
+		<arg name="pluginlists_yaml" value="$(find uri_uav)/launch/apm_pluginlists.yaml" />
+		<arg name="config_yaml" value="$(find uri_uav)/launch/apm_config.yaml" />
+	
+		<arg name="fcu_url" value="$(arg fcu_url)" />
+		<arg name="gcs_url" value="$(arg gcs_url)" />
+		<arg name="tgt_system" value="$(arg tgt_system)" />
+		<arg name="tgt_component" value="$(arg tgt_component)" />
+		<arg name="log_output" value="$(arg log_output)" />
+	</include>
+	
+	
+	
+	<!-- robot URI-soft and gazebo interface -->
+	<group ns="robot_1" unless="$(arg help)" >
+		
+		<node name="uri_core_1" pkg="uri_core" type="uri_core_node">
+			<param name="configuration_file" value="$(find uri_uav)/configfiles/test_$(arg test).xml" />
+			<param name="scheduler_time" value="$(arg sched_time)" />
+		</node>
+		
+		<include file="$(find uri_gazebo)/launch/gazebo_interface/$(arg gazebo_interface).launch">
+		</include>
+		
+	</group>
+	
+	<!-- Gazebo simulator -->
+	<include file="$(find uri_gazebo)/launch/$(arg gazebo_world).launch" unless="$(arg help)" >
+	</include>
+	
+	
+</launch>
