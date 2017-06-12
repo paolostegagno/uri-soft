@@ -32,20 +32,22 @@ TaskOutput Takeoff::_run(){
 				uav->setRatePosition(10);
 				uav->setRateExtendedStatus(1);
 				_stage = GROUND_PREARM;
+				prearm_time = ros::Time::now().toSec();
 			}
 			break;
 			
-		case GROUND_PREARM:
+		case GROUND_PREARM:{
+			double elapsed = ros::Time::now().toSec() - prearm_time;
 			if (not uav->guided()){
 				_stage = GROUND_START;
 				break;
 			}
-			if (uav->guided() and uav->local_position_pose_received()){
+			if (uav->guided() and uav->local_position_pose_received() and elapsed>10.0){
 				if (uav->armThrottle()){
 					_stage = GROUND_ARMING;
 				}
 			}
-			break;
+			break;}
 			
 		case GROUND_ARMING:
 			if (not uav->guided()){

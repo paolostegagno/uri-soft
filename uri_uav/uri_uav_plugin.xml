@@ -35,6 +35,11 @@
 		<description> This task implements the low level control to drive the UAV along a trajectory passed through SharedMemory.</description>
 	</class>
 	
+	<class type="uri_uav::Monitor" base_class_type="uri::Task">
+		<description> This task prints some stats of the UAV.</description>
+	</class>
+
+
 	<class type="uri_uav::BControllerExample" base_class_type="uri::BehaviorController">
 		<description> This Behavior controller does an example flight.</description>
 	</class>

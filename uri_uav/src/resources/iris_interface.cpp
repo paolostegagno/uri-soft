@@ -85,7 +85,13 @@ void IrisInterface::_state_CB(const mavros_msgs::State::ConstPtr& msg)
 	_mode = msg->mode;
 }
 
-
+void IrisInterface::_battery_CB(const mavros_msgs::BatteryStatus::ConstPtr& msg)
+{
+	double alpha = 0.8;
+	_battery_voltage = alpha*_battery_voltage + (1-alpha)*msg->voltage;
+	_battery_current = alpha*_battery_current + (1-alpha)*msg->current;
+	_battery_remaining = alpha*_battery_remaining + (1-alpha)*msg->remaining;
+}
 
 
 //#################################################################################################
@@ -163,6 +169,11 @@ void IrisInterface::_init()
 	_armed = false;
 	_guided = false;
 	_mode = "";
+
+	_sub_battery = n->subscribe("/mavros/battery", 1, &IrisInterface::_battery_CB, this);
+	_battery_voltage = 0.0;
+	_battery_current = 0.0;
+	_battery_remaining = 0.0;
 
   
   // find all services provided by mavros

@@ -16,6 +16,7 @@
 #include "mavros_msgs/CommandBool.h"
 #include "mavros_msgs/CommandTOL.h"
 #include "mavros_msgs/State.h"
+#include "mavros_msgs/BatteryStatus.h"
 #include "mavros_msgs/PositionTarget.h"
 #include "mavros_msgs/GlobalPositionTarget.h"
 #include "mavros_msgs/AttitudeTarget.h"
@@ -70,6 +71,7 @@ class IrisInterface: public Resource{
 	ros::Publisher _pub_setpoint_accel_accel;
 	
 	ros::Timer _timer_interpolate_poses;
+	ros::Timer _timer_monitor;
 	void _timer_interpolate_poses_CB(const ros::TimerEvent& event);
 	double delta_t;
 	ros::Time start_t;
@@ -88,6 +90,11 @@ class IrisInterface: public Resource{
 	ros::Subscriber _sub_state;
 	void _state_CB(const mavros_msgs::State::ConstPtr& msg);
 
+	// here all subscribers which reads topics published by mavros and their respective callback function
+	ros::Subscriber _sub_battery;
+	void _battery_CB(const mavros_msgs::BatteryStatus::ConstPtr& msg);
+
+
 	// here all service clients which calls services from mavros with their respective messages
 	ros::ServiceClient _srv_set_mode;
 	mavros_msgs::SetMode _msg_set_mode;
@@ -105,6 +112,7 @@ class IrisInterface: public Resource{
 	mavros_msgs::CommandTOL _msg_cmd_land;
 
 
+
 	void _init();
 
 	Eigen::Vector3d _position;
@@ -116,6 +124,10 @@ class IrisInterface: public Resource{
 	
 	Eigen::Vector3d _velocity_lin;
 	Eigen::Vector3d _velocity_ang;
+
+	double _battery_voltage;
+	double _battery_current;
+	double _battery_remaining;
 	
 	
 	public:
@@ -307,6 +319,21 @@ class IrisInterface: public Resource{
 		/// @brief Get current mode.
 		inline std::string& mode(){
 			return _mode;
+		}
+
+		/// @brief Get current battery voltage.
+		inline double battery_voltage(){
+			return _battery_voltage;
+		}
+
+		/// @brief Get current battery current.
+		inline double battery_current(){
+			return _battery_current;
+		}
+
+		/// @brief Get current battery remaining.
+		inline double battery_remaining(){
+			return _battery_remaining;
 		}
 
 

@@ -5,20 +5,21 @@
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
 	<resource name="uri_base::SharedMemory<uri_base::Heading>"/>
 	
+	<task name="uri_uav::Monitor" period="2.0" period_tollerance="0.002" />
 	
 	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="1" takeoff_height_tollerance="0.05" />
 	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="pose"/>
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" land_speed="-0.5"/> 
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/paolos/savefile.txt" kpx="2.8" kpy="2.8" kpz="0.9" kix="0.055" kiy="0.055" kvz="0.32" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/odroid/savefile.txt" kpx="1.5" kpy="1.5" kpz="0.6" kix="0.015" kiy="0.015" kiz="0.006" kvz="0.20" />
 	
-	<task name="uri_shorefollowing::Circling" period="0.01" period_tollerance="0.002" angular_velocity="0.2" countdown="35.0" />
-	<task name="uri_shorefollowing::FixedSpeedDesiredHeadingController" period="0.01" period_tollerance="0.002" speed="0.12" max_acc="0.5" />
+	<task name="uri_shorefollowing::Circling" period="0.01" period_tollerance="0.002" angular_velocity="0.35" countdown="35.0" />
+	<task name="uri_shorefollowing::FixedSpeedDesiredHeadingController" period="0.01" period_tollerance="0.002" speed="0.5" max_acc="0.5" />
 	
 	
-	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
-	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>
-	<behavior name="Circling" tasklist="uri_shorefollowing::Circling uri_shorefollowing::FixedSpeedDesiredHeadingController uri_uav::AttitudeThrustController"/>
-	<behavior name="Land" tasklist="uri_uav::Land uri_uav::AttitudeThrustController"/>
+	<behavior name="Takeoff" tasklist="uri_uav::Takeoff uri_uav::Monitor"/>
+	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController uri_uav::Monitor"/>
+	<behavior name="Circling" tasklist="uri_shorefollowing::Circling uri_shorefollowing::FixedSpeedDesiredHeadingController uri_uav::AttitudeThrustController uri_uav::Monitor"/>
+	<behavior name="Land" tasklist="uri_uav::Land uri_uav::AttitudeThrustController uri_uav::Monitor"/>
 	
 	
 	<behavior_controller name="uri_shorefollowing::CirclingExperiment" period="0.01" period_tollerance="0.001" />

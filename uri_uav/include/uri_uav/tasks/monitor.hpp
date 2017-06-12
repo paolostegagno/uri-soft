@@ -4,28 +4,16 @@
 
 #include <uri_uav/resources/iris_interface.hpp>
 
-#ifndef __TAKEOFF_HPP__
-#define __TAKEOFF_HPP__
+#ifndef __MONITOR_HPP__
+#define __MONITOR_HPP__
 
 
 
 namespace uri_uav{
 	
-	enum TakeoffStages{
-		GROUND_START,
-		GROUND_PREARM,
-		GROUND_ARMING,
-		GROUND_ARMED,
-		TAKEOFF_START
-	};
-
-	
-	class Takeoff: public Task{
+	class Monitor: public Task{
 		
 	private:
-		double _starting_height;
-
-double prearm_time;
 
 		IrisInterface* uav;
 		
@@ -34,23 +22,21 @@ double prearm_time;
 		virtual void _initialize(){}
 		
 		virtual void _activate(){
-			_stage = GROUND_START;
 		}
 		
 		virtual void _deactivate(){}
 
 		
-		TakeoffStages _stage;
 		
 	public:
 		
-		Takeoff();
+		Monitor();
 		
 		void get_mandatory_resources(ResourceVector& res);
 		
 	};
 
-  PLUGINLIB_EXPORT_CLASS(uri_uav::Takeoff, uri::Task)
+  PLUGINLIB_EXPORT_CLASS(uri_uav::Monitor, uri::Task)
 	
 	
 };
