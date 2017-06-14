@@ -51,46 +51,46 @@ TaskOutput TakeoffGotoLandTest::__run(){
 		if (_active_behavior->terminate()){
 			switch (goto_number){
 				case 0:
-					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 2.5);
+					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
 					break;
 				case 1:
-					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", -2.5);
+					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 1.0);
 					break;
 				case 2:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 1.5);
+					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 2.0);
 					break;
 				case 3:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", -1.5);
+					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 3.0);
 					break;
 				case 4:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.5);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 4.0);
 					break;
 				case 5:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", -0.5);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 5.0);
 					break;
 				case 6:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 1.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 6.0);
 					break;
 				case 7:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
@@ -101,8 +101,8 @@ TaskOutput TakeoffGotoLandTest::__run(){
 				case 8:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.5);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", -3.0);
 					break;
 				default: break;
 			}

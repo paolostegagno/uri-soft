@@ -270,7 +270,25 @@ bool IrisInterface::setRatePosition(unsigned int rate)
 {
 	_msg_set_stream_rate.request.stream_id = (uint8_t)6;
 	_msg_set_stream_rate.request.message_rate = rate;
-	_msg_set_stream_rate.request.on_off = 6;
+	_msg_set_stream_rate.request.on_off = 1;
+	if (_srv_set_stream_rate.call(_msg_set_stream_rate))
+	{
+		ROS_INFO("called set_stream_rate service.");
+		return true;
+	}
+	else
+	{
+		ROS_ERROR("Failed to call service set_stream_rate");
+		return false;
+	}
+}
+
+
+//#################################################################################################
+bool IrisInterface::setRateControllerRaw(unsigned int rate){
+	_msg_set_stream_rate.request.stream_id = (uint8_t)4;
+	_msg_set_stream_rate.request.message_rate = rate;
+	_msg_set_stream_rate.request.on_off = 1;
 	if (_srv_set_stream_rate.call(_msg_set_stream_rate))
 	{
 		ROS_INFO("called set_stream_rate service.");

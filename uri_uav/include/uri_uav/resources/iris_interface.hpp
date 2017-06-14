@@ -168,6 +168,12 @@ class IrisInterface: public Resource{
 		/// @param[in] rate desired rate.
 		/// @return \b true if the request is fullfilled, \b false otherwise.
 		bool setRateExtendedStatus(unsigned int rate);
+
+		/// @brief Set stream rate for all the raw sensor topics
+		/// @details This method sends a request to set the stream rate of all topics to the passed value
+		/// @param[in] rate desired rate.
+		/// @return \b true if the request is fullfilled, \b false otherwise.
+		bool setRateControllerRaw(unsigned int rate);
 		
 		/// @brief Set stream rate for all the raw sensor topics
 		/// @details This method sends a request to set the stream rate of all topics to the passed value
@@ -336,7 +342,10 @@ class IrisInterface: public Resource{
 			return _battery_remaining;
 		}
 
-
+		/// @brief Get start time. 
+		inline ros::Time start_time(){
+			return start_t;
+		}
 
 };
 

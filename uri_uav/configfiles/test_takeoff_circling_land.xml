@@ -7,7 +7,7 @@
 	
 	<task name="uri_uav::Monitor" period="2.0" period_tollerance="0.002" />
 	
-	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="1" takeoff_height_tollerance="0.05" />
+	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="2.0" takeoff_height_tollerance="0.05" />
 	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="pose"/>
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" land_speed="-0.5"/> 
 	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/odroid/savefile.txt" kpx="1.5" kpy="1.5" kpz="0.6" kix="0.015" kiy="0.015" kiz="0.006" kvz="0.20" />

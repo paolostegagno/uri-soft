@@ -97,7 +97,7 @@ TaskOutput AttitudeThrustController::_run(){
 	
 	// save the interesting quantities in an output file to plot the result
 	if (_options["save_data"]->getBoolValue()){
-double time_now = ros::Time::now().toSec();
+double time_now = (ros::Time::now() - uav->start_time() ).toSec();
 		ofile << time_now << " " << pos(0) << " " << pos(1) << " " << pos(2) << " " << traj.pos(0) << " " << traj.pos(1) << " " << traj.pos(2) << " "
 																		<< vel(0) << " " << vel(1) << " " << vel(2) << " "
 																		<< integral_error(0) << " " << integral_error(1) << " " << integral_error(2) << " "
