@@ -30,6 +30,11 @@
 		<origin xyz="0.0 0.0 -0.10" rpy="0 ${M_PI/3} 0"/>
 	</xacro:generic_laser>
 	
+	<xacro:include filename="$(find uri_gazebo)/urdf/generic_camera.urdf.xacro" />
+	<xacro:generic_camera name="left_camera" parent="base_link" ros_topic="camera_image" cam_info_topic="camera_info" update_rate="20" res_x="1920" res_y="1080" image_format="R8G8B8" hfov="${0.6/M_PI * 180.0}">
+		<origin xyz="0.15 0.0 -0.06" rpy="0 ${M_PI/2} 0"/>
+	</xacro:generic_camera>
+	
 	<!-- Sonar Range Finder -->
 <!--	<xacro:include filename="sonar_sensor.urdf.xacro" />
 	<xacro:sonar_sensor name="sonar" parent="base_link" ros_topic="sonar_distance" update_rate="40" min_range="0.01" max_range="25.0" field_of_view="0.01" ray_count="1">
