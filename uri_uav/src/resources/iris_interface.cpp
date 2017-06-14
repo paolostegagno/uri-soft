@@ -173,6 +173,7 @@ void IrisInterface::_init()
 	_sub_local_position_pose = n->subscribe("/mavros/local_position/pose", 1, &IrisInterface::_local_position_pose_CB, this);
 	_local_position_pose_received = false;
 	_sub_local_position_velocity = n->subscribe("/mavros/local_position/velocity", 1, &IrisInterface::_local_position_velocity_CB, this);
+	_sub_imu_data = n->subscribe("/mavros/imu/data", 1, &IrisInterface::_imu_data_CB, this);;
 	
 	_sub_state = n->subscribe("/mavros/state", 1, &IrisInterface::_state_CB, this);
 	_connected = false;
