@@ -60,10 +60,10 @@ void IrisInterface::_local_position_pose_CB(const geometry_msgs::PoseStamped::Co
 	_position(0)=msg->pose.position.x;
 	_position(1)=msg->pose.position.y;
 	_position(2)=msg->pose.position.z;
-	_orientation.w() = msg->pose.orientation.w;
-	_orientation.x() = msg->pose.orientation.x;
-	_orientation.y() = msg->pose.orientation.y;
-	_orientation.z() = msg->pose.orientation.z;
+// 	_orientation.w() = msg->pose.orientation.w;
+// 	_orientation.x() = msg->pose.orientation.x;
+// 	_orientation.y() = msg->pose.orientation.y;
+// 	_orientation.z() = msg->pose.orientation.z;
 	_local_position_pose_received = true;
 }
 
@@ -76,6 +76,15 @@ void IrisInterface::_local_position_velocity_CB(const geometry_msgs::TwistStampe
 	_velocity_ang(1)=msg->twist.angular.y;
 	_velocity_ang(2)=msg->twist.angular.z;
 }
+
+void IrisInterface::_imu_data_CB(const sensor_msgs::Imu::ConstPtr& msg)
+{
+	_orientation.w() = msg->orientation.w;
+	_orientation.x() = msg->orientation.x;
+	_orientation.y() = msg->orientation.y;
+	_orientation.z() = msg->orientation.z;
+}
+
 
 void IrisInterface::_state_CB(const mavros_msgs::State::ConstPtr& msg)
 {
@@ -120,6 +129,7 @@ IrisInterface::IrisInterface(ros::NodeHandle &_n):Resource(_n)
 	_sub_local_position_pose = n->subscribe("/mavros/local_position/pose", 1, &IrisInterface::_local_position_pose_CB, this);
 	_local_position_pose_received = false;
 	_sub_local_position_velocity = n->subscribe("/mavros/local_position/velocity", 1, &IrisInterface::_local_position_velocity_CB, this);
+	_sub_imu_data = n->subscribe("/mavros/imu/data", 1, &IrisInterface::_imu_data_CB, this);;
 
 	// find all services provided by mavros
 	_srv_set_mode = n->serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");

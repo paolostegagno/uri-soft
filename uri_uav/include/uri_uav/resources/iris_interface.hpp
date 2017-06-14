@@ -4,6 +4,8 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float64.h"
 
+#include "sensor_msgs/Imu.h"
+
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/TwistStamped.h"
 
@@ -85,6 +87,9 @@ class IrisInterface: public Resource{
 	
 	ros::Subscriber _sub_local_position_velocity;
 	void _local_position_velocity_CB(const geometry_msgs::TwistStamped::ConstPtr& msg);
+	
+	ros::Subscriber _sub_imu_data;
+	void _imu_data_CB(const sensor_msgs::Imu::ConstPtr& msg);
 	
 	// here all subscribers which reads topics published by mavros and their respective callback function
 	ros::Subscriber _sub_state;

@@ -29,6 +29,7 @@ TaskOutput Takeoff::_run(){
 		case GROUND_START:
 			if (uav->setMode("guided")){
 				uav->setRateRawSensors(20);
+				uav->setRateControllerRaw(20);
 				uav->setRatePosition(10);
 				uav->setRateExtendedStatus(1);
 				_stage = GROUND_PREARM;
