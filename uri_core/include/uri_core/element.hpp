@@ -34,10 +34,14 @@ namespace uri{
 		/// @brief Container for the options of this class and its child classes.
 		OptionVector _options;
 		
+		
 		/// @brief pointer to a ros nodehandle
 		ros::NodeHandle* n;
 		
 	public:
+		
+				OptionVector* _global_options;
+
 		
 		/// @brief Main constructor.
 		/// @details Setup two Options: period with default value 0.1 and period_tollerance with default value 0.01. Puts some values at zero.
@@ -91,6 +95,38 @@ namespace uri{
 		/// @param[in] string name
 		/// @param[out] &value output value
 		bool option(std::string name, bool &value);
+		
+		
+		
+		
+		/// @brief Gets a double global option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool g_option(std::string name, double &value);
+		
+		/// @brief Gets a string global option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool g_option(std::string name, std::string &value);
+		
+		/// @brief Gets a int global option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool g_option(std::string name, int &value);
+		
+		/// @brief Gets a bool global option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool g_option(std::string name, bool &value);
+
+		
+		
+		
+		
+		
+		
+		/// @brief Sets the global options.
+		bool set_global_option_vector_pointer(OptionVector* _govp);
 
 		
 	};

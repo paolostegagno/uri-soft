@@ -21,6 +21,8 @@
 
 
 // green
+#define ANSI_COLOR_OPTION   "\x1b[95m"
+// green
 #define ANSI_COLOR_RESOURCE   "\x1b[32m"
 // yellow
 #define ANSI_COLOR_BEHAVIOR  "\x1b[33m"

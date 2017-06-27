@@ -26,6 +26,9 @@ namespace uri{
 
 Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 	
+	
+	global_options = new OptionVector;
+
 	resource_loader = new pluginlib::ClassLoader<uri::Resource>("uri_core", "uri::Resource");
 	
 	task_loader = new pluginlib::ClassLoader<uri::Task>("uri_core", "uri::Task");
@@ -51,9 +54,9 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 		ROS_FATAL("No behavior controller! Terminatiing...");
 	}
 	
-	
 	ROS_INFO("Activating " ANSI_COLOR_BEHAVIOR_CONTROLLER "%s" ANSI_COLOR_RESET ".", behavior_controller->name().c_str());
 	behavior_controller->activate_task();
+	
 	
 }
 
@@ -120,7 +123,7 @@ void Scheduler::load_global_options( TiXmlNode* pParent)
 
 		if(pParent->ValueStr().compare("global_option") == 0){
 			TiXmlAttribute* pAttrib=pParent->ToElement()->FirstAttribute();
-			ROS_INFO("Reading global option [%s: %s].", pAttrib->Name(), pAttrib->Value());
+			ROS_INFO(ANSI_COLOR_OPTION "Reading global option [%s: %s]." ANSI_COLOR_RESET, pAttrib->Name(), pAttrib->Value());
 			try
 			{
 				int i=0;
@@ -130,23 +133,23 @@ void Scheduler::load_global_options( TiXmlNode* pParent)
 				else {
 					if (pAttrib->Next()->ValueStr().compare("int") == 0) {
 						int ival;
-						if (pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS) { global_options.addIntOption(pAttrib->Name(), ival); }
+						if (pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS) { global_options->addIntOption(pAttrib->Name(), ival); }
 						else { ROS_FATAL("Global option [%s] is indicated as int but its value is not. Terminating...", pAttrib->Name()); }
 					}
 					if (pAttrib->Next()->ValueStr().compare("double") == 0) {
 						double dval;
-						if (pAttrib->QueryDoubleValue(&dval)==TIXML_SUCCESS) { global_options.addDoubleOption(pAttrib->Name(), dval); }
+						if (pAttrib->QueryDoubleValue(&dval)==TIXML_SUCCESS) { global_options->addDoubleOption(pAttrib->Name(), dval); }
 						else { ROS_FATAL("Global option [%s] is indicated as double but its value is not. Terminating...", pAttrib->Name()); }
 					}
 					if (pAttrib->Next()->ValueStr().compare("string") == 0) {
-						global_options.addStringOption(pAttrib->Name(), pAttrib->Value());
+						global_options->addStringOption(pAttrib->Name(), pAttrib->Value());
 					}
 					if (pAttrib->Next()->ValueStr().compare("bool") == 0) {
 						if (pAttrib->ValueStr().compare("true")==0) {
-							global_options.addBoolOption(pAttrib->Name(), true);
+							global_options->addBoolOption(pAttrib->Name(), true);
 						}
 						else if (pAttrib->ValueStr().compare("false")==0) {
-							global_options.addBoolOption(pAttrib->Name(), false);
+							global_options->addBoolOption(pAttrib->Name(), false);
 						}
 						else {
 							ROS_FATAL("  %s not a valid bool value: %s", pAttrib->Name(), pAttrib->ValueStr().c_str());
@@ -203,6 +206,7 @@ void Scheduler::load_resources( TiXmlNode* pParent)
 				{
 					boost::shared_ptr<uri::Resource> newresource = resource_loader->createInstance(pAttrib->Value());
 					pAttrib = pAttrib->Next();
+					newresource->set_global_option_vector_pointer(global_options);
 					newresource->init(n, pAttrib);
 					resources.push_back(newresource);
 				}
@@ -247,6 +251,7 @@ void Scheduler::load_tasks( TiXmlNode* pParent)
 				{
 					boost::shared_ptr<uri::Task> newtask = task_loader->createInstance(pAttrib->Value());
 					pAttrib = pAttrib->Next();
+					newtask->set_global_option_vector_pointer(global_options);
 					newtask->init(n, pAttrib);
 					newtask->get_mandatory_resources(resources);
 					tasks.push_back(newtask);
@@ -298,6 +303,7 @@ void Scheduler::load_behavior_controller( TiXmlNode* pParent)
 					behavior_controller->setBehaviorList(&behaviors);
 					behavior_controller->setTaskList(&tasks);
 					behavior_controller_found = true;
+					behavior_controller->set_global_option_vector_pointer(global_options);
 				}
 				catch(pluginlib::PluginlibException& ex)
 				{

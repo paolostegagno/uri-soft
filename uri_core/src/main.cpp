@@ -41,7 +41,6 @@ int main (int argc, char** argv){
 
 		
 	uri::Scheduler scheduler(n, config_file_name);
-
 	
 	while (ros::ok()){
 		usleep(100);

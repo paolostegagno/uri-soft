@@ -41,9 +41,9 @@ namespace uri{
 		
 		std::vector<uri::Behavior*> behaviors;
 		
-		OptionVector global_options;
 		
 	public:
+		OptionVector* global_options;
 		
 		/// @brief Complete constructor
 		/// @param[in] nh a ros::NodeHandle

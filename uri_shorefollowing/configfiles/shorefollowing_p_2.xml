@@ -23,10 +23,13 @@
 	
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>
-	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::AttitudeThrustController uri_shorefollowing::IntensityModelCreator"/>
+	<behavior name="GotoAndCreateIntensityModel" tasklist="uri_uav::GotoTask uri_uav::AttitudeThrustController uri_shorefollowing::IntensityModelCreator"/>
+	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::AttitudeThrustController"/>
+	<behavior name="CreateIntensityModel" tasklist="uri_shorefollowing::IntensityModelCreator"/>
 	<behavior name="ShoreFollowing" tasklist="uri_shorefollowing::ShoreFollowingPaolo uri_shorefollowing::FixedSpeedDesiredHeadingController uri_uav::AttitudeThrustController"/>
 	<behavior name="Land" tasklist="uri_uav::Land"/>
 	
 	<behavior_controller name="uri_shorefollowing::ShoreFollowingExperiment_2" period="0.01" period_tollerance="0.001" />
+<!-- 	<behavior_controller name="uri_shorefollowing::ComputeIntensityModelFromBag" period="0.01" period_tollerance="0.001" /> -->
 	
 </robot>

@@ -153,6 +153,88 @@ bool Element::set_option_int(std::string &oname, int value){
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		/// @brief Gets a double option.
+	bool Element::g_option(std::string name, double &value){
+		auto search = _global_options->find(name);
+		if(search != _global_options->end()) {
+			value = search->second->getDoubleValue();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	
+	bool Element::g_option(std::string name, std::string &value){
+		auto search = _global_options->find(name);
+		if(search != _global_options->end()) {
+// 			std::cout << "Found " << search->first << " " << search->second << '\n';
+			value = search->second->getStringValue();
+			return true;
+		}
+		else {
+// 			std::cout << "Not found\n";
+			return false;
+		}
+	}
+
+
+	bool Element::g_option(std::string name, bool &value){
+		auto search = _global_options->find(name);
+		if(search != _global_options->end()) {
+// 			std::cout << "Found " << search->first << " " << search->second << '\n';
+			value = search->second->getBoolValue();
+			return true;
+		}
+		else {
+// 			std::cout << "Not found\n";
+			return false;
+		}
+	}
+	
+	bool Element::g_option(std::string name, int &value){
+		auto search = _global_options->find(name);
+		if(search != _global_options->end()) {
+// 			std::cout << "Found " << search->first << " " << search->second << '\n';
+			value = search->second->getIntValue();
+			return true;
+		}
+		else {
+// 			std::cout << "Not found\n";
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/// @brief Sets the global options.
+bool Element::set_global_option_vector_pointer(OptionVector* _govp){
+
+	_global_options = _govp;
+}
+	
+	
 
 };
 
