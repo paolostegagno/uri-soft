@@ -36,7 +36,7 @@ namespace uri_uav{
 		// ################ put here your private variables.
 		GotoStages _stage;
 		
-		IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		uri_base::SharedMemory<uri_base::Trajectory>* trajectory;
 		
 		

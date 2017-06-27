@@ -197,8 +197,8 @@ void Collect3DScan::get_mandatory_resources(ResourceVector &res){
 	std::string lint("uri_sensors::LaserScanner");
 	ls = (uri_sensors::LaserScanner*)res.get_resource_ptr(lint);
 	
-	std::string mint("uri_uav::IrisInterface");
-	uav = (uri_uav::IrisInterface*)res.get_resource_ptr(mint);
+	std::string mint("uri_uav_resources::IrisInterface");
+	uav = (uri_uav_resources::IrisInterface*)res.get_resource_ptr(mint);
 	
 // 	std::string pint("uri_base::SharedMemory<uri_bridge::PointCloud>");
 // 	pcl = (uri_base::SharedMemory<uri_bridge::PointCloud>*)res.get_resource_ptr(pint);

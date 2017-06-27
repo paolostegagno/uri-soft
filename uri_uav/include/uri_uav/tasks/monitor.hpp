@@ -15,7 +15,7 @@ namespace uri_uav{
 		
 	private:
 
-		IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		
 		virtual TaskOutput _run();
 		

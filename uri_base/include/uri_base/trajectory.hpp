@@ -8,7 +8,7 @@
 
 #include <Eigen/Geometry>
 
-
+#include <sensor_msgs/LaserScan.h>
 
 
 #ifndef __TRAJECTORY_HPP__
@@ -92,6 +92,109 @@ namespace uri_base {
 				return "uri_base::Trajectory";
 			}
 	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	class TwoByNMatrix{
+		
+		double _step;
+		double _max;
+		double _min;
+		int _cell_number;
+		
+		public:
+			
+			std::vector<double> _mean_intensities;
+			std::vector<double> _measurements_counter;
+			
+			TwoByNMatrix(){
+				_mean_intensities.clear();
+				_measurements_counter.clear();
+			}
+			
+			std::string name(){
+				return "uri_base::TwoByNMatrix";
+			}
+			
+			void initialize(double step, double max, double min){
+				_step = step;
+				_max  = max;
+				_min = min;
+				
+				_cell_number = _max/_step;
+				
+				_mean_intensities.resize(_cell_number);
+				_measurements_counter.resize(_cell_number);
+				
+				for (int i=0; i < _cell_number; i++ ){
+					_mean_intensities[i] = 0;
+					_measurements_counter[i] = 0;
+				}
+			}
+			
+			
+			
+			void update(sensor_msgs::LaserScan l){
+				std::cout << " " << l.intensities.size() << " " << l.ranges.size() << std::endl;
+				
+				for (int j=0; j < l.intensities.size(); j++ ){
+					
+					double dist = l.ranges[j];
+					double intensity = l.intensities[j];
+					int cell_index = ceil(dist/_step);
+// 					std::cout << " " << cell_index;
+					
+					_measurements_counter[cell_index]++;
+					_mean_intensities[cell_index] = (_measurements_counter[cell_index]-1)*_mean_intensities[cell_index]/_measurements_counter[cell_index]
+																					+ intensity/_measurements_counter[cell_index];
+				}
+				std::cout << std::endl;
+			}
+			
+			
+			
+			void print(std::stringstream &ss){
+				
+				ss << _step << " " << _max << " " << _min << " " << _cell_number;
+				for (int j=0; j < _cell_number; j++ ){
+					ss << " " << _mean_intensities[j];
+				}
+				for (int j=0; j < _cell_number; j++ ){
+					ss << " " << _measurements_counter[j];
+				}
+				ss << std::endl;
+			}
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	class String{
+		
+		public:
+			
+			std::string str;
+			
+			String(){
+				str = "";
+			}
+			
+			std::string name(){
+				return "uri_base::String";
+			}
+	};
+	
 	
 
 }

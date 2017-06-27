@@ -9,7 +9,6 @@
 
 #include <Eigen/Geometry>
 
-#include <uri_base/trajectory.hpp>
 
 
 
@@ -70,6 +69,7 @@ template<class TYPE> class SharedMemory: public Resource{
 			_name = namess.str();
 			_busy = false;
 			_set = false;
+			_options.addStringOption("type","unknown");
 		};
 		
 		/// @brief Gets the data stored in the shared memory.
@@ -120,11 +120,8 @@ template<class TYPE> class SharedMemory: public Resource{
 
 
 
-PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Trajectory>, uri::Resource)
 
-PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Heading>, uri::Resource)
 
-PLUGINLIB_EXPORT_CLASS(uri_base::SharedMemory<uri_base::Pose>, uri::Resource)
 
 #endif
 

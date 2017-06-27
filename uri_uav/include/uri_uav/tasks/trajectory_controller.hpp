@@ -85,7 +85,7 @@ namespace uri_uav{
 		
 		ros::Time _init_time;
 		
-		IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		uri_base::SharedMemory<uri_base::Trajectory>* trajectory;
 		
 		uri_base::Trajectory traj;

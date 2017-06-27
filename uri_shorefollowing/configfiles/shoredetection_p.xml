@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="UAV" >
 
-	<resource name="uri_uav::IrisInterface" />
+	<resource name="uri_uav_resources::IrisInterface" />
 <!-- 	<resource name="uri_base::Keyboard" /> -->
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
 	<resource name="uri_base::SharedMemory<uri_base::Heading>"/>

@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   mav_msgs
   uri_core
   uri_base
-  pluginlib
+  uri_sensors
   cmake_modules
 )
 
@@ -23,8 +23,8 @@ find_package(Eigen REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES uri_uav
-  CATKIN_DEPENDS roscpp rospy std_msgs
+  LIBRARIES uri_uav uri_uav_resources
+  CATKIN_DEPENDS roscpp rospy uri_core uri_base
   DEPENDS Eigen
 )
 
@@ -41,9 +41,21 @@ include_directories(
   ${EIGEN_INCLUDE_DIR}
 )
 
+
+## Declare a C++ library
+add_library(uri_uav_resources
+	src/resources/iris_interface.cpp
+	)
+	
+## Add cmake target dependencies of the library
+add_dependencies(uri_uav_resources ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(uri_uav_resources ${catkin_LIBRARIES} ${EIGEN_LIBRARIES})
+# message(WARNING ${EIGEN_LIBRARIES})
+
+
 ## Declare a C++ library
 add_library(uri_uav
-	src/resources/iris_interface.cpp
 	src/tasks/takeoff.cpp
 	src/tasks/land.cpp
 	src/tasks/hover.cpp

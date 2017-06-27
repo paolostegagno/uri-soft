@@ -18,7 +18,7 @@ namespace uri_uav{
 		
 	private:
 		
-		IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		uri_base::SharedMemory<uri_base::Trajectory>* trajectory;
 		
 		virtual TaskOutput _run();
@@ -60,8 +60,8 @@ namespace uri_uav{
 		
 	};
 
-  PLUGINLIB_EXPORT_CLASS(uri_uav::Hover, uri::Task)
-	
+	  PLUGINLIB_EXPORT_CLASS(uri_uav::Hover, uri::Task)
+
 	
 };
 

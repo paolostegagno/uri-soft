@@ -115,6 +115,7 @@ TaskOutput BehaviorController::_run(){
 			}
 		}
 		this->nextActiveBehaviorImplemented();
+		_active_behavior->increase_counter();
 	}
 	
 	for(int i=0; i<_active_behavior->num_tasks(); i++){

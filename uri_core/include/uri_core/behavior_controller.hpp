@@ -62,14 +62,16 @@ namespace uri{
 		
 	public:
 		
+		OptionVector global_options;
+		
 		/// @brief Main constructor.
 		/// @details Setup two Options: period with default value 0.1 and period_tollerance with default value 0.01. Puts some values at zero.
 		BehaviorController();
 		
-		/// @brief Provides a pointer to the tist of behaviors
+		/// @brief Provides a pointer to the list of behaviors
 		void setBehaviorList(std::vector<uri::Behavior*> *_beh);
 		
-		/// @brief Provides a pointer to the tist of behaviors
+		/// @brief Provides a pointer to the list of tasks
 		void setTaskList(std::vector<boost::shared_ptr<uri::Task> > *_ta);
 
 		

@@ -71,6 +71,28 @@ namespace uri{
 		/// @return Returns \b true if the option exists and has been set, \b false otherwise.
 		bool set_option_int(std::string &oname, int value);
 		
+		
+		/// @brief Gets a double option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool option(std::string name, double &value);
+		
+		/// @brief Gets a string option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool option(std::string name, std::string &value);
+		
+		/// @brief Gets a int option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool option(std::string name, int &value);
+		
+		/// @brief Gets a bool option.
+		/// @param[in] string name
+		/// @param[out] &value output value
+		bool option(std::string name, bool &value);
+
+		
 	};
 
 	

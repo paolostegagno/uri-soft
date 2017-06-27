@@ -52,16 +52,16 @@ void Element::init(ros::NodeHandle &nh, TiXmlAttribute* attribute){
 
 
 
-bool Element::set_option_double(std::string &oname, double value){
-	std::map<std::string,Option*>::iterator it;
-	it = _options.find(oname);
-	if ( it == _options.end() ) {
-		ROS_INFO("WARNING: Trying to set non-existing %s option.", oname.c_str());
-		return false;
+	bool Element::set_option_double(std::string &oname, double value){
+		std::map<std::string,Option*>::iterator it;
+		it = _options.find(oname);
+		if ( it == _options.end() ) {
+			ROS_INFO("WARNING: Trying to set non-existing %s option.", oname.c_str());
+			return false;
+		}
+		((OptionDouble*)it->second)->value = value;
+		return true;
 	}
-	((OptionDouble*)it->second)->value = value;
-	return true;
-}
 
 bool Element::set_option_bool(std::string &oname, bool value){
 	std::map<std::string,Option*>::iterator it;
@@ -96,8 +96,63 @@ bool Element::set_option_int(std::string &oname, int value){
 	return true;
 }
 
+	/// @brief Gets a double option.
+	bool Element::option(std::string name, double &value){
+		auto search = _options.find(name);
+		if(search != _options.end()) {
+// 			std::cout << "Found " << search->first << " " << search->second << '\n';
+			value = search->second->getDoubleValue();
+			return true;
+		}
+		else {
+// 			std::cout << "Not found\n";
+			return false;
+		}
+	}
+	
+	
+	
+	bool Element::option(std::string name, std::string &value){
+		auto search = _options.find(name);
+		if(search != _options.end()) {
+// 			std::cout << "Found " << search->first << " " << search->second << '\n';
+			value = search->second->getStringValue();
+			return true;
+		}
+		else {
+// 			std::cout << "Not found\n";
+			return false;
+		}
+	}
 
 
+	bool Element::option(std::string name, bool &value){
+		auto search = _options.find(name);
+		if(search != _options.end()) {
+// 			std::cout << "Found " << search->first << " " << search->second << '\n';
+			value = search->second->getBoolValue();
+			return true;
+		}
+		else {
+// 			std::cout << "Not found\n";
+			return false;
+		}
+	}
+	
+	bool Element::option(std::string name, int &value){
+		auto search = _options.find(name);
+		if(search != _options.end()) {
+// 			std::cout << "Found " << search->first << " " << search->second << '\n';
+			value = search->second->getIntValue();
+			return true;
+		}
+		else {
+// 			std::cout << "Not found\n";
+			return false;
+		}
+	}
+	
+	
 
 };
 

@@ -3,6 +3,9 @@
 #include <uri_core/task.hpp>
 
 #include <uri_uav/resources/iris_interface.hpp>
+#include <uri_sensors/resources/laserscannergazebo.hpp>
+#include <uri_base/trajectory.hpp>
+#include <uri_base/shared_memory.hpp>
 
 #ifndef __TAKEOFF_HPP__
 #define __TAKEOFF_HPP__
@@ -10,24 +13,18 @@
 
 
 namespace uri_uav{
-	
-	enum TakeoffStages{
-		GROUND_START,
-		GROUND_PREARM,
-		GROUND_ARMING,
-		GROUND_ARMED,
-		TAKEOFF_START
-	};
 
 	
 	class Takeoff: public Task{
 		
 	private:
+		
+// 		uri_sensors::LaserScanner* ls;
+		uri_uav_resources::IrisInterface* uav;
+		
 		double _starting_height;
-
-double prearm_time;
-
-		IrisInterface* uav;
+		
+		double prearm_time;
 		
 		virtual TaskOutput _run();
 		
@@ -38,9 +35,17 @@ double prearm_time;
 		}
 		
 		virtual void _deactivate(){}
-
 		
-		TakeoffStages _stage;
+		
+	enum TakeoffStages{
+		GROUND_START,
+		GROUND_PREARM,
+		GROUND_ARMING,
+		GROUND_ARMED,
+		TAKEOFF_START
+	};
+	
+	TakeoffStages _stage;
 		
 	public:
 		
@@ -50,8 +55,8 @@ double prearm_time;
 		
 	};
 
-  PLUGINLIB_EXPORT_CLASS(uri_uav::Takeoff, uri::Task)
-	
+	  PLUGINLIB_EXPORT_CLASS(uri_uav::Takeoff, uri::Task)
+
 	
 };
 

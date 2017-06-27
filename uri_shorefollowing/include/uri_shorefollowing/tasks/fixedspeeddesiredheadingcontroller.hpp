@@ -9,6 +9,7 @@
 #include <uri_core/task.hpp>
 
 #include <uri_base/shared_memory.hpp>
+#include <uri_base/trajectory.hpp>
 #include <uri_uav/resources/iris_interface.hpp>
 
 #ifndef __URI_FIXEDSPEEDDESIREDHEADINGCONTROLLER_HPP__
@@ -45,7 +46,7 @@ namespace uri_shorefollowing{
 		
 		// resources
 		uri_base::Trajectory trajectory;
-		uri_uav::IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		uri_base::SharedMemory<uri_base::Heading>*  desired_heading;
 		uri_base::SharedMemory<uri_base::Trajectory>*  traj;
 		

@@ -18,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   uri_core
-  pluginlib
+#   pluginlib
   cmake_modules
 )
 
@@ -37,9 +37,11 @@ find_package(Eigen REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES uri_base
-  CATKIN_DEPENDS roscpp rospy std_msgs
+	INCLUDE_DIRS
+		include
+	LIBRARIES
+		uri_base
+	CATKIN_DEPENDS roscpp rospy std_msgs
   DEPENDS Eigen
 )
 

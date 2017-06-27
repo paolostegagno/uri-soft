@@ -41,7 +41,7 @@
 
 using namespace uri;
 
-namespace uri_uav {
+namespace uri_uav_resources {
 
 /// @brief Interface for pixhawk-based URI copters
 /// @details This class uses some services provided by mavros in order
@@ -234,130 +234,59 @@ class IrisInterface: public Resource{
 // 		void commandAttitude(Eigen::Vector3d &p, Eigen::Vector3d &v, Eigen::Vector3d &a, double yaw, double yawrate);
 		
 		
-		void commandAngularVelocity(double rr, double pr, double yr){
-			geometry_msgs::TwistStamped msg;
-			msg.twist.angular.x=rr;
-			msg.twist.angular.x=pr;
-			msg.twist.angular.x=yr;
-			
-			_pub_setpoint_attitude_ext_cmd_vel.publish<geometry_msgs::TwistStamped>(msg);
-		}
+		void commandAngularVelocity(double rr, double pr, double yr);
 		
-		void commandAttitude(Eigen::Quaterniond qu){
-			geometry_msgs::PoseStamped msg;
-			msg.pose.orientation.x = qu.x();
-			msg.pose.orientation.y = qu.y();
-			msg.pose.orientation.z = qu.z();
-			msg.pose.orientation.w = qu.w();
-			std::cout << "here " << std::endl;
-			_pub_setpoint_attitude_ext_attitude.publish<geometry_msgs::PoseStamped>(msg);
-		}
+		void commandAttitude(Eigen::Quaterniond qu);
 		
 		
 		/// @brief commands the attitude and thrust of the UAV in guided or stabilize mode
-		void commandAttitudeThrottle(float thr, Eigen::Quaterniond ori){
-			
-			
-			mavros_msgs::AttitudeTarget _msg_setpoint_raw_attitude;
-			
-// 			char a = -58;    
-// 			std::bitset<8> x(a);
-// 			std::cout << x;
-			
-// 			short c = -315;
-// 			std::bitset<16> y(c);
-// 			std::cout << y;
-			
-// 			uint8_t mask = (1 << 7) | (1 << 6) | (1 << 1) | (1 << 0);
-			
-// 			std::cout << "!!! " << mask << std::endl;
-			
-			_msg_setpoint_raw_attitude.body_rate.x = 0.0;
-			_msg_setpoint_raw_attitude.body_rate.y = 0.0;
-			_msg_setpoint_raw_attitude.body_rate.z = 0.0;
-			_msg_setpoint_raw_attitude.orientation.x = ori.x();
-			_msg_setpoint_raw_attitude.orientation.y = ori.y();
-			_msg_setpoint_raw_attitude.orientation.z = ori.z();
-			_msg_setpoint_raw_attitude.orientation.w = ori.w();
-			_msg_setpoint_raw_attitude.thrust = thr;
-			_msg_setpoint_raw_attitude.type_mask = (uint8_t)7;
-			
-			_pub_setpoint_raw_attitude.publish<mavros_msgs::AttitudeTarget>(_msg_setpoint_raw_attitude);
-		}
+		void commandAttitudeThrottle(float thr, Eigen::Quaterniond ori);
 		
 		/// @brief Get current position.
-		inline Eigen::Vector3d& position(){
-			return _position;
-		}
+		Eigen::Vector3d& position();
 		
 		/// @brief Get current orientation.
-		inline Eigen::Quaterniond& orientation(){
-			return _orientation;
-		}
+		Eigen::Quaterniond& orientation();
 		
 		/// @brief Get current linear velocity.
-		inline Eigen::Vector3d& velocity_linear(){
-			return _velocity_lin;
-		}
+		Eigen::Vector3d& velocity_linear();
 		
 		/// @brief Get current angular velocity.
-		inline Eigen::Vector3d& velocity_angular(){
-			return _velocity_ang;
-		}
+		Eigen::Vector3d& velocity_angular();
 		
 		/// @brief Get current orientation.
-		inline double yaw(){
-			return uri_base::quaternion_to_yaw(_orientation);
-// 			Eigen::Vector3d euler = _orientation.toRotationMatrix().eulerAngles(2, 1, 0);
-// 			return euler[0];
-		}
+		double yaw();
 		
 		/// @brief Get connected bool.
-		inline bool connected(){
-			return _connected;
-		}
+		bool connected();
 		
 		/// @brief Get armed bool.
-		inline bool armed(){
-			return _armed;
-		}
+		bool armed();
 		
 		/// @brief Get guided bool.
-		inline bool guided(){
-			return _guided;
-		}
+		bool guided();
 		
 		/// @brief Get current mode.
-		inline std::string& mode(){
-			return _mode;
-		}
+		std::string& mode();
 
 		/// @brief Get current battery voltage.
-		inline double battery_voltage(){
-			return _battery_voltage;
-		}
+		double battery_voltage();
 
 		/// @brief Get current battery current.
-		inline double battery_current(){
-			return _battery_current;
-		}
+		double battery_current();
 
 		/// @brief Get current battery remaining.
-		inline double battery_remaining(){
-			return _battery_remaining;
-		}
+		double battery_remaining();
 
 		/// @brief Get start time. 
-		inline ros::Time start_time(){
-			return start_t;
-		}
+		ros::Time start_time();
 
 };
 
 
+
 }
 
-  PLUGINLIB_EXPORT_CLASS(uri_uav::IrisInterface, uri::Resource)
 
 
 

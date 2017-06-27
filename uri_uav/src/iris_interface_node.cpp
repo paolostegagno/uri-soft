@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 	pluginlib::ClassLoader<mip2::Resource> *resource_loader;
 	resource_loader = new pluginlib::ClassLoader<mip2::Resource>("mip2_core", "uri_uav::Resource");
 	
-	boost::shared_ptr<mip2::Resource> newresource = resource_loader->createInstance("uri_uav::IrisInterface");
+	boost::shared_ptr<mip2::Resource> newresource = resource_loader->createInstance("uri_uav_resources::IrisInterface");
 
 	
 	IrisInterface* uav_interface = (IrisInterface*)newresource->ptr();

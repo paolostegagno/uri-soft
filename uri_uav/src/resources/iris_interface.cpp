@@ -20,7 +20,7 @@
 
 
 
-namespace uri_uav{
+namespace uri_uav_resources{
 
 	
 	
@@ -147,7 +147,7 @@ IrisInterface::IrisInterface(ros::NodeHandle &_n):Resource(_n)
 
 IrisInterface::IrisInterface()
 {
-	_name = "uri_uav::IrisInterface";
+	_name = "uri_uav_resources::IrisInterface";
 };
 
 
@@ -473,6 +473,101 @@ void IrisInterface::commandTrajectory(Eigen::Vector3d &p, Eigen::Vector3d &v, Ei
 
 
 
+
+
+		void IrisInterface::commandAngularVelocity(double rr, double pr, double yr){
+			geometry_msgs::TwistStamped msg;
+			msg.twist.angular.x=rr;
+			msg.twist.angular.x=pr;
+			msg.twist.angular.x=yr;
+			
+			_pub_setpoint_attitude_ext_cmd_vel.publish<geometry_msgs::TwistStamped>(msg);
+		}
+		
+		void IrisInterface::commandAttitude(Eigen::Quaterniond qu){
+			geometry_msgs::PoseStamped msg;
+			msg.pose.orientation.x = qu.x();
+			msg.pose.orientation.y = qu.y();
+			msg.pose.orientation.z = qu.z();
+			msg.pose.orientation.w = qu.w();
+			std::cout << "here " << std::endl;
+			_pub_setpoint_attitude_ext_attitude.publish<geometry_msgs::PoseStamped>(msg);
+		}
+		
+		
+		void IrisInterface::commandAttitudeThrottle(float thr, Eigen::Quaterniond ori){
+			
+			mavros_msgs::AttitudeTarget _msg_setpoint_raw_attitude;
+			
+			_msg_setpoint_raw_attitude.body_rate.x = 0.0;
+			_msg_setpoint_raw_attitude.body_rate.y = 0.0;
+			_msg_setpoint_raw_attitude.body_rate.z = 0.0;
+			_msg_setpoint_raw_attitude.orientation.x = ori.x();
+			_msg_setpoint_raw_attitude.orientation.y = ori.y();
+			_msg_setpoint_raw_attitude.orientation.z = ori.z();
+			_msg_setpoint_raw_attitude.orientation.w = ori.w();
+			_msg_setpoint_raw_attitude.thrust = thr;
+			_msg_setpoint_raw_attitude.type_mask = (uint8_t)7;
+			
+			_pub_setpoint_raw_attitude.publish<mavros_msgs::AttitudeTarget>(_msg_setpoint_raw_attitude);
+		}
+		
+		Eigen::Vector3d& IrisInterface::position(){
+			return _position;
+		}
+		
+		Eigen::Quaterniond& IrisInterface::orientation(){
+			return _orientation;
+		}
+		
+		Eigen::Vector3d& IrisInterface::velocity_linear(){
+			return _velocity_lin;
+		}
+		
+		Eigen::Vector3d& IrisInterface::velocity_angular(){
+			return _velocity_ang;
+		}
+		
+		double IrisInterface::yaw(){
+			return uri_base::quaternion_to_yaw(_orientation);
+// 			Eigen::Vector3d euler = _orientation.toRotationMatrix().eulerAngles(2, 1, 0);
+// 			return euler[0];
+		}
+		
+		bool IrisInterface::connected(){
+			return _connected;
+		}
+		
+		bool IrisInterface::armed(){
+			return _armed;
+		}
+		
+		bool IrisInterface::guided(){
+			return _guided;
+		}
+		
+		std::string& IrisInterface::mode(){
+			return _mode;
+		}
+
+		double IrisInterface::battery_voltage(){
+			return _battery_voltage;
+		}
+
+		double IrisInterface::battery_current(){
+			return _battery_current;
+		}
+
+		double IrisInterface::battery_remaining(){
+			return _battery_remaining;
+		}
+
+		ros::Time IrisInterface::start_time(){
+			return start_t;
+		}
+
+
+  PLUGINLIB_EXPORT_CLASS(uri_uav_resources::IrisInterface, uri::Resource)
 
 }; // end namespace
 

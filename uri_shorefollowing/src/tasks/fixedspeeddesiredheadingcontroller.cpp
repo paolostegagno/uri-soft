@@ -137,11 +137,11 @@ void FixedSpeedDesiredHeadingController::get_mandatory_resources(ResourceVector 
 	// std::string iint("uri::name_of_the_resource");
 	// res = (ResourceType*)res.get_resource_ptr(iint);
 	
-	std::string iint("uri_uav::IrisInterface");
-	uav = (uri_uav::IrisInterface*)res.get_resource_ptr(iint);
+	std::string iint("uri_uav_resources::IrisInterface");
+	uav = (uri_uav_resources::IrisInterface*)res.get_resource_ptr(iint);
 	
 	std::string lint("uri_base::SharedMemory<uri_base::Heading>");
-	desired_heading = (uri_base::SharedMemory<uri_base::Heading>*)res.get_resource_ptr(lint);
+	desired_heading = (uri_base::SharedMemory<uri_base::Heading>*)res.get_resource_ptr(lint, "desired_heading");
 	
 	std::string mint("uri_base::SharedMemory<uri_base::Trajectory>");
 	traj = (uri_base::SharedMemory<uri_base::Trajectory>*)res.get_resource_ptr(mint);

@@ -36,6 +36,7 @@ namespace uri{
 				ROS_ERROR("  Can't find task %s required by behavior %s.", required_task.c_str(), _name.c_str());
 			}
 		}
+		_counter = 0;
 	}
 	
 	int Behavior::contains_task(std::string &tn){

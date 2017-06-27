@@ -13,6 +13,10 @@
 		<description> Position and orientation.</description>
 	</class>
 	
+	<class type="uri_base::SharedMemory<uri_base::TwoByNMatrix>" base_class_type="uri::Resource">
+		<description> Position and orientation.</description>
+	</class>
+	
 	
 	<class type="uri_base::Keyboard" base_class_type="uri::Resource">
 		<description> A resource that reads input form the keybpard.</description>

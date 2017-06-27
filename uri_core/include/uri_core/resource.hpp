@@ -20,6 +20,10 @@ namespace uri{
 			
 		private:
 			
+		protected:
+			/// @brief Name of the element.
+			std::string _type;
+			
 		public:
 			/// @brief default contructor (does nothing).
 			Resource();
@@ -29,7 +33,11 @@ namespace uri{
 			
 			/// @brief pointer to this Resource.
 			Resource* ptr();
-		
+			
+			/// @brief Returns the type of the element
+			/// @return std::string containing the type of the element.
+			std::string& type();
+
 	};
 	
 	
@@ -43,7 +51,15 @@ namespace uri{
 			/// @param[in] nm the name of the Resource you are looking for
 			/// @return if a Resource with name nm exists, a pointer to it, otherwise it returns NULL 
 			Resource* get_resource_ptr(std::string nm);
-		
+			
+			/// @brief finds a Resource in the vector given a name.
+			/// @details this methods search in the Resource vector a Resource named nm
+			/// @param[in] nm the name of the Resource you are looking for
+			/// @param[in] nam the name of the Resource you are looking for
+			/// @return if a Resource with name nm exists, a pointer to it, otherwise it returns NULL 
+			Resource* get_resource_ptr(std::string nm, std::string nam);
+
+			
 	};
 
 	
