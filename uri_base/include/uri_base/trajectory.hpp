@@ -141,7 +141,7 @@ namespace uri_base {
 			
 			
 			void update(sensor_msgs::LaserScan l){
-				std::cout << " " << l.intensities.size() << " " << l.ranges.size() << std::endl;
+// 				std::cout << " " << l.intensities.size() << " " << l.ranges.size() << std::endl;
 				
 				for (int j=0; j < l.intensities.size(); j++ ){
 					
@@ -154,7 +154,7 @@ namespace uri_base {
 					_mean_intensities[cell_index] = (_measurements_counter[cell_index]-1)*_mean_intensities[cell_index]/_measurements_counter[cell_index]
 																					+ intensity/_measurements_counter[cell_index];
 				}
-				std::cout << std::endl;
+// 				std::cout << std::endl;
 			}
 			
 			

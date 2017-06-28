@@ -35,12 +35,10 @@ namespace uri_uav{
 		// int _variable1;
 		// double _variable2;
 		
+		bool savedata;
+		
 		uri_uav_resources::IrisInterface* uav;
 		uri_base::SharedMemory<uri_base::Trajectory>* trajectory;
-
-		Keyboard* keyboard;
-		
-		std::fstream ofile;
 		
 		ros::Time previous;
 		

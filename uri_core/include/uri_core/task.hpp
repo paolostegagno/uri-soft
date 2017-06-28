@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 //#include <thread>
 
@@ -30,6 +31,7 @@ namespace uri{
 /// @brief Base class for any task to be executed in uri.
 /// @details This class is the base class for any task that can run in URI.
 	class Task: public Element{
+		
 		
 	private:
 		
@@ -122,6 +124,7 @@ namespace uri{
 		
 		
 	};
+	
 
 	
 	

@@ -30,8 +30,6 @@ AttitudeThrustController::AttitudeThrustController():Task(){
 	_options.addDoubleOption("integral_error_bound_x",3.0);
 	_options.addDoubleOption("integral_error_bound_y",3.0);
 	_options.addDoubleOption("integral_error_bound_z",3.0);
-	_options.addBoolOption("save_data", false);
-	_options.addStringOption("savefile_name", "/home/paolos/savefile.txt");
 	
 	// Note that options are only of those types listed here.
 	// The first parameter in the above lines is the name, while the second parameter is the default value.
@@ -96,9 +94,9 @@ TaskOutput AttitudeThrustController::_run(){
 // 	std::cout << yaw_d << std::endl;
 	
 	// save the interesting quantities in an output file to plot the result
-	if (_options["save_data"]->getBoolValue()){
-double time_now = (ros::Time::now() - uav->start_time() ).toSec();
-		ofile << time_now << " " << pos(0) << " " << pos(1) << " " << pos(2) << " " << traj.pos(0) << " " << traj.pos(1) << " " << traj.pos(2) << " "
+	if (savepath_created){
+		double time_now = ros::Time::now().toSec() - init_time;
+		out_file << time_now << " " << pos(0) << " " << pos(1) << " " << pos(2) << " " << traj.pos(0) << " " << traj.pos(1) << " " << traj.pos(2) << " "
 																		<< vel(0) << " " << vel(1) << " " << vel(2) << " "
 																		<< integral_error(0) << " " << integral_error(1) << " " << integral_error(2) << " "
 																		<< e(0) << " " << e(1) << " " << e(2) << " " << traj.yaw << " " << yaw << " " << traj.yaw - yaw << std::endl;
@@ -120,11 +118,6 @@ double time_now = (ros::Time::now() - uav->start_time() ).toSec();
 
 void AttitudeThrustController::_activate(){
 	// what do you need to do every time the task is activated?
-	
-	
-	if (_options["save_data"]->getBoolValue()){
-		ofile.open(_options["savefile_name"]->getStringValue(), std::ios_base::out);
-	}
 	
 	ros::Time previous = ros::Time::now();
 		

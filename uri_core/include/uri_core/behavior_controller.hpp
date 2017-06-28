@@ -96,32 +96,14 @@ namespace uri{
 		/// @param[in] nm std::string containing the name of the behavior.
 		/// @return A pointer to the specified behavior if it exists. A NULL pointer of the specified behavior does not exists
 		Behavior* behavior(std::string nm);
+		
 
-
-// 		
-// 		/// @brief Returns the name of the task
-// 		/// @return std::string containing the name of the task.
-// 		std::string& name();
-// 		
-// 		/// @brief Mandatory initialization method.
-// 		virtual void get_mandatory_resources(ResourceVector& res)=0;
-// 		
-// 		/// @brief This function is called at constant time period
-// 		void run(const ros::TimerEvent&);
-// 		
-// 		/// @brief Returns the execution frequency of the task
-// 		/// @return mean execution frequency [1/s]
-// 		double frequency();
-// 		
-// 		/// @brief Activate the task - method run will be executed with constant time period options.period
-// 		void activate_task();
-// 		
-// 		/// @brief Deactivate the task - method run will not be executed until new activation
-// 		void deactivate_task();
-// 		
-// 		/// @brief Check wheter the task is active.
-// 		/// @return \true if active, \false otherwise.
-// 		bool task_active();
+		void set_init_time(){
+			if (not init_time_saved){
+				init_time = ros::Time::now().toSec();
+				init_time_saved = true;
+			}
+		}
 	};
 
 	

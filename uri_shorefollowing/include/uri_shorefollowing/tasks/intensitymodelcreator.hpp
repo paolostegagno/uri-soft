@@ -43,7 +43,7 @@ namespace uri_shorefollowing{
 		// ################ put here your private variables.
 
 		
-		std::fstream out_file;
+// 		std::fstream out_file;
 // 		// time variables
 // 		double delta_t;
 // 		ros::Time start_t;
@@ -81,11 +81,11 @@ namespace uri_shorefollowing{
 		/// @brief Mandatory method containing the routine executed ony once at the beginning.
 		/// @details This method is mandatory since it is defined as purely virtual in the class uri::Task.
 		virtual void _initialize(){
-			std::stringstream ss;
-			std::string savepath;
-			g_option("savepath", savepath);
-			ss << savepath << "intensity_model.txt";
-			out_file.open(ss.str(), std::fstream::out);
+// 			std::stringstream ss;
+// 			std::string savepath;
+// 			g_option("savepath", savepath);
+// 			ss << savepath << "intensity_model.txt";
+// 			out_file.open(ss.str(), std::fstream::out);
 		}
 		
 		/// @brief Mandatory method containing the routine executed ony once every time the task is activated.

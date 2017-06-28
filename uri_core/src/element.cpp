@@ -7,7 +7,13 @@
 
 namespace uri{
 
+bool Element::savepath_created = false;
+
+std::string Element::savepath = "";
+
+double Element::init_time = 0.0;
   
+bool Element::init_time_saved = false;
 
 Element::Element(){
 	
@@ -43,6 +49,45 @@ void Element::init(ros::NodeHandle &nh, TiXmlAttribute* attribute){
 	
 	// then take the nodehandle
 	n = new ros::NodeHandle(nh);
+	
+	
+	if (savepath.compare("null")!=0){
+		
+		if (!savepath_created){
+		
+			std::time_t rawtime = std::time(nullptr);
+			struct tm *timestruct = localtime(&rawtime);
+			std::stringstream savepath_ss;
+			g_option("savepath", savepath);
+			savepath_ss << savepath << "/"
+									<< 1900+timestruct->tm_year << "-"
+									<< std::setfill('0') << std::setw(2) << 1+timestruct->tm_mon << "-"
+									<< std::setfill('0') << std::setw(2) << timestruct->tm_mday << "-"
+									<< std::setfill('0') << std::setw(2) << timestruct->tm_hour << "-"
+									<< std::setfill('0') << std::setw(2) << timestruct->tm_min << "-"
+									<< std::setfill('0') << std::setw(2) << timestruct->tm_sec << "/";
+									
+			savepath = savepath_ss.str();
+			savepath_created = true;
+			
+			// create recipient directory
+			std::stringstream mkdir_ss;
+			mkdir_ss << "mkdir -p " << savepath << "/";
+			const int dir_err = system(mkdir_ss.str().c_str());
+			if (-1 == dir_err)
+			{
+				printf("Error creating directory!n");
+				exit(1);
+			}
+		}
+		
+		std::stringstream filename_ss;
+		filename_ss << savepath << name() << ".txt";
+		out_file.open(filename_ss.str(), std::fstream::out);
+	}
+
+	
+	
 	
 	
 	

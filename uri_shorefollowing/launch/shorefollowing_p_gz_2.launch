@@ -46,7 +46,7 @@
 	
 	
 	<node pkg="rosbag" type="record" name="rosbag_record"
-				args=" -o /tmp/experiment -a -x /left_camera/(.*)" />
+				args=" -o /tmp/experiment/ -a -x /left_camera/(.*)" />
 	
 	
 </launch>

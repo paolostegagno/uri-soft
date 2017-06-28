@@ -2,7 +2,7 @@
 <robot name="UAV" >
 	
 	
-	<global_option savepath="/tmp/" type="string" />
+	<global_option savepath="/tmp/experiment/" type="string" /> <!-- if savepath="null" then no savefile -->
 	
 	<resource name="uri_uav_resources::IrisInterface" />
 <!-- 	<resource name="uri_base::Keyboard" /> -->

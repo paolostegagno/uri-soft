@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 //#include <thread>
 
 #include "ros/ros.h"
@@ -20,6 +21,18 @@ namespace uri{
 	/// @details This class is the base class for any element that can run in URI.
 	/// each Element in uri-soft maust have: a name, a set of options and a ros::NodeHandle.
 	class Element{
+		
+	protected:
+		
+		std::fstream out_file;
+		
+		static bool savepath_created;
+		
+		static std::string savepath;
+		
+		static double init_time;
+		
+		static bool init_time_saved;
 		
 	private:
 		

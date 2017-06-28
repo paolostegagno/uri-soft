@@ -55,6 +55,7 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 	}
 	
 	ROS_INFO("Activating " ANSI_COLOR_BEHAVIOR_CONTROLLER "%s" ANSI_COLOR_RESET ".", behavior_controller->name().c_str());
+	behavior_controller->set_init_time();
 	behavior_controller->activate_task();
 	
 	
@@ -298,12 +299,12 @@ void Scheduler::load_behavior_controller( TiXmlNode* pParent)
 				{
 					behavior_controller = behavior_controller_loader->createInstance(pAttrib->Value());
 					pAttrib = pAttrib->Next();
+					behavior_controller->set_global_option_vector_pointer(global_options);
 					behavior_controller->init(n, pAttrib);
 					behavior_controller->get_mandatory_resources(resources);
 					behavior_controller->setBehaviorList(&behaviors);
 					behavior_controller->setTaskList(&tasks);
 					behavior_controller_found = true;
-					behavior_controller->set_global_option_vector_pointer(global_options);
 				}
 				catch(pluginlib::PluginlibException& ex)
 				{

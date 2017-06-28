@@ -41,21 +41,21 @@ TaskOutput ShoreFollowingExperiment_2::__run(){
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 1.0);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
-					_next_active_behavior = behavior("Goto");
+					_next_active_behavior = behavior("GotoAndCreateIntensityModel");
 					break;
 				case 2:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", -1.5);
+					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", -2.5);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
-					_next_active_behavior = behavior("Goto");
+					_next_active_behavior = behavior("GotoAndCreateIntensityModel");
 					break;
 				case 3:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.5);
+					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 1.0);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
-					_next_active_behavior = behavior("Goto");
+					_next_active_behavior = behavior("GotoAndCreateIntensityModel");
 					break;
 				case 4:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 4.0);
@@ -80,6 +80,14 @@ TaskOutput ShoreFollowingExperiment_2::__run(){
 			_next_active_behavior = behavior("Hover");
 		}
 	}
+	
+		// exit from behavior takeoff only when requested by such behavior
+	if (_active_behavior == behavior("GotoAndCreateIntensityModel")){
+		if (_active_behavior->terminate()){
+			_next_active_behavior = behavior("Hover");
+		}
+	}
+
 
 	
 	// exit from behavior takeoff only when requested by such behavior
