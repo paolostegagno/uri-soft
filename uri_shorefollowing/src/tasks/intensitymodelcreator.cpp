@@ -63,19 +63,24 @@ TaskOutput IntensityModelCreator::_run(){
 	if (!ls->get(scan, 0.001)){
 		return uri::Continue;
 	}
+// 	std::cout << "b" << std::endl;
 	
 	TwoByNMatrix int_model;
+// 	std::cout << "b1" << std::endl;
 	if (!intensity_model->get(int_model, 0.001)){
 		return uri::Continue;
 	}
+// 	std::cout << "b2" << std::endl;
 	
 	int_model.update(scan);
 	
+// 	std::cout << "b3" << std::endl;
 	std::stringstream ss;
 	int_model.print(ss);
 	out_file << ros::Time::now().toSec()-init_time << ss.str();
 	
 	intensity_model->set(int_model, 0.001);
+// 	std::cout << "c" << std::endl;
 	
 	// set terminate at true to communicate to the behavior controller to terminate the execution of the task.
 	if (terminate){

@@ -39,5 +39,8 @@
 		<description> This Behavior controller coordinates a shore following experiment.</description>
 	</class>
 	
+	<class type="uri_shorefollowing::OfflineIntensityModelTest" base_class_type="uri::BehaviorController">
+		<description> This Behavior controller coordinates a shore following experiment.</description>
+	</class>
 	
 </library>

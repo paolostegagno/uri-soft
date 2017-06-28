@@ -19,7 +19,7 @@
 	<task name="uri_shorefollowing::FixedSpeedDesiredHeadingController" period="0.01" period_tollerance="0.002" speed="0.3" max_acc="0.3" />
 	<task name="uri_shorefollowing::IntensityModelCreator" period="0.01" period_tollerance="0.002" />
 <!-- 	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="false" savefile_name="/home/paolos/savefile.txt" /> -->
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/odroid/savefile.txt" kpx="1.5" kpy="1.5" kpz="0.6" kix="0.015" kiy="0.015" kiz="0.006" kvz="0.20" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" kpx="1.5" kpy="1.5" kpz="0.6" kix="0.015" kiy="0.015" kiz="0.006" kvz="0.20" />
 	
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>
@@ -29,7 +29,7 @@
 	<behavior name="ShoreFollowing" tasklist="uri_shorefollowing::ShoreFollowingPaolo uri_shorefollowing::FixedSpeedDesiredHeadingController uri_uav::AttitudeThrustController"/>
 	<behavior name="Land" tasklist="uri_uav::Land"/>
 	
-	<behavior_controller name="uri_shorefollowing::ShoreFollowingExperiment_2" period="0.01" period_tollerance="0.001" />
-<!-- 	<behavior_controller name="uri_shorefollowing::ComputeIntensityModelFromBag" period="0.01" period_tollerance="0.001" /> -->
+<!-- 	<behavior_controller name="uri_shorefollowing::ShoreFollowingExperiment_2" period="0.01" period_tollerance="0.001" /> -->
+	<behavior_controller name="uri_shorefollowing::OfflineIntensityModelTest" period="0.01" period_tollerance="0.001" />
 	
 </robot>
