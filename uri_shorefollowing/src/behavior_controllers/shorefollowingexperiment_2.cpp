@@ -64,8 +64,25 @@ TaskOutput ShoreFollowingExperiment_2::__run(){
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 1.0);
 					_next_active_behavior = behavior("Goto");
 					break;
+// 				case 5:
+// 					_next_active_behavior = behavior("ShoreFollowing");
+// 					break;
 				case 5:
-					_next_active_behavior = behavior("ShoreFollowing");
+					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 5.0);
+					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 10.0);
+					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 1.0);
+					_next_active_behavior = behavior("Goto");
+					break;
+				case 6:
+					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", -4.0);
+					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
+					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 2.0);
+					_next_active_behavior = behavior("Goto");
+					break;
+				case 7:
+					_next_active_behavior = behavior("Land");
 					break;
 				default:
 					_next_active_behavior = behavior("Hover");
@@ -77,6 +94,7 @@ TaskOutput ShoreFollowingExperiment_2::__run(){
 	// exit from behavior takeoff only when requested by such behavior
 	if (_active_behavior == behavior("Goto")){
 		if (_active_behavior->terminate()){
+// 			behavior("Hover")->set_option_double("goal_x", "uri_uav::Hover", -4.0);
 			_next_active_behavior = behavior("Hover");
 		}
 	}
@@ -87,7 +105,6 @@ TaskOutput ShoreFollowingExperiment_2::__run(){
 			_next_active_behavior = behavior("Hover");
 		}
 	}
-
 
 	
 	// exit from behavior takeoff only when requested by such behavior
