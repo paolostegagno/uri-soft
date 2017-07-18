@@ -13,12 +13,14 @@
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
 	<task name="uri_shorefollowing::FixedSpeedDesiredHeadingController" period="0.01" period_tollerance="0.002" speed="0.3" max_acc="0.3" />
 <!-- 	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="false" savefile_name="/home/paolos/savefile.txt" /> -->
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/odroid/savefile.txt" kpx="1.5" kpy="1.5" kpz="0.6" kix="0.015" kiy="0.015" kiz="0.006" kvz="0.20" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" save_data="true" savefile_name="/home/odroid/savefile.txt" kpx="2.5" kpy="2.5" kpz="0.7" kix="0.045" kiy="0.045" kiz="0.015" kvz="0.30" />
+	<task name="uri_uav::GotoTask" period="0.05" period_tollerance="0.002" relative_commands="true" />
 
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>
 	<behavior name="ShoreFollowing" tasklist="uri_shorefollowing::ShoreFollowingPaolo uri_shorefollowing::FixedSpeedDesiredHeadingController uri_uav::AttitudeThrustController"/>
 	<behavior name="Land" tasklist="uri_uav::Land"/>
+	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::AttitudeThrustController"/>
 	
 	<behavior_controller name="uri_shorefollowing::ShoreFollowingExperiment" period="0.01" period_tollerance="0.001" />
 	

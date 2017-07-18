@@ -1,0 +1,24 @@
+<!-- -->
+
+<launch>
+
+	
+	
+	
+<!-- 	<arg name="fcu_url" default="/dev/ttyACM0:57600" /> -->
+	<arg name="fcu_url" default="/dev/ttyACM0:57600" />
+	<arg name="gcs_url" default="" />
+	<arg name="tgt_system" default="1" />
+	<arg name="tgt_component" default="1" />
+	<arg name="log_output" default="log" />
+
+	
+	<node name="urg_node" pkg="urg_node" type="urg_node">
+		<param name="ip_address" value="192.168.0.10" />
+		<remap from="most_intense" to="hokuyo"/>
+	</node>
+	
+
+	
+	
+</launch>

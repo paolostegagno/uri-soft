@@ -35,6 +35,17 @@ TaskOutput ShoreFollowingExperiment::__run(){
 	// exit from behavior takeoff only when requested by such behavior
 	if (_active_behavior == behavior("Hover")){
 		if (_active_behavior->terminate()){
+			behavior("Goto")->set_option_double("goal_x","uri_uav::GotoTask", 0.0);
+			behavior("Goto")->set_option_double("goal_y","uri_uav::GotoTask", 4.0);
+			behavior("Goto")->set_option_double("goal_z","uri_uav::GotoTask", 0.0);
+			behavior("Goto")->set_option_double("goal_yaw","uri_uav::GotoTask", -1.0);
+			_next_active_behavior = behavior("Goto");
+		}
+	}
+
+
+	if (_active_behavior == behavior("Goto")){
+		if (_active_behavior->terminate()){
 			_next_active_behavior = behavior("ShoreFollowing");
 		}
 	}

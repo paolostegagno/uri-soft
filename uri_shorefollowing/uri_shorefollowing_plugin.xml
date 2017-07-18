@@ -27,6 +27,10 @@
 		<description> This Behavior controller coordinates a shore following experiment.</description>
 	</class>
 	
+	<class type="uri_shorefollowing::ShoreDetectionExperiment" base_class_type="uri::BehaviorController">
+		<description> This Behavior controller coordinates a shore detection experiment (no flying).</description>
+	</class>
+
 	<class type="uri_shorefollowing::CirclingExperiment" base_class_type="uri::BehaviorController">
 		<description> This Behavior controller coordinates a shore following experiment.</description>
 	</class>
