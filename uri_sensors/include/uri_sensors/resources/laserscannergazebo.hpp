@@ -58,9 +58,10 @@ class LaserScannerGazebo: public LaserScanner{
 // 		bool set(sensor_msgs::LaserScan &scan, double timeout);
 		
 };
+
+
 } // end namespace uri_sensors
 
-PLUGINLIB_EXPORT_CLASS(uri_sensors::LaserScannerGazebo, uri::Resource)
 
 
 

@@ -39,7 +39,7 @@ namespace uri_bridge{
 		
 		// Resources
 		uri_sensors::LaserScanner* ls;
-		uri_uav::IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		
 		Eigen::Vector3d _position;
 		Eigen::Quaterniond _orientation;

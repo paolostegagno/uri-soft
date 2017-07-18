@@ -27,6 +27,10 @@ namespace uri_base{
 			perror ("tcsetattr ~ICANON");
 		return buf;
 	}
+	
+	
+	PLUGINLIB_EXPORT_CLASS(uri_base::Keyboard, uri::Resource);
+
 
 }; // end namespace
 

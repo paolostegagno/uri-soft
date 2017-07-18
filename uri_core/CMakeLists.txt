@@ -142,7 +142,7 @@ add_library(uri_core
 target_link_libraries(uri_core
   ${catkin_LIBRARIES}
   ${TinyXML_LIBRARIES}
-  ${OpenCV_LIBRARIES}
+#   ${OpenCV_LIBRARIES}
 )
 
 
@@ -156,14 +156,14 @@ add_executable(uri_core_node src/main.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(uri_core ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(uri_core ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(uri_core_node
 	uri_core
   ${catkin_LIBRARIES}
   ${TinyXML_LIBRARIES}
-  ${OpenCV_LIBRARIES}
+#   ${OpenCV_LIBRARIES}
 )
 
 # message (${catkin_LIBRARIES})

@@ -57,6 +57,7 @@ namespace uri_sensors{
 		_backup->scan_time = msg->scan_time;
 		_backup->time_increment = msg->time_increment;
 		_backup->ranges = msg->ranges;
+		_backup->intensities = msg->intensities;
 		
 		_backup_busy = false;
 		
@@ -84,6 +85,8 @@ namespace uri_sensors{
 	
 // 	}
 	
+	PLUGINLIB_EXPORT_CLASS(uri_sensors::LaserScannerGazebo, uri::Resource)
+
 	
 
 }; // end namespace

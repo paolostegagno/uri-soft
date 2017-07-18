@@ -27,7 +27,7 @@ namespace uri_uav{
 		
 	private:
 		
-		IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		uri_base::SharedMemory<uri_base::Trajectory> *trajectory;
 		
 		virtual TaskOutput _run();

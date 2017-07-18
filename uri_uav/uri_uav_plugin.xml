@@ -1,10 +1,5 @@
 <library path="liburi_uav">
 	
-	<class type="uri_uav::IrisInterface" base_class_type="uri::Resource">
-		<description> This resource provide basic interfacing capabilities with a real or simulated IRIS copter.</description>
-	</class>
-	
-	
 	
 	<class type="uri_uav::Takeoff" base_class_type="uri::Task">
 		<description> This task performs the takeoff.</description>

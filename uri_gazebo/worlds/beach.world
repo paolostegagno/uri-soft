@@ -77,8 +77,8 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-<!--       <pose>35 35 3 0 0 0</pose> -->
-      <pose>0 28.3 -1 0 0 0</pose>
+      <pose>-25 -10 -1.3 0 0 1.57</pose>
+<!--       <pose>0 -28.3 -1 0 0 3.14</pose> -->
     </model>
 		
 		

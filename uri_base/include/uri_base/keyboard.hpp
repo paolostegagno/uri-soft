@@ -4,14 +4,14 @@
 #include <thread>
 
 
+#include <unistd.h>   //_getch
+#include <termios.h>  //_getch
 
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/resource.hpp>
 
 #include <Eigen/Geometry>
 
-#include <unistd.h>   //_getch
-#include <termios.h>  //_getch
 
 
 #ifndef __KEYBOARD_HPP__
@@ -158,7 +158,6 @@ class Keyboard: public Resource{
 
 }
 
-  PLUGINLIB_EXPORT_CLASS(uri_base::Keyboard, uri::Resource)
 
 
 

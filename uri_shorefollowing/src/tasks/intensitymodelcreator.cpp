@@ -3,7 +3,7 @@
 //#include <thread>
 
 #include "ros/ros.h"
-#include <uri_shorefollowing/tasks/shorefollowing.hpp>
+#include <uri_shorefollowing/tasks/intensitymodelcreator.hpp>
 
 namespace uri_shorefollowing{
 
@@ -11,11 +11,11 @@ namespace uri_shorefollowing{
   
   
 
-ShoreFollowing::ShoreFollowing():Task(){
+IntensityModelCreator::IntensityModelCreator():Task(){
 	// You should keep this line on top and put the name of your task in it.
 	// Not giving a name to your task will have an unpredictable behavior
 	// and most likely will not work.
-	_name = "uri_shorefollowing::ShoreFollowing";
+	_name = "uri_shorefollowing::IntensityModelCreator";
 	
 	// The class Task contains a field _options which you can use freely.
 	// You can add (and pass options through the configuration file) with the following lines.
@@ -41,12 +41,18 @@ ShoreFollowing::ShoreFollowing():Task(){
 	//
 }
 
-TaskOutput ShoreFollowing::_run(){
+
+
+
+
+TaskOutput IntensityModelCreator::_run(){
+	
+// 	std::cout << "a" << std::endl;
 	
 	// compute elapsed time since beginning and delta_t since last successful call
 	bool terminate = false;
-	double elapsed = (ros::Time::now() - start_t).toSec();
-	delta_t = elapsed - last_elapsed;	
+// 	double elapsed = (ros::Time::now() - start_t).toSec();
+// 	delta_t = elapsed - last_elapsed;	
 	
 	// check if new laser scan is available. If not, terminate the execution of this _run 
 	if (!ls->new_laser_available()){
@@ -57,23 +63,24 @@ TaskOutput ShoreFollowing::_run(){
 	if (!ls->get(scan, 0.001)){
 		return uri::Continue;
 	}
+// 	std::cout << "b" << std::endl;
 	
-	// if we made it this far, scan contains a new scan! we should decide the new heading based on it
-	// PUT HERE CODE FOR DECIDING THE HEADING!!!
-	// PUT HERE CODE FOR DECIDING THE HEADING!!!
-	// PUT HERE CODE FOR DECIDING THE HEADING!!!
-	// PUT HERE CODE FOR DECIDING THE HEADING!!!
-	// the lines below simply make the UAV go in circle
-	heading_d.heading = heading_d.heading + 0.1*delta_t;
-	// normalize the heading_d between -M_PI and M_PI
-	while (heading_d.heading > M_PI) heading_d.heading = heading_d.heading - 2*M_PI;
-	while (heading_d.heading < -M_PI) heading_d.heading = heading_d.heading + 2*M_PI;
+	TwoByNMatrix int_model;
+// 	std::cout << "b1" << std::endl;
+	if (!intensity_model->get(int_model, 0.001)){
+		return uri::Continue;
+	}
+// 	std::cout << "b2" << std::endl;
 	
-	// here we set the desired heading in the shared memory - the controller will use it
-	desired_heading->set(heading_d, 0.001);
+	int_model.update(scan);
 	
-	// update last time  we computed the heading
-	last_elapsed = elapsed;
+// 	std::cout << "b3" << std::endl;
+	std::stringstream ss;
+	int_model.print(ss);
+	out_file << ros::Time::now().toSec()-init_time << ss.str();
+	
+	intensity_model->set(int_model, 0.001);
+// 	std::cout << "c" << std::endl;
 	
 	// set terminate at true to communicate to the behavior controller to terminate the execution of the task.
 	if (terminate){
@@ -83,24 +90,23 @@ TaskOutput ShoreFollowing::_run(){
 	return uri::Continue;
 }
 
-void ShoreFollowing::_activate(){
+void IntensityModelCreator::_activate(){
 	
+// 		std::cout << "a1" << std::endl;
+
 	// what do you need to do every time the task is activated?
-	last_elapsed = 0.0;
-	start_t = ros::Time::now();
+// 	last_elapsed = 0.0;
+// 	start_t = ros::Time::now();
 	
-	// select first desired heading as the current yaw
-	double current_yaw;
-	Eigen::Quaterniond current_ori = uav->orientation();
-	uri_base::quaternion_to_yaw(current_ori, current_yaw);
-	heading_d.heading = current_yaw;
+// 	std::cout << "a2" << std::endl;
+	
 }
 
-void ShoreFollowing::_deactivate(){
+void IntensityModelCreator::_deactivate(){
 	// what do you need to do every time the task is deactivated?
 }
 
-void ShoreFollowing::get_mandatory_resources(ResourceVector &res){
+void IntensityModelCreator::get_mandatory_resources(ResourceVector &res){
 	
 	// to get the resources needed in this task, use the following method:
 	//
@@ -112,8 +118,13 @@ void ShoreFollowing::get_mandatory_resources(ResourceVector &res){
 	std::string lint("uri_sensors::LaserScanner");
 	ls = (uri_sensors::LaserScanner*)res.get_resource_ptr(lint);
 	
-	std::string iint("uri_base::SharedMemory<uri_base::Heading>");
-	desired_heading = (uri_base::SharedMemory<uri_base::Heading>*)res.get_resource_ptr(iint);
+	std::string iint("uri_base::SharedMemory<uri_base::TwoByNMatrix>");
+	intensity_model = (uri_base::SharedMemory<uri_base::TwoByNMatrix>*)res.get_resource_ptr(iint, "intensity_model");
+	TwoByNMatrix int_mod;
+	int_mod.initialize(0.25, 60, 0.0);
+	if (not intensity_model->set(int_mod, 0.1)){
+		ROS_ERROR("Unable to initialize Intensity Model.");
+	}
 	
 	std::string mint("uri_uav_resources::IrisInterface");
 	uav = (uri_uav_resources::IrisInterface*)res.get_resource_ptr(mint);

@@ -48,9 +48,12 @@ add_library(uri_shorefollowing
 		src/tasks/circling.cpp
 		src/tasks/shorefollowing.cpp
 		src/tasks/shorefollowingpaolo.cpp
+		src/tasks/intensitymodelcreator.cpp
 		src/behavior_controllers/circlingexperiment.cpp
 		src/behavior_controllers/shorefollowingexperiment.cpp
 		src/behavior_controllers/shoredetectionexperiment.cpp
+		src/behavior_controllers/shorefollowingexperiment_2.cpp
+		src/behavior_controllers/offlineintensitymodeltest.cpp
 		src/tasks/fixedspeeddesiredheadingcontroller.cpp
 	)
 # target_link_libraries(uri_shorefollowing ${catkin_LIBRARIES} ${EIGEN_LIBRARIES})

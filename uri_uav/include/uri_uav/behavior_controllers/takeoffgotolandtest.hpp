@@ -17,7 +17,7 @@ namespace uri_uav{
 		
 		int goto_number;
 		
-		IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		
 		virtual TaskOutput __run();
 		

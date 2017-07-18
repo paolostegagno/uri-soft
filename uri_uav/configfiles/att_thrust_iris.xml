@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="UAV" >
 
-	<resource name="uri_uav::IrisInterface" number="4"/>
+	<resource name="uri_uav_resources::IrisInterface" number="4"/>
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
 
 	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="4" takeoff_height_tollerance="0.05" />

@@ -208,6 +208,7 @@ namespace uri{
 					}
 					else {
 						ROS_ERROR("  %s not a valid bool value: %s", att->Name(), att->ValueStr().c_str());
+						return false;
 					}
 					return true;
 				}

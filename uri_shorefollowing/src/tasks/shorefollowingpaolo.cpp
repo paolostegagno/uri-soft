@@ -285,10 +285,10 @@ void ShoreFollowingPaolo::get_mandatory_resources(ResourceVector &res){
 	ls = (uri_sensors::LaserScanner*)res.get_resource_ptr(lint);
 	
 	std::string iint("uri_base::SharedMemory<uri_base::Heading>");
-	desired_heading = (uri_base::SharedMemory<uri_base::Heading>*)res.get_resource_ptr(iint);
+	desired_heading = (uri_base::SharedMemory<uri_base::Heading>*)res.get_resource_ptr(iint, "desired_heading");
 	
-	std::string mint("uri_uav::IrisInterface");
-	uav = (uri_uav::IrisInterface*)res.get_resource_ptr(mint);
+	std::string mint("uri_uav_resources::IrisInterface");
+	uav = (uri_uav_resources::IrisInterface*)res.get_resource_ptr(mint);
 	//
 	// if you have put res in the header file, you'll be able to use it in any other method of this class (except fo the constructor, which is executed first)
 }

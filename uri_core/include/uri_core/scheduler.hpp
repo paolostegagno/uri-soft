@@ -43,6 +43,7 @@ namespace uri{
 		
 		
 	public:
+		OptionVector* global_options;
 		
 		/// @brief Complete constructor
 		/// @param[in] nh a ros::NodeHandle
@@ -56,6 +57,9 @@ namespace uri{
 		
 		// load the named file and dump its structure to STDOUT
 		bool load_configuration_file(const char* pFilename, TiXmlDocument &doc);
+		
+		// load all the global_options in the TiXmlNode tree provided
+		void load_global_options( TiXmlNode* pParent);
 		
 		// load all the resources in the TiXmlNode tree provided
 		void load_resources( TiXmlNode* pParent);

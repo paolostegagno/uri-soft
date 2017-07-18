@@ -26,6 +26,9 @@ namespace uri{
 
 Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 	
+	
+	global_options = new OptionVector;
+
 	resource_loader = new pluginlib::ClassLoader<uri::Resource>("uri_core", "uri::Resource");
 	
 	task_loader = new pluginlib::ClassLoader<uri::Task>("uri_core", "uri::Task");
@@ -36,6 +39,8 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 	if (!load_configuration_file(config_file_name.c_str(), configuration_xml)){
 		ROS_FATAL("Terminating...");
 	}
+	
+	load_global_options(&configuration_xml);
 	
 	load_resources(&configuration_xml);
 
@@ -49,9 +54,10 @@ Scheduler::Scheduler(ros::NodeHandle &nh, std::string &config_file_name):n(nh){
 		ROS_FATAL("No behavior controller! Terminatiing...");
 	}
 	
-	
 	ROS_INFO("Activating " ANSI_COLOR_BEHAVIOR_CONTROLLER "%s" ANSI_COLOR_RESET ".", behavior_controller->name().c_str());
+	behavior_controller->set_init_time();
 	behavior_controller->activate_task();
+	
 	
 }
 
@@ -104,6 +110,79 @@ bool Scheduler::load_configuration_file(const char* pFilename, TiXmlDocument &do
 
 
 
+void Scheduler::load_global_options( TiXmlNode* pParent)
+{	
+	
+	if ( !pParent ) return;
+	TiXmlNode* pChild;
+	int t = pParent->Type();
+	int num;
+	if ( t == TiXmlNode::TINYXML_ELEMENT )
+	{
+// 		printf( "Element0 [%s]\n", pParent->Value() );
+// 		std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB " <<  << std::endl;
+
+		if(pParent->ValueStr().compare("global_option") == 0){
+			TiXmlAttribute* pAttrib=pParent->ToElement()->FirstAttribute();
+			ROS_INFO(ANSI_COLOR_OPTION "Reading global option [%s: %s]." ANSI_COLOR_RESET, pAttrib->Name(), pAttrib->Value());
+			try
+			{
+				int i=0;
+				if ( !pAttrib->Next()) {
+					ROS_FATAL("Missing type of global option [%s]. Terminating...", pAttrib->Name());
+				}
+				else {
+					if (pAttrib->Next()->ValueStr().compare("int") == 0) {
+						int ival;
+						if (pAttrib->QueryIntValue(&ival)==TIXML_SUCCESS) { global_options->addIntOption(pAttrib->Name(), ival); }
+						else { ROS_FATAL("Global option [%s] is indicated as int but its value is not. Terminating...", pAttrib->Name()); }
+					}
+					if (pAttrib->Next()->ValueStr().compare("double") == 0) {
+						double dval;
+						if (pAttrib->QueryDoubleValue(&dval)==TIXML_SUCCESS) { global_options->addDoubleOption(pAttrib->Name(), dval); }
+						else { ROS_FATAL("Global option [%s] is indicated as double but its value is not. Terminating...", pAttrib->Name()); }
+					}
+					if (pAttrib->Next()->ValueStr().compare("string") == 0) {
+						global_options->addStringOption(pAttrib->Name(), pAttrib->Value());
+					}
+					if (pAttrib->Next()->ValueStr().compare("bool") == 0) {
+						if (pAttrib->ValueStr().compare("true")==0) {
+							global_options->addBoolOption(pAttrib->Name(), true);
+						}
+						else if (pAttrib->ValueStr().compare("false")==0) {
+							global_options->addBoolOption(pAttrib->Name(), false);
+						}
+						else {
+							ROS_FATAL("  %s not a valid bool value: %s", pAttrib->Name(), pAttrib->ValueStr().c_str());
+						}
+					}
+					double dval;
+					while (pAttrib)
+					{
+						i++;
+						pAttrib=pAttrib->Next();
+					}
+				}
+			}
+			catch(pluginlib::PluginlibException& ex)
+			{
+				ROS_ERROR("The plugin failed to load for some reason. Error: %s", ex.what());
+			}
+// 			num=dump_attribs_to_stdout(pParent->ToElement());
+		}
+	}
+	for ( pChild = pParent->FirstChild(); pChild != 0; pChild = pChild->NextSibling()) 
+	{
+		load_global_options( pChild);
+	}
+// 	std::cout << "a.2" << std::endl;
+}
+
+
+
+
+
+
 
 void Scheduler::load_resources( TiXmlNode* pParent)
 {
@@ -117,7 +196,6 @@ void Scheduler::load_resources( TiXmlNode* pParent)
 	int num;
 	if ( t == TiXmlNode::TINYXML_ELEMENT )
 	{
-// 		printf( "Element [%s]\n", pParent->Value() );
 		if(pParent->ValueStr().compare("resource") == 0){
 			TiXmlAttribute* pAttrib=pParent->ToElement()->FirstAttribute();
 			if (std::string(pAttrib->Name()).compare("name")!=0){
@@ -129,6 +207,7 @@ void Scheduler::load_resources( TiXmlNode* pParent)
 				{
 					boost::shared_ptr<uri::Resource> newresource = resource_loader->createInstance(pAttrib->Value());
 					pAttrib = pAttrib->Next();
+					newresource->set_global_option_vector_pointer(global_options);
 					newresource->init(n, pAttrib);
 					resources.push_back(newresource);
 				}
@@ -173,6 +252,7 @@ void Scheduler::load_tasks( TiXmlNode* pParent)
 				{
 					boost::shared_ptr<uri::Task> newtask = task_loader->createInstance(pAttrib->Value());
 					pAttrib = pAttrib->Next();
+					newtask->set_global_option_vector_pointer(global_options);
 					newtask->init(n, pAttrib);
 					newtask->get_mandatory_resources(resources);
 					tasks.push_back(newtask);
@@ -219,6 +299,7 @@ void Scheduler::load_behavior_controller( TiXmlNode* pParent)
 				{
 					behavior_controller = behavior_controller_loader->createInstance(pAttrib->Value());
 					pAttrib = pAttrib->Next();
+					behavior_controller->set_global_option_vector_pointer(global_options);
 					behavior_controller->init(n, pAttrib);
 					behavior_controller->get_mandatory_resources(resources);
 					behavior_controller->setBehaviorList(&behaviors);

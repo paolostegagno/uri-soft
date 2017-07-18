@@ -8,6 +8,7 @@
 #include <pluginlib/class_list_macros.h>
 #include <uri_core/task.hpp>
 
+#include <uri_base/trajectory.hpp>
 #include <uri_base/shared_memory.hpp>
 #include <uri_uav/resources/iris_interface.hpp>
 
@@ -45,7 +46,7 @@ namespace uri_shorefollowing{
 		ros::Time start_t;
 		double last_elapsed;
 		
-		Heading heading_d;
+		uri_base::Heading heading_d;
 		double last_current_yaw;
 		
 		double integral_error;
@@ -60,7 +61,7 @@ namespace uri_shorefollowing{
 		// Resources
 // 		uri_sensors::LaserScanner* ls;
 		uri_base::SharedMemory<uri_base::Heading>* desired_heading;
-		uri_uav::IrisInterface* uav;
+		uri_uav_resources::IrisInterface* uav;
 		
 		// ################ put here your the declaration of your private methods.
 		//

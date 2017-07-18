@@ -20,6 +20,8 @@ namespace uri{
 		
 		std::vector<boost::shared_ptr<uri::Task> > _task;
 		
+		int _counter;
+		
 	public:
 		
 		/// @brief Default constructor.
@@ -83,6 +85,29 @@ namespace uri{
 		/// @brief Whether or not the Behavior requires termination.
 		/// @return \b true if a Task has required termination, \b false otherwise
 		bool terminate();
+		
+		/// @brief returns the number of times the Behavior has been activated.
+		/// @return returns the number of times the Behavior has been activated.
+		int counter(){
+			return _counter;
+		}
+		
+		/// @brief set the counter of number of times the Behavior has been activated.
+		/// @param[in] c the number to be set.
+		void set_counter(int c){
+			_counter = c;
+		}
+		
+		/// @brief reset the counter of number of times the Behavior has been activated.
+		void reset_counter(){
+			_counter = 0;
+		}
+		
+		/// @brief increase current activation counter.
+		void increase_counter(){
+			_counter++;
+		}
+		
 		
 	};
 	
