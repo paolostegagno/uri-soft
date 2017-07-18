@@ -45,6 +45,8 @@ ShoreFollowingPaolo::ShoreFollowingPaolo():Task(){
 
 double ShoreFollowingPaolo::compute_heading_velocity(sensor_msgs::LaserScan &scan){
 	
+	out_file << ros::Time::now().toSec() - init_time;
+	
 	// find the ray in the middle
 	int num_scans = scan.ranges.size();
 	int mid_angle_index = num_scans/2;
@@ -55,7 +57,7 @@ double ShoreFollowingPaolo::compute_heading_velocity(sensor_msgs::LaserScan &sca
 	// find the first and last ray considered in the scan
 	int laser_steps = 5;
 	// compute the max and min angles to be used to find water and land transition
-	int plus_minus_lateral_angle_index = std::min( (int)(M_PI/4/scan.angle_increment), mid_angle_index);
+	int plus_minus_lateral_angle_index = std::min( (int)(max_angle_terrain/scan.angle_increment), mid_angle_index);
 	int plus_minus_lateral_angle_index_bool_vector = plus_minus_lateral_angle_index/laser_steps;
 	plus_minus_lateral_angle_index = plus_minus_lateral_angle_index_bool_vector*laser_steps; // this is now divisible by laser_steps
 	
@@ -73,7 +75,6 @@ double ShoreFollowingPaolo::compute_heading_velocity(sensor_msgs::LaserScan &sca
 		int water_rays_plus=0;
 		int water_rays_minus=0;
 		for (int j = 1; j<=laser_steps; j++){
-// 			std::cout << " " << mid_angle_index+j+i*laser_steps << " " << mid_angle_index-j-i*laser_steps;
 			if (scan.ranges[mid_angle_index+j+i*laser_steps]>scan.range_max-0.2){
 				water_rays_plus++;
 			}
@@ -81,7 +82,6 @@ double ShoreFollowingPaolo::compute_heading_velocity(sensor_msgs::LaserScan &sca
 				water_rays_minus++;
 			}
 		}
-// 		std::cout << " " << water_rays_minus << " " << water_rays_plus << " " << i << std::endl;
 		if (water_rays_plus<laser_steps/2){
 			ray_points_water[plus_minus_lateral_angle_index_bool_vector+i] = false;
 		}
@@ -92,8 +92,8 @@ double ShoreFollowingPaolo::compute_heading_velocity(sensor_msgs::LaserScan &sca
 	
 	for(int i=0; i<plus_minus_lateral_angle_index_bool_vector*2; i++){
 		std::cout << ray_points_water[i];
+		out_file << " " << ray_points_water[i];
 	}
-// 	std::cout << std::endl;
 	
 	
 	int first_lw_change = plus_minus_lateral_angle_index_bool_vector;
@@ -186,7 +186,8 @@ double ShoreFollowingPaolo::compute_heading_velocity(sensor_msgs::LaserScan &sca
 	}
 	
 	double control = gain*(error*0.02 + integral_error*0.008 + delta_error*0.0010);
-	std::cout << " B " << delta_error << " " << error << " " << integral_error << " " << sign << " " << plus_minus_lateral_angle_index_bool_vector  << " " << control << std::endl;
+// 	std::cout << " " << delta_error << " " << error << " " << integral_error << " " << sign << " " << plus_minus_lateral_angle_index_bool_vector  << " " << control << std::endl;
+	out_file << " " << delta_error << " " << error << " " << integral_error << " " << sign << " " << plus_minus_lateral_angle_index_bool_vector  << " " << control << std::endl;
 // 	
 	previous_error = error;
 	
@@ -266,6 +267,12 @@ void ShoreFollowingPaolo::_activate(){
 	Eigen::Quaterniond current_ori = uav->orientation();
 	uri_base::quaternion_to_yaw(current_ori, current_yaw);
 	heading_d.heading = current_yaw;
+	
+	flight_height = 2.0;
+	max_angle_terrain = std::acos(flight_height/60.0);
+	angle_noise_threshold = 0.17;
+	max_angle_terrain -= angle_noise_threshold; 
+
 }
 
 void ShoreFollowingPaolo::_deactivate(){

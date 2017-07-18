@@ -56,6 +56,10 @@ namespace uri_shorefollowing{
 		double delta_error;
 		double init_delta_error;
 		
+		double flight_height;
+		double max_angle_terrain;
+		double angle_noise_threshold;
+		
 		std::vector <Eigen::Vector2d> shore_points;
 		
 		// Resources

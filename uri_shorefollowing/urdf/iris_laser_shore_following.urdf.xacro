@@ -19,20 +19,21 @@
 		ros_topic="hokuyo"
 		visualize_laser="true"
 		update_rate="40"
-		samples="1080"
+		samples="1081"
 		min_angle="-2.35619449019" 
 		max_angle="2.35619449019"
-		range_min="0.1"
-		range_max="30.0"
+		range_min="0.04"
+		range_max="60.0"
 		range_res="0.01"
 		noise_mean="0.0"
 		noise_stddv="0.03">
-		<origin xyz="0.0 0.0 -0.10" rpy="0 ${M_PI/3} 0"/>
+<!-- 		<origin xyz="0.1 0.0 -0.11" rpy="0 ${M_PI/3} 0"/> -->
+		<origin xyz="0.1 0.0 -0.11" rpy="0 ${M_PI/3} 0"/>
 	</xacro:generic_laser>
 	
 	<xacro:include filename="$(find uri_gazebo)/urdf/generic_camera.urdf.xacro" />
 	<xacro:generic_camera name="left_camera" parent="base_link" ros_topic="camera_image" cam_info_topic="camera_info" update_rate="20" res_x="1920" res_y="1080" image_format="R8G8B8" hfov="${0.6/M_PI * 180.0}">
-		<origin xyz="0.15 0.0 -0.06" rpy="0 ${M_PI/2} 0"/>
+		<origin xyz="0.21 0.0 -0.1" rpy="0 1.0471975512 0"/>
 	</xacro:generic_camera>
 	
 	<!-- Sonar Range Finder -->

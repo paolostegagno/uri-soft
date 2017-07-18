@@ -35,14 +35,14 @@
 			<param name="configuration_file" value="$(arg config_file)" />
 		</node>
 		
-<!--		<node name="node" pkg="uri_gazebo" type="sitl_gazebo_interface">
-		</node>-->
+		<node name="node" pkg="uri_gazebo" type="sitl_gazebo_interface">
+		</node>
 		
 	</group>
 	
 	
-<!--	<include file="$(find uri_shorefollowing)/launch/shore.launch">
-	</include>-->
+	<include file="$(find uri_shorefollowing)/launch/shore.launch">
+	</include>
 	
 	
 	<node pkg="rosbag" type="record" name="rosbag_record"

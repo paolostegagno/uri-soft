@@ -11,7 +11,7 @@
 	<resource name="uri_base::SharedMemory<uri_base::TwoByNMatrix>" type="intensity_model"/>
 	<resource name="uri_sensors::LaserScannerGazebo" input_topic="/hokuyo"/>
 
-	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="pose"/>
+	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="trajectory"/>
 	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="2.5" takeoff_height_tollerance="0.05" />
 	<task name="uri_shorefollowing::ShoreFollowingPaolo" period="0.01" period_tollerance="0.002" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
@@ -27,9 +27,9 @@
 	<behavior name="Goto" tasklist="uri_uav::GotoTask uri_uav::AttitudeThrustController"/>
 	<behavior name="CreateIntensityModel" tasklist="uri_shorefollowing::IntensityModelCreator"/>
 	<behavior name="ShoreFollowing" tasklist="uri_shorefollowing::ShoreFollowingPaolo uri_shorefollowing::FixedSpeedDesiredHeadingController uri_uav::AttitudeThrustController"/>
-	<behavior name="Land" tasklist="uri_uav::Land"/>
+	<behavior name="Land" tasklist="uri_uav::Land uri_uav::AttitudeThrustController"/>
 	
-<!-- 	<behavior_controller name="uri_shorefollowing::ShoreFollowingExperiment_2" period="0.01" period_tollerance="0.001" /> -->
-	<behavior_controller name="uri_shorefollowing::OfflineIntensityModelTest" period="0.01" period_tollerance="0.001" />
+	<behavior_controller name="uri_shorefollowing::ShoreFollowingExperiment_2" period="0.01" period_tollerance="0.001" />
+<!-- 	<behavior_controller name="uri_shorefollowing::OfflineIntensityModelTest" period="0.01" period_tollerance="0.001" /> -->
 	
 </robot>
