@@ -20,18 +20,28 @@ namespace uri{
 		return this;
 	}
 	
-	Resource* ResourceVector::get_resource_ptr(std::string nm){
+	Resource* ResourceVector::get_resource_ptr(std::string nm, bool mandatory){
 		
 		for (int i=0; i < this->size();i++){
 			
 // 			std::cout << (*this)[i]->name() << std::endl;
 			if ( (*this)[i]->name().compare(nm)==0 ){
-				ROS_INFO("  Found mandatory resource %s.", nm.c_str());
+				if (mandatory) {
+					ROS_INFO("  Found mandatory resource %s.", nm.c_str());
+				}
+				else {
+					ROS_INFO("  Found resource %s.", nm.c_str());
+				}
 				return (*this)[i]->ptr();
 			}
 		}
-		ROS_ERROR("  Cannot find mandatory resource %s.", nm.c_str());
-		return NULL;
+		if (mandatory) {
+			ROS_FATAL("  Cannot find mandatory resource %s.", nm.c_str());
+		}
+		else {
+			ROS_INFO("  Cannot find non-mandatory resource %s.", nm.c_str());
+		}
+		return nullptr;
 	}
 
 	
@@ -54,7 +64,7 @@ namespace uri{
 			}
 		}
 		ROS_ERROR("  Cannot find mandatory resource %s of type %s.", nm.c_str(), nam.c_str());
-		return NULL;
+		return nullptr;
 	}
 
 

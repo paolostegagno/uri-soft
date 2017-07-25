@@ -22,8 +22,17 @@ TaskOutput OfflineIntensityModelTest::__run(){
 	
 	// at beginning, no behavior is selected. Select here start behavior
 	if (_next_active_behavior == NULL && _active_behavior == NULL){
-		_next_active_behavior = behavior("CreateIntensityModel");
+		_next_active_behavior = behavior("IntensityModelCreator");
 	}
+	
+	
+	// exit from behavior takeoff only when requested by such behavior
+	if (_active_behavior == behavior("IntensityModelCreator")){
+		if (_active_behavior->terminate()){
+			_next_active_behavior = behavior("ShoreDetection");
+		}
+	}
+	
 	
 }
 

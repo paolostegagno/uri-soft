@@ -13,6 +13,7 @@
 #include <uri_uav/resources/iris_interface.hpp>
 
 #include <uri_sensors/resources/laserscanner.hpp>
+#include <uri_sensors/resources/videostream.hpp>
 
 
 #ifndef __URI_SHOREFOLLOWINGPAOLO_HPP__
@@ -66,6 +67,11 @@ namespace uri_shorefollowing{
 		uri_sensors::LaserScanner* ls;
 		uri_base::SharedMemory<uri_base::Heading>* desired_heading;
 		uri_uav_resources::IrisInterface* uav;
+		uri_base::SharedMemory<uri_base::TwoByNMatrix>* intensity_model;
+		TwoByNMatrix int_mod;
+
+		
+		uri_sensors::VideoStream* vs;
 		
 		// ################ put here your the declaration of your private methods.
 		//
@@ -95,6 +101,15 @@ namespace uri_shorefollowing{
 		/// @param[in] &scan the current laser scan in ROS format.
 		/// @return The reference yawrate.
 		double compute_heading_velocity(sensor_msgs::LaserScan &scan);
+		
+		double line_following_controller(double error);
+		
+		
+		/// @brief Computes the yawrate to follow the shore from a laser scan.
+		/// @param[in] &scan the current laser scan in ROS format.
+		/// @return The reference yawrate.
+		double compute_heading_velocity_with_intensity_model(sensor_msgs::LaserScan &scan);
+
 		
 		
 	public:

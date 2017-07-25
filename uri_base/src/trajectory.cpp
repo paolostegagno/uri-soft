@@ -8,7 +8,7 @@ namespace uri_base{
 
 	
 	void TwoByNMatrix::update(sensor_msgs::LaserScan l){
-		std::cout << " " << l.intensities.size() << " " << l.ranges.size() << std::endl;
+// 		std::cout << " " << l.intensities.size() << " " << l.ranges.size() << std::endl;
 		
 		for (int j=0; j < l.intensities.size(); j++ ){
 			
@@ -24,6 +24,13 @@ namespace uri_base{
 			}
 		}
 // 				std::cout << std::endl;
+	}
+
+	double TwoByNMatrix::distance_from_mean_intensity(double dist, double intensity){
+		int index = dist / _step;
+// 		std::cout << "c1  " << dist << " " << intensity << " " << index << " " << _min << " " << _max << " " << _cell_number << std::endl;
+		if (index >= 0 && index < _cell_number) return intensity - _mean_intensities[index];
+		else return 0;
 	}
 
 	

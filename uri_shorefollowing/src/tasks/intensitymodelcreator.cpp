@@ -39,6 +39,8 @@ IntensityModelCreator::IntensityModelCreator():Task(){
 	// example:
 	// _options["name_option_2"]->getDoubleValue();
 	//
+	
+	scan_counter = 0;
 }
 
 
@@ -73,6 +75,7 @@ TaskOutput IntensityModelCreator::_run(){
 // 	std::cout << "b2" << std::endl;
 	
 	int_model.update(scan);
+	scan_counter++;
 	
 // 	std::cout << "b3" << std::endl;
 	std::stringstream ss;
@@ -83,7 +86,7 @@ TaskOutput IntensityModelCreator::_run(){
 // 	std::cout << "c" << std::endl;
 	
 	// set terminate at true to communicate to the behavior controller to terminate the execution of the task.
-	if (terminate){
+	if (scan_counter>1800){
 		return uri::Terminate;
 	}
 	// but usually, terminate is false.

@@ -64,23 +64,23 @@ TaskOutput ShoreFollowingExperiment_2::__run(){
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 1.0);
 					_next_active_behavior = behavior("Goto");
 					break;
-// 				case 5:
-// 					_next_active_behavior = behavior("ShoreFollowing");
-// 					break;
 				case 5:
-					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 5.0);
-					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 10.0);
-					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 1.0);
-					_next_active_behavior = behavior("Goto");
+					_next_active_behavior = behavior("ShoreFollowing");
 					break;
-				case 6:
-					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", -4.0);
-					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 2.0);
-					_next_active_behavior = behavior("Goto");
-					break;
+// 				case 5:
+// 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 5.0);
+// 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 10.0);
+// 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
+// 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 1.0);
+// 					_next_active_behavior = behavior("Goto");
+// 					break;
+// 				case 6:
+// 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", -4.0);
+// 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
+// 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
+// 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 2.0);
+// 					_next_active_behavior = behavior("Goto");
+// 					break;
 				case 7:
 					_next_active_behavior = behavior("Land");
 					break;

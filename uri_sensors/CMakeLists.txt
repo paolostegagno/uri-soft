@@ -64,6 +64,7 @@ include_directories(
 add_library(uri_sensors
 src/resources/laserscanner.cpp
 src/resources/laserscannergazebo.cpp
+src/resources/videostream.cpp
 )
 
 ## Add cmake target dependencies of the library

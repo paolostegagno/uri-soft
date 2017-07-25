@@ -4,5 +4,8 @@
 		<description> This Resource manages the readings from a simulated laser scanner in gazebo </description>
 	</class>
 	
+	<class type="uri_sensors::VideoStream" base_class_type="uri::Resource">
+		<description> This Resource manages the readings from a simulated video device from file </description>
+	</class>
 	
 </library>

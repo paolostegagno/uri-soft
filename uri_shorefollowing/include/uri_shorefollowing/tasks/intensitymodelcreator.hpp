@@ -66,6 +66,8 @@ namespace uri_shorefollowing{
 		uri_base::SharedMemory<uri_base::TwoByNMatrix>* intensity_model;
 		uri_uav_resources::IrisInterface* uav;
 		
+		int scan_counter;
+		
 		// ################ put here your the declaration of your private methods.
 		//
 		// void _cool_method(int input1, double input2);

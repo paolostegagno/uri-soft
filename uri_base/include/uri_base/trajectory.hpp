@@ -104,12 +104,13 @@ namespace uri_base {
 	
 	class TwoByNMatrix{
 		
-		double _step;
-		double _max;
-		double _min;
-		int _cell_number;
-		
 		public:
+			
+			double _step;
+			double _max;
+			double _min;
+			int _cell_number;
+
 			
 			std::vector<double> _mean_intensities;
 			std::vector<double> _measurements_counter;
@@ -161,6 +162,7 @@ namespace uri_base {
 // // 				std::cout << std::endl;
 // 			}
 			
+			double distance_from_mean_intensity(double dist, double intensity);
 			
 			
 			void print(std::stringstream &ss);//{

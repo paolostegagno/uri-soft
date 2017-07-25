@@ -1,19 +1,24 @@
 <?xml version="1.0" ?>
 <robot name="UAV" >
+	
+	<global_option savepath="/tmp/experiment/" type="string" /> <!-- if savepath="null" then no savefile -->
+	
 
 	<resource name="uri_uav_resources::IrisInterface" />
 <!-- 	<resource name="uri_base::Keyboard" /> -->
 	<resource name="uri_base::SharedMemory<uri_base::Trajectory>"/>
-	<resource name="uri_base::SharedMemory<uri_base::Heading>"/>
+	<resource name="uri_base::SharedMemory<uri_base::Heading>" type="desired_heading" />
+	<resource name="uri_base::SharedMemory<uri_base::TwoByNMatrix>" type="intensity_model" />
 	<resource name="uri_sensors::LaserScannerGazebo" input_topic="/hokuyo"/>
-
-
-	<task name="uri_shorefollowing::ShoreFollowingPaolo" period="0.01" period_tollerance="0.002" />
-
-
-	<behavior name="ShoreDetection" tasklist="uri_shorefollowing::ShoreFollowingPaolo"/>
-
+	<resource name="uri_sensors::VideoStream"/>
 	
-	<behavior_controller name="uri_shorefollowing::ShoreDetectionExperiment" period="0.01" period_tollerance="0.001" />
+	
+	<task name="uri_shorefollowing::ShoreFollowingPaolo" period="0.01" period_tollerance="0.002" />
+	<task name="uri_shorefollowing::IntensityModelCreator" period="0.01" period_tollerance="0.002" />
+	
+	<behavior name="ShoreDetection" tasklist="uri_shorefollowing::ShoreFollowingPaolo"/>
+	<behavior name="IntensityModelCreator" tasklist="uri_shorefollowing::IntensityModelCreator"/>
+	
+	<behavior_controller name="uri_shorefollowing::OfflineIntensityModelTest" period="0.01" period_tollerance="0.001" />
 	
 </robot>
