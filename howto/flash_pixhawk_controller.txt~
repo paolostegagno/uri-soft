@@ -1,0 +1,15 @@
+This software is compatible with version 3.4.6 of the px4fmu firmware.
+
+you can find this version in the folder firmware.
+
+To flash the firmware:
+
+
+- Connect the flight controller to the PC through a USB cable
+- open a terminal and type:
+$ roscd uri_uav/../firmware
+$ python px_uploader.py --port /dev/ttyACM0 ArduCopter-v2.px4
+
+- After starting the script, press the reset button (a small hole in the center of one side of the flight controller) on your PX4FMU to make it enter bootloader mode. 
+
+
