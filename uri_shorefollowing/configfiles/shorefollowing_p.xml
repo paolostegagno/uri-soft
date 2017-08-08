@@ -2,7 +2,7 @@
 <robot name="UAV" >
 
 	
-	<global_option savepath="/tmp/experiment/" type="string" /> <!-- if savepath="null" then no savefile -->
+	<global_option savepath="/home/odroid/exp/" type="string" /> <!-- if savepath="null" then no savefile -->
 
 	<resource name="uri_uav_resources::IrisInterface" />
 <!-- 	<resource name="uri_base::Keyboard" /> -->
@@ -10,7 +10,7 @@
 	<resource name="uri_base::SharedMemory<uri_base::Heading>" type="desired_heading"/>
 	<resource name="uri_sensors::LaserScannerGazebo" input_topic="/hokuyo"/>
 
-	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="10" takeoff_height_tollerance="0.05" />
+	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="6" takeoff_height_tollerance="0.05" />
 	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="trajectory"/>
 	<task name="uri_shorefollowing::ShoreFollowingPaolo" period="0.01" period_tollerance="0.002" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
