@@ -102,6 +102,9 @@ void IrisInterface::_battery_CB(const mavros_msgs::BatteryStatus::ConstPtr& msg)
 	_battery_remaining = alpha*_battery_remaining + (1-alpha)*msg->remaining;
 }
 
+void IrisInterface::_timer_output_battery_CB(const ros::TimerEvent& event){
+	ROS_INFO("!!!! BATTERY VOLTAGE: %f !!!! BATTERY CURRENT %f !!!! BATTERY REMAINING %f !", _battery_voltage, _battery_current, _battery_remaining);
+}
 
 //#################################################################################################
 //###   all constructors goes here   ##############################################################
@@ -139,7 +142,7 @@ IrisInterface::IrisInterface(ros::NodeHandle &_n):Resource(_n)
 	
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
-	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
+	_timer_interpolate_poses = n->createTimer(ros::Duration(5.0), &IrisInterface::_timer_output_battery_CB, this, false, false);
 };
 
 
@@ -197,6 +200,7 @@ void IrisInterface::_init()
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
 	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
+	_timer_output_battery = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
 	
 // 	this->setRate(6);
 };

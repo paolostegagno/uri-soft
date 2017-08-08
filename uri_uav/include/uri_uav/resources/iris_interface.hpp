@@ -78,6 +78,7 @@ class IrisInterface: public Resource{
 	double delta_t;
 	ros::Time start_t;
 	double last_elapsed;
+	
 
 
 	// here all subscribers which reads topics published by mavros and their respective callback function
@@ -98,7 +99,10 @@ class IrisInterface: public Resource{
 	// here all subscribers which reads topics published by mavros and their respective callback function
 	ros::Subscriber _sub_battery;
 	void _battery_CB(const mavros_msgs::BatteryStatus::ConstPtr& msg);
+	ros::Timer _timer_output_battery;
+	void _timer_output_battery_CB(const ros::TimerEvent& event);
 
+	
 
 	// here all service clients which calls services from mavros with their respective messages
 	ros::ServiceClient _srv_set_mode;
