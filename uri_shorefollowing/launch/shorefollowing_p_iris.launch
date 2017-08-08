@@ -8,8 +8,8 @@
 	
 	
 	
-<!-- 	<arg name="fcu_url" default="/dev/ttyACM0:57600" /> -->
 	<arg name="fcu_url" default="/dev/ttyACM0:57600" />
+<!-- 	<arg name="fcu_url" default="udp://:14550@" /> -->
 	<arg name="gcs_url" default="" />
 	<arg name="tgt_system" default="1" />
 	<arg name="tgt_component" default="1" />
@@ -35,18 +35,18 @@
 			<param name="configuration_file" value="$(arg config_file)" />
 		</node>
 		
-<!--		<node name="node" pkg="uri_gazebo" type="sitl_gazebo_interface">
-		</node>-->
-		
 	</group>
+	
+	
 	
 	<node name="urg_node" pkg="urg_node" type="urg_node">
 		<param name="ip_address" value="192.168.0.10" />
 		<remap from="most_intense" to="hokuyo"/>
 	</node>
 	
-<!--	<include file="$(find uri_shorefollowing)/launch/shore.launch">
-	</include>-->
+	
+	<node pkg="rosbag" type="record" name="rosbag_record"
+				args=" -o /home/odroid/exp/exp -a -x /left_camera/(.*)" />
 	
 	
 </launch>

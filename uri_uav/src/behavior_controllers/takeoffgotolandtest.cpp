@@ -51,26 +51,26 @@ TaskOutput TakeoffGotoLandTest::__run(){
 		if (_active_behavior->terminate()){
 			switch (goto_number){
 				case 0:
-					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 3.0);
+					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 1.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
 					break;
 				case 1:
-					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", -3.0);
+					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", -1.0);
 					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
 					break;
 				case 2:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 2.0);
+					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", 1.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
 					break;
 				case 3:
 					behavior("Goto")->set_option_double("goal_x", "uri_uav::GotoTask", 0.0);
-					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", -2.0);
+					behavior("Goto")->set_option_double("goal_y", "uri_uav::GotoTask", -1.0);
 					behavior("Goto")->set_option_double("goal_z", "uri_uav::GotoTask", 0.0);
 					behavior("Goto")->set_option_double("goal_yaw", "uri_uav::GotoTask", 0.0);
 					break;
