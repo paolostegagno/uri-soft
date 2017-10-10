@@ -4,14 +4,13 @@
 
 	
 	<!-- ros_args.launch -->
-	<arg name="config_file" default="$(find uri_shorefollowing)/configfiles/shoredetection_p.xml" doc="example configuration file for uri-soft using iris interface"/>
+	<arg name="config_file" default="$(find uri_shorefollowing)/configfiles/shorefollowing_p.xml" doc="example configuration file for uri-soft using iris interface"/>
 	
 	
 	
 <!-- 	<arg name="fcu_url" default="/dev/ttyACM0:57600" /> -->
-<!-- 	<arg name="fcu_url" default="udp://:14550@" /> -->
-<!-- 	<arg name="fcu_url" default="/dev/ttyACM0:57600" /> -->
-<!--	<arg name="gcs_url" default="" />
+	<arg name="fcu_url" default="udp://:14550@" />
+	<arg name="gcs_url" default="" />
 	<arg name="tgt_system" default="1" />
 	<arg name="tgt_component" default="1" />
 	<arg name="log_output" default="log" />
@@ -25,7 +24,7 @@
 		<arg name="tgt_system" value="$(arg tgt_system)" />
 		<arg name="tgt_component" value="$(arg tgt_component)" />
 		<arg name="log_output" value="$(arg log_output)" />
-	</include>-->
+	</include>
 	
 	
 	
@@ -36,14 +35,18 @@
 			<param name="configuration_file" value="$(arg config_file)" />
 		</node>
 		
-<!--		<node name="node" pkg="uri_gazebo" type="sitl_gazebo_interface">
-		</node>-->
-		
 	</group>
 	
 	
+	
+	<node name="urg_node" pkg="urg_node" type="urg_node">
+		<param name="ip_address" value="192.168.0.10" />
+		<remap from="most_intense" to="hokuyo"/>
+	</node>
+	
+	
 <!--	<node pkg="rosbag" type="record" name="rosbag_record"
-				args=" -o /tmp/experiment/ -a -x /left_camera/(.*)" />-->
+				args=" -o /home/odroid/exp/exp -a -x /left_camera/(.*)" />-->
 	
 	
 </launch>

@@ -48,6 +48,7 @@ add_library(uri_shorefollowing
 		src/tasks/circling.cpp
 		src/tasks/shorefollowing.cpp
 		src/tasks/shorefollowingpaolo.cpp
+		src/tasks/shorefollowing_new.cpp
 		src/tasks/intensitymodelcreator.cpp
 		src/behavior_controllers/circlingexperiment.cpp
 		src/behavior_controllers/shorefollowingexperiment.cpp
