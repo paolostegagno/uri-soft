@@ -142,7 +142,8 @@ IrisInterface::IrisInterface(ros::NodeHandle &_n):Resource(_n)
 	
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
-	_timer_interpolate_poses = n->createTimer(ros::Duration(5.0), &IrisInterface::_timer_output_battery_CB, this, false, false);
+	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
+	_timer_output_battery = n->createTimer(ros::Duration(5.00), &IrisInterface::_timer_output_battery_CB, this);
 };
 
 
@@ -200,7 +201,7 @@ void IrisInterface::_init()
 	last_elapsed = 0.0;
 	start_t = ros::Time::now();
 	_timer_interpolate_poses = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
-	_timer_output_battery = n->createTimer(ros::Duration(0.02), &IrisInterface::_timer_interpolate_poses_CB, this, false, false);
+	_timer_output_battery = n->createTimer(ros::Duration(5.00), &IrisInterface::_timer_output_battery_CB, this);
 	
 // 	this->setRate(6);
 };

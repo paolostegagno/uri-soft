@@ -10,14 +10,14 @@
 	<resource name="uri_base::SharedMemory<uri_base::Heading>" type="desired_heading"/>
 	<resource name="uri_sensors::LaserScannerGazebo" input_topic="/hokuyo"/>
 
-	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="3" takeoff_height_tollerance="0.05" />
+	<task name="uri_uav::Takeoff" period="0.1" period_tollerance="0.002" takeoff_height="1.3" takeoff_height_tollerance="0.05" />
 	<task name="uri_uav::Hover" period="0.05" period_tollerance="0.002" Countdown="2.0" GoalSource="trajectory"/>
-	<task name="uri_shorefollowing::ShoreFollowingPaolo" period="0.01" period_tollerance="0.002" />
+	<task name="uri_shorefollowing::ShoreFollowingPaolo" period="0.01" period_tollerance="0.002" bypass_computed_heading_velocity_and_go_in_circle="true" countdown="10.0" />
 	<task name="uri_uav::Land" period="0.1" period_tollerance="0.002" />
 	<task name="uri_shorefollowing::FixedSpeedDesiredHeadingController" period="0.01" period_tollerance="0.002" speed="0.3" max_acc="0.3" />
-	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" kpx="2.5" kpy="2.5" kpz="0.7" kix="0.045" kiy="0.045" kiz="0.015" kvz="0.3" />
+	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" kpx="2.0" kpy="2.0" kpz="0.7" kix="0.015" kiy="0.015" kiz="0.005" kvz="0.250" />
 <!-- 	<task name="uri_uav::AttitudeThrustController" period="0.01" period_tollerance="0.002" kpx="1.5" kpy="1.5" kpz="0.6" kix="0.015" kiy="0.015" kiz="0.006" kvz="0.20" /> -->
-	<task name="uri_uav::GotoTask" period="0.05" period_tollerance="0.002" relative_commands="true" goal_x="5.0" goal_y="-15.0" goal_z="0.0" goal_yaw="-0.2" />
+	<task name="uri_uav::GotoTask" period="0.05" period_tollerance="0.002" relative_commands="true" goal_x="1.0" goal_y="0.0" goal_z="0.0" goal_yaw="1.0" />
 
 	<behavior name="Takeoff" tasklist="uri_uav::Takeoff"/>
 	<behavior name="Hover" tasklist="uri_uav::Hover uri_uav::AttitudeThrustController"/>

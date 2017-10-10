@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   uri_core
   uri_base
+  camera_array_arm
   cmake_modules
 )
 
@@ -65,6 +66,7 @@ add_library(uri_sensors
 src/resources/laserscanner.cpp
 src/resources/laserscannergazebo.cpp
 src/resources/videostream.cpp
+#src/resources/mvbluefox.cpp
 )
 
 ## Add cmake target dependencies of the library

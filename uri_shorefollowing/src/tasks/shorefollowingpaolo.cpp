@@ -39,6 +39,9 @@ ShoreFollowingPaolo::ShoreFollowingPaolo():Task(){
 	// example:
 	// _options["name_option_2"]->getDoubleValue();
 	//
+	_options.addBoolOption("bypass_computed_heading_velocity_and_go_in_circle",false);
+	_options.addDoubleOption("angular_velocity",0.1);
+	_options.addDoubleOption("countdown",10000.0);
 	
 	vs = nullptr;
 }
@@ -365,7 +368,12 @@ TaskOutput ShoreFollowingPaolo::_run(){
 	// compute elapsed time since beginning and delta_t since last successful call
 	bool terminate = false;
 	double elapsed = (ros::Time::now() - start_t).toSec();
-	delta_t = elapsed - last_elapsed;	
+	delta_t = elapsed - last_elapsed;
+	if ( elapsed > _options["countdown"]->getDoubleValue()) {
+		terminate = true;
+	}
+
+	
 	
 	// check if new laser scan is available. If not, terminate the execution of this _run 
 	if (!ls->new_laser_available()){
@@ -397,6 +405,10 @@ TaskOutput ShoreFollowingPaolo::_run(){
 // 	double heading_velocity = compute_heading_velocity_with_intensity_model(scan);
 	
 	double heading_velocity = compute_heading_velocity(scan);
+	if ( _options["bypass_computed_heading_velocity_and_go_in_circle"]->getBoolValue() ){
+		heading_velocity = _options["angular_velocity"]->getDoubleValue();
+	}
+	
 	
 // 	std::cout << "  heading_velocity " << heading_velocity << std::endl;
 	

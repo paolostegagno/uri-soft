@@ -2,6 +2,8 @@
 
 <launch>
 
+
+
 	
 	<!-- ros_args.launch -->
 	<arg name="config_file" default="$(find uri_shorefollowing)/configfiles/shorefollowing_p.xml" doc="example configuration file for uri-soft using iris interface"/>
@@ -44,6 +46,32 @@
 		<remap from="most_intense" to="hokuyo"/>
 	</node>
 	
+
+
+
+
+
+
+
+
+  <!-- Variable names camera2-->
+  <arg name="camera_node2" default="camera2" />
+  <arg name="calibration_file2" default="package://camera_array_arm/resources/new/camera_2.yaml" />
+  <node pkg="camera_array_arm" type="my_camera_node_arm" name="$(arg camera_node2)" output="screen" >
+		<param name="namespace_camC" type="string" value="cameraC/" />
+    <param name="width" type="int" value="752" />
+    <param name="height" type="int" value="480" />
+    <param name="auto_gain" type="bool" value="true" />
+    <param name="use_color" type="bool" value="true" /> 
+    <param name="frame_id" type="string" value="bluefox" />
+		<param name="cameraC/calibration_url_" type="string" value="$(arg calibration_file2)" />
+		<param name="cameraC/serial_number" type="string" value="25000698" />
+		<param name="cameraC/show_frames" type="bool" value="false" />
+		<param name="frame_id" type="string" value="bluefox" />
+		<param name="expose_us" type="int" value="6000" />
+</node>
+
+
 	
 	<node pkg="rosbag" type="record" name="rosbag_record"
 				args=" -o /home/odroid/exp/exp -a -x /left_camera/(.*)" />
