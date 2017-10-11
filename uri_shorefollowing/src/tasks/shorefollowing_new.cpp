@@ -113,6 +113,8 @@ double ShoreFollowing_new::compute_heading_velocity(sensor_msgs::LaserScan &scan
 	double alpha=0.6;
 // 	double gamma = 1.0;
 	double beta = 1.0;
+	double pl = 0.3; 
+	double pw = 0.7; 
 	double p_spec_ray_points_water[cell_num];
 	double pot_fun_water[cell_num];
 	double p_spat_ray_points_water[cell_num];
@@ -123,8 +125,15 @@ double ShoreFollowing_new::compute_heading_velocity(sensor_msgs::LaserScan &scan
 		// compute probability of beig water due to laser rays only
 		for(int i=0; i<cell_num; i++){
 			if(j==0) {
-				double exp_p_spec = std::exp(alpha*(((double)ray_points_water[i])-((double)laser_steps)/2.0));
-				p_spec_ray_points_water[i] = exp_p_spec/(1.0+exp_p_spec);
+//				double exp_p_spec = std::exp(alpha*(((double)ray_points_water[i])-((double)laser_steps)/2.0));
+//				p_spec_ray_points_water[i] = exp_p_spec/(1.0+exp_p_spec);
+
+//pow (double base     , double exponent);
+				    double PRjLj = pow(pl, ray_points_water[i])*pow((1.0-pl), (laser_steps-ray_points_water[i]));
+				    double PRjWj = pow(pw, ray_points_water[i])*pow((1.0-pw), (laser_steps-ray_points_water[i]));
+//				    PLjRj(i) = PRjLj /(PRjLj + PRjWj)
+//				    PWjRj(i) = PRjWj /(PRjLj + PRjWj)
+				p_spec_ray_points_water[i] = PRjWj /(PRjLj + PRjWj);
 			}
 			else {
 				p_spec_ray_points_water[i] = p_ray_points_water[i];

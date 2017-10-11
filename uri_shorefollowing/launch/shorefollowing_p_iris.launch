@@ -65,7 +65,7 @@
     <param name="use_color" type="bool" value="true" /> 
     <param name="frame_id" type="string" value="bluefox" />
 		<param name="cameraC/calibration_url_" type="string" value="$(arg calibration_file2)" />
-		<param name="cameraC/serial_number" type="string" value="25000698" />
+		<param name="cameraC/serial_number" type="string" value="25001194" />
 		<param name="cameraC/show_frames" type="bool" value="false" />
 		<param name="frame_id" type="string" value="bluefox" />
 		<param name="expose_us" type="int" value="6000" />
